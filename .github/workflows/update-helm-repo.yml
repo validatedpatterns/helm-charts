@@ -21,9 +21,6 @@ jobs:
   update-umbrella-repo:
     if: ${{ github.repository != 'validatedpatterns/helm-charts' }}
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
     steps:
       - uses: actions/checkout@v3
       - name: Verify Chart version matches tag version
