@@ -2,7 +2,7 @@ apiVersion: v1
 entries:
   acm:
   - apiVersion: v2
-    created: "2023-08-16T09:13:35.149263247Z"
+    created: "2023-08-16T09:15:49.762918165Z"
     description: A Helm chart to configure Advanced Cluster Manager for OpenShift.
     digest: 7f7b192ae8814808b2cdd8ba41080674ea68873e8f6510caddd68d271e46421e
     keywords:
@@ -13,7 +13,7 @@ entries:
     version: 0.0.1
   clustergroup:
   - apiVersion: v2
-    created: "2023-08-16T09:13:35.156097649Z"
+    created: "2023-08-16T09:15:49.768079605Z"
     description: A Helm chart to create per-clustergroup ArgoCD applications and any
       required namespaces or subscriptions.
     digest: 067b58560edb7be94742dcdae50c12822abb8801eb07938995754f5b37c5aa9d
@@ -25,7 +25,7 @@ entries:
     version: 0.0.1
   golang-external-secrets:
   - apiVersion: v2
-    created: "2023-08-16T09:13:35.170699381Z"
+    created: "2023-08-16T09:15:49.779627994Z"
     dependencies:
     - name: external-secrets
       repository: https://charts.external-secrets.io
@@ -40,7 +40,7 @@ entries:
     version: 0.0.1
   hashicorp-vault:
   - apiVersion: v2
-    created: "2023-08-16T09:13:35.180658475Z"
+    created: "2023-08-16T09:15:49.789290768Z"
     dependencies:
     - name: vault
       repository: https://helm.releases.hashicorp.com
@@ -53,4 +53,15 @@ entries:
     urls:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/hashicorp-vault-0.0.1.tgz
     version: 0.0.1
-generated: "2023-08-16T09:13:35.146177756Z"
+  letsencrypt:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2023-08-16T09:15:49.789817272Z"
+    description: A Helm chart to add letsencrypt support to Validated Patterns.
+    digest: aa4b3f423b6a8b7f984a25ed2fbe0563bd3096988d928bf939fe4e39d56e5701
+    name: letsencrypt
+    type: application
+    urls:
+    - https://github.com/validatedpatterns/helm-charts/releases/download/main/letsencrypt-0.1.0.tgz
+    version: 0.1.0
+generated: "2023-08-16T09:15:49.760035943Z"
