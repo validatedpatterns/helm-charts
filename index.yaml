@@ -2,7 +2,7 @@ apiVersion: v1
 entries:
   acm:
   - apiVersion: v2
-    created: "2023-08-16T09:07:40.000657689Z"
+    created: "2023-08-16T09:13:35.149263247Z"
     description: A Helm chart to configure Advanced Cluster Manager for OpenShift.
     digest: 7f7b192ae8814808b2cdd8ba41080674ea68873e8f6510caddd68d271e46421e
     keywords:
@@ -13,7 +13,7 @@ entries:
     version: 0.0.1
   clustergroup:
   - apiVersion: v2
-    created: "2023-08-16T09:07:40.007284546Z"
+    created: "2023-08-16T09:13:35.156097649Z"
     description: A Helm chart to create per-clustergroup ArgoCD applications and any
       required namespaces or subscriptions.
     digest: 067b58560edb7be94742dcdae50c12822abb8801eb07938995754f5b37c5aa9d
@@ -25,7 +25,7 @@ entries:
     version: 0.0.1
   golang-external-secrets:
   - apiVersion: v2
-    created: "2023-08-16T09:07:40.024808554Z"
+    created: "2023-08-16T09:13:35.170699381Z"
     dependencies:
     - name: external-secrets
       repository: https://charts.external-secrets.io
@@ -38,4 +38,19 @@ entries:
     urls:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/golang-external-secrets-0.0.1.tgz
     version: 0.0.1
-generated: "2023-08-16T09:07:39.997426266Z"
+  hashicorp-vault:
+  - apiVersion: v2
+    created: "2023-08-16T09:13:35.180658475Z"
+    dependencies:
+    - name: vault
+      repository: https://helm.releases.hashicorp.com
+      version: 0.25.0
+    description: A Helm chart to configure Hashicorp's vault.
+    digest: 4f2b7abd5e7b8dd5e8d78b5239dd117edf796da0c9154e8477bfba94b6f0223f
+    keywords:
+    - pattern
+    name: hashicorp-vault
+    urls:
+    - https://github.com/validatedpatterns/helm-charts/releases/download/main/hashicorp-vault-0.0.1.tgz
+    version: 0.0.1
+generated: "2023-08-16T09:13:35.146177756Z"
