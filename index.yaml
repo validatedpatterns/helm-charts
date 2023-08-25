@@ -2,7 +2,7 @@ apiVersion: v1
 entries:
   acm:
   - apiVersion: v2
-    created: "2023-08-16T09:15:49.762918165Z"
+    created: "2023-08-25T06:14:14.008245915Z"
     description: A Helm chart to configure Advanced Cluster Manager for OpenShift.
     digest: 7f7b192ae8814808b2cdd8ba41080674ea68873e8f6510caddd68d271e46421e
     keywords:
@@ -13,7 +13,18 @@ entries:
     version: 0.0.1
   clustergroup:
   - apiVersion: v2
-    created: "2023-08-16T09:15:49.768079605Z"
+    created: "2023-08-25T06:14:14.019930702Z"
+    description: A Helm chart to create per-clustergroup ArgoCD applications and any
+      required namespaces or subscriptions.
+    digest: 3e98ec2ddc59d42577185fcd46e79ca3eed46c108ab589ca39653ac94a547bdb
+    keywords:
+    - pattern
+    name: clustergroup
+    urls:
+    - https://github.com/validatedpatterns/helm-charts/releases/download/main/clustergroup-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    created: "2023-08-25T06:14:14.013816956Z"
     description: A Helm chart to create per-clustergroup ArgoCD applications and any
       required namespaces or subscriptions.
     digest: 067b58560edb7be94742dcdae50c12822abb8801eb07938995754f5b37c5aa9d
@@ -25,7 +36,7 @@ entries:
     version: 0.0.1
   golang-external-secrets:
   - apiVersion: v2
-    created: "2023-08-16T09:15:49.779627994Z"
+    created: "2023-08-25T06:14:14.032617997Z"
     dependencies:
     - name: external-secrets
       repository: https://charts.external-secrets.io
@@ -40,7 +51,7 @@ entries:
     version: 0.0.1
   hashicorp-vault:
   - apiVersion: v2
-    created: "2023-08-16T09:15:49.789290768Z"
+    created: "2023-08-25T06:14:14.04230897Z"
     dependencies:
     - name: vault
       repository: https://helm.releases.hashicorp.com
@@ -56,7 +67,7 @@ entries:
   letsencrypt:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-08-16T09:15:49.789817272Z"
+    created: "2023-08-25T06:14:14.042948275Z"
     description: A Helm chart to add letsencrypt support to Validated Patterns.
     digest: aa4b3f423b6a8b7f984a25ed2fbe0563bd3096988d928bf939fe4e39d56e5701
     name: letsencrypt
@@ -64,4 +75,4 @@ entries:
     urls:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/letsencrypt-0.1.0.tgz
     version: 0.1.0
-generated: "2023-08-16T09:15:49.760035943Z"
+generated: "2023-08-25T06:14:14.004645388Z"
