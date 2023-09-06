@@ -60,19 +60,19 @@ jobs:
           echo "CHART_VERSION=$(yq -r '.version' helm-repo/Chart.yaml)" >> $GITHUB_ENV
           echo "CHART_TGZ=${CHART_TGZ}" >> $GITHUB_ENV
 
-      # - name: Sign the chart
-      #   shell: bash
-      #   env:
-      #     GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-      #   run: |-
-      #     set -euo pipefail
-      #     echo ${{ secrets.GPG_SECRET_SUBKEY }} | base64 -d | gpg --batch --import
-      #     echo ${{ secrets.GPG_PUBLIC_KEY }} | base64 -d | gpg --batch --import
-      #     # Needed because helm verify only supports old format
-      #     gpg --export >~/.gnupg/pubring.gpg
-      #     pip install git+https://gitlab.com/mbaldessari/helm-sign.git@couple-of-fixes
-      #     helm-sign ${{ env.CHART_TGZ }}
-      #     helm verify ${{ env.CHART_TGZ }}
+      - name: Sign the chart
+        shell: bash
+        env:
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        run: |-
+          set -euo pipefail
+          echo ${{ secrets.GPG_SECRET_SUBKEY }} | base64 -d | gpg --batch --import
+          echo ${{ secrets.GPG_PUBLIC_KEY }} | base64 -d | gpg --batch --import
+          # Needed because helm verify only supports old format
+          gpg --export >~/.gnupg/pubring.gpg
+          pip install git+https://gitlab.com/mbaldessari/helm-sign.git@couple-of-fixes
+          helm-sign ${{ env.CHART_TGZ }}
+          helm verify ${{ env.CHART_TGZ }}
 
       - name: Upload helm package as a release asset
         uses: svenstaro/upload-release-action@v2
