@@ -84,15 +84,15 @@ jobs:
           body: "${{ env.CHART_NAME }} Released ${{ env.CHART_VERSION }}"
           overwrite: true
 
-      # - name: Upload helm package signature as a release asset
-      #   uses: svenstaro/upload-release-action@v2
-      #   with:
-      #     repo_token: ${{ secrets.GITHUB_TOKEN }}
-      #     file: ${{ env.CHART_TGZ }}.prov
-      #     asset_name: ${{ env.CHART_TGZ }}.prov
-      #     tag: ${{ github.ref }}
-      #     body: "${{ env.CHART_NAME }} Released ${{ env.CHART_VERSION }}"
-      #     overwrite: true
+      - name: Upload helm package signature as a release asset
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{ env.CHART_TGZ }}.prov
+          asset_name: ${{ env.CHART_TGZ }}.prov
+          tag: ${{ github.ref }}
+          body: "${{ env.CHART_NAME }} Released ${{ env.CHART_VERSION }}"
+          overwrite: true
           # Uploaded to https://github.com/validatedpatterns/helm-charts/releases/download/main/test-0.0.1.tgz
 
       # This step fetches all assets and places them in the current folder
