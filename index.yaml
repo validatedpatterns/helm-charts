@@ -2,7 +2,7 @@ apiVersion: v1
 entries:
   acm:
   - apiVersion: v2
-    created: "2023-09-14T18:10:56.924492964Z"
+    created: "2023-09-25T08:42:24.469320365Z"
     description: A Helm chart to configure Advanced Cluster Manager for OpenShift.
     digest: 7f7b192ae8814808b2cdd8ba41080674ea68873e8f6510caddd68d271e46421e
     keywords:
@@ -13,7 +13,7 @@ entries:
     version: 0.0.1
   clustergroup:
   - apiVersion: v2
-    created: "2023-09-14T18:10:56.93359553Z"
+    created: "2023-09-25T08:42:24.479468374Z"
     description: A Helm chart to create per-clustergroup ArgoCD applications and any
       required namespaces or subscriptions.
     digest: 3e98ec2ddc59d42577185fcd46e79ca3eed46c108ab589ca39653ac94a547bdb
@@ -24,7 +24,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/clustergroup-0.0.2.tgz
     version: 0.0.2
   - apiVersion: v2
-    created: "2023-09-14T18:10:56.929226998Z"
+    created: "2023-09-25T08:42:24.474975426Z"
     description: A Helm chart to create per-clustergroup ArgoCD applications and any
       required namespaces or subscriptions.
     digest: 067b58560edb7be94742dcdae50c12822abb8801eb07938995754f5b37c5aa9d
@@ -36,7 +36,21 @@ entries:
     version: 0.0.1
   golang-external-secrets:
   - apiVersion: v2
-    created: "2023-09-14T18:10:56.952420266Z"
+    created: "2023-09-25T08:42:24.50877419Z"
+    dependencies:
+    - name: external-secrets
+      repository: https://charts.external-secrets.io
+      version: 0.9.5
+    description: A Helm chart to configure the golang-based external-secrets.
+    digest: defc0dace54add5d2f021d53b18112234477066d88f9e1c5896daff283bd3c79
+    keywords:
+    - pattern
+    name: golang-external-secrets
+    urls:
+    - https://github.com/validatedpatterns/helm-charts/releases/download/main/golang-external-secrets-0.0.3.tgz
+    version: 0.0.3
+  - apiVersion: v2
+    created: "2023-09-25T08:42:24.498896983Z"
     dependencies:
     - name: external-secrets
       repository: https://charts.external-secrets.io
@@ -50,7 +64,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/golang-external-secrets-0.0.2.tgz
     version: 0.0.2
   - apiVersion: v2
-    created: "2023-09-14T18:10:56.942886397Z"
+    created: "2023-09-25T08:42:24.488702474Z"
     dependencies:
     - name: external-secrets
       repository: https://charts.external-secrets.io
@@ -65,7 +79,7 @@ entries:
     version: 0.0.1
   hashicorp-vault:
   - apiVersion: v2
-    created: "2023-09-14T18:10:56.959330416Z"
+    created: "2023-09-25T08:42:24.515946667Z"
     dependencies:
     - name: vault
       repository: https://helm.releases.hashicorp.com
@@ -81,7 +95,7 @@ entries:
   letsencrypt:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-09-14T18:10:56.959742519Z"
+    created: "2023-09-25T08:42:24.516388771Z"
     description: A Helm chart to add letsencrypt support to Validated Patterns.
     digest: aa4b3f423b6a8b7f984a25ed2fbe0563bd3096988d928bf939fe4e39d56e5701
     name: letsencrypt
@@ -92,7 +106,7 @@ entries:
   rbac:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-09-14T18:10:56.960525525Z"
+    created: "2023-09-25T08:42:24.51718078Z"
     description: A Helm chart that provisions service accounts, roles and rolebindings
     digest: 602d24ca33f6fc37953113d0bc5dfb67f4e73766b63aa673d03ea22b6d19c61c
     name: rbac
@@ -100,4 +114,4 @@ entries:
     urls:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/rbac-0.1.0.tgz
     version: 0.1.0
-generated: "2023-09-14T18:10:56.92121604Z"
+generated: "2023-09-25T08:42:24.466871339Z"
