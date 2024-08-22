@@ -23,6 +23,7 @@ env:
   SOURCE_BRANCH_OVERRIDE: "${{ inputs.SOURCE_BRANCH_OVERRIDE }}"
   UMBRELLA_REPO: "validatedpatterns/helm-charts"
   ASSETS_BASE_URL: "https://github.com/validatedpatterns/helm-charts/releases/download/main/"
+  QUAY_BASE_URL: "oci://quay.io/hybridcloudpatterns"
 
 jobs:
   update-charts:
@@ -135,3 +136,9 @@ jobs:
           git add index.yaml
           git commit index.yaml -m "Updated ${{ env.CHART_NAME }}-${{ env.CHART_VERSION }}"
           git push origin gh-pages
+
+      - name: Push the chart to quay
+        run: |-
+          set -e
+          helm registry login -u="${{ secrets.QUAY_HELM_USER }}" -p="${{ secrets.QUAY_HELM_PASS }}" quay.io
+          helm push "${{ env.CHART_TGZ }}" "${QUAY_BASE_URL}"
