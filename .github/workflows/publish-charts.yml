@@ -115,7 +115,6 @@ jobs:
           set -e
           helm repo index --url "${ASSETS_BASE_URL}" .
           # FIXME(bandini): this is for debugging only
-          ls -l index.html
           cat index.yaml
 
       - name: Checkout code to git-repo folder
@@ -137,6 +136,7 @@ jobs:
           cp -fv ../index.yaml .
           helm plugin install https://github.com/halkeye/helm-repo-html
           helm repo-html
+          ls -l index.html
           git add index.yaml index.html
           git commit -m "Updated ${{ env.CHART_NAME }}-${{ env.CHART_VERSION }}"
           git push origin gh-pages
