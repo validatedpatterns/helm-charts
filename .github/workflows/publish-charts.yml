@@ -114,9 +114,6 @@ jobs:
         run: |-
           set -e
           helm repo index --url "${ASSETS_BASE_URL}" .
-          # Install index.html generator
-          helm plugin install https://github.com/halkeye/helm-repo-html
-          helm repo-html
           # FIXME(bandini): this is for debugging only
           ls -l index.html
           cat index.yaml
@@ -134,9 +131,12 @@ jobs:
           cd git-repo
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
+          # Install index.html generator
           git checkout gh-pages
           # This copies the newly generated index.yaml to the git repo
-          cp -fv ../index.yaml ../index.html .
+          cp -fv ../index.yaml .
+          helm plugin install https://github.com/halkeye/helm-repo-html
+          helm repo-html
           git add index.yaml index.html
           git commit -m "Updated ${{ env.CHART_NAME }}-${{ env.CHART_VERSION }}"
           git push origin gh-pages
