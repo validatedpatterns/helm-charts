@@ -130,10 +130,12 @@ jobs:
           cd git-repo
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
-          # Install index.html generator
           git checkout gh-pages
           # This copies the newly generated index.yaml to the git repo
           cp -fv ../index.yaml .
+          # Copy index.tpl from the main branch which is where it lives
+          git checkout origin/main index.tpl
+          # Install index.html generator
           helm plugin install https://github.com/halkeye/helm-repo-html
           helm repo-html
           ls -l index.html
