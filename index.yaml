@@ -2,7 +2,7 @@ apiVersion: v1
 entries:
   acm:
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.482749841Z"
+    created: "2024-10-16T18:54:02.115512667Z"
     description: A Helm chart to configure Advanced Cluster Manager for OpenShift.
     digest: f586710dc066ec1cc2346fbd49f4e972faebee44b6f88771c08fac4b3ceaf61b
     keywords:
@@ -12,7 +12,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/acm-0.1.4.tgz
     version: 0.1.4
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.479456581Z"
+    created: "2024-10-16T18:54:02.111798433Z"
     description: A Helm chart to configure Advanced Cluster Manager for OpenShift.
     digest: 0089252d99b249c280811efffe8a14a0f16758dcbed17553f08efdccab8c1dc3
     keywords:
@@ -22,7 +22,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/acm-0.1.3.tgz
     version: 0.1.3
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.476828528Z"
+    created: "2024-10-16T18:54:02.109142719Z"
     description: A Helm chart to configure Advanced Cluster Manager for OpenShift.
     digest: 5408b1bb56d2d6609cd3b69d4ceb8738984b8976f51909d19416468c3fbbf327
     keywords:
@@ -32,7 +32,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/acm-0.1.2.tgz
     version: 0.1.2
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.47439106Z"
+    created: "2024-10-16T18:54:02.106903858Z"
     description: A Helm chart to configure Advanced Cluster Manager for OpenShift.
     digest: 7f5887e9ce479ead71e3f661a8b1aa0bbabfce867e582e1eaa13768c281fb21c
     keywords:
@@ -42,7 +42,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/acm-0.1.1.tgz
     version: 0.1.1
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.472088975Z"
+    created: "2024-10-16T18:54:02.104410388Z"
     description: A Helm chart to configure Advanced Cluster Manager for OpenShift.
     digest: b171a1996e595cd6870fb55fecfae3dc77744ded7e8ce5b939dfd69e4cdf2df0
     keywords:
@@ -52,7 +52,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/acm-0.1.0.tgz
     version: 0.1.0
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.46918033Z"
+    created: "2024-10-16T18:54:02.101855844Z"
     description: A Helm chart to configure Advanced Cluster Manager for OpenShift.
     digest: 52dc772fda24e5200824a4779f3dea8b1f6a04002165d67026072fe8fcf8de26
     keywords:
@@ -62,7 +62,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/acm-0.0.4.tgz
     version: 0.0.4
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.466933999Z"
+    created: "2024-10-16T18:54:02.099180804Z"
     description: A Helm chart to configure Advanced Cluster Manager for OpenShift.
     digest: 8f961fa75d74d1b2fb0bdf3572716481b2c5df8f6bb84559d8b6c2b30be4cf67
     keywords:
@@ -72,7 +72,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/acm-0.0.3.tgz
     version: 0.0.3
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.464676206Z"
+    created: "2024-10-16T18:54:02.096887881Z"
     description: A Helm chart to configure Advanced Cluster Manager for OpenShift.
     digest: 023971058798c17397e706db95aaf8a56b336bad91f3bffa7f4a7a6c22d719e5
     keywords:
@@ -82,7 +82,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/acm-0.0.2.tgz
     version: 0.0.2
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.462483515Z"
+    created: "2024-10-16T18:54:02.09442568Z"
     description: A Helm chart to configure Advanced Cluster Manager for OpenShift.
     digest: 7f7b192ae8814808b2cdd8ba41080674ea68873e8f6510caddd68d271e46421e
     keywords:
@@ -93,7 +93,23 @@ entries:
     version: 0.0.1
   clustergroup:
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.603535072Z"
+    created: "2024-10-16T18:54:02.247205423Z"
+    description: A Helm chart to create per-clustergroup ArgoCD applications and any
+      required namespaces or subscriptions.
+    digest: 1ddc0eeb75ddd116c95c2d71b9ffdcb39630c49cea99012453f9361efdab05f6
+    home: https://github.com/validatedpatterns/clustergroup-chart
+    icon: https://validatedpatterns.io/images/validated-patterns.png
+    keywords:
+    - pattern
+    maintainers:
+    - email: validatedpatterns@googlegroups.com
+      name: Validated Patterns Team
+    name: clustergroup
+    urls:
+    - https://github.com/validatedpatterns/helm-charts/releases/download/main/clustergroup-0.9.6.tgz
+    version: 0.9.6
+  - apiVersion: v2
+    created: "2024-10-16T18:54:02.24195546Z"
     description: A Helm chart to create per-clustergroup ArgoCD applications and any
       required namespaces or subscriptions.
     digest: eb4f1e738b52a7985e2dd4515c0bcf53e19c62f0854e1da91f3f698e3a65d8df
@@ -109,7 +125,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/clustergroup-0.9.5.tgz
     version: 0.9.5
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.597859131Z"
+    created: "2024-10-16T18:54:02.235360757Z"
     description: A Helm chart to create per-clustergroup ArgoCD applications and any
       required namespaces or subscriptions.
     digest: 26a17b99e94697e463e4c6c314429ec53e0fbe1cead4d07e8d51660e2c3c1839
@@ -125,7 +141,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/clustergroup-0.9.4.tgz
     version: 0.9.4
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.591418444Z"
+    created: "2024-10-16T18:54:02.229755979Z"
     description: A Helm chart to create per-clustergroup ArgoCD applications and any
       required namespaces or subscriptions.
     digest: 37331b994ceb4807738a6edf17cb0da122923ed68375facc377886ecb75627ed
@@ -136,7 +152,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/clustergroup-0.9.3.tgz
     version: 0.9.3
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.586291899Z"
+    created: "2024-10-16T18:54:02.223933612Z"
     description: A Helm chart to create per-clustergroup ArgoCD applications and any
       required namespaces or subscriptions.
     digest: 6179b0a64391b0e7225b82429a0799d324b0e3c6ba0be1f8435fbfba65608364
@@ -147,7 +163,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/clustergroup-0.9.2.tgz
     version: 0.9.2
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.581329801Z"
+    created: "2024-10-16T18:54:02.218307002Z"
     description: A Helm chart to create per-clustergroup ArgoCD applications and any
       required namespaces or subscriptions.
     digest: 62057689d37dbd3a11358601df14de617d5f071f683fa8c49f7670d474c7fe51
@@ -158,7 +174,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/clustergroup-0.9.1.tgz
     version: 0.9.1
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.575023763Z"
+    created: "2024-10-16T18:54:02.211994022Z"
     description: A Helm chart to create per-clustergroup ArgoCD applications and any
       required namespaces or subscriptions.
     digest: d0e4eb53f9e87e5dcf3a932c5970d93ec9ee8cb8665abf68222e2a96c036a153
@@ -169,7 +185,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/clustergroup-0.9.0.tgz
     version: 0.9.0
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.533219686Z"
+    created: "2024-10-16T18:54:02.167494202Z"
     description: A Helm chart to create per-clustergroup ArgoCD applications and any
       required namespaces or subscriptions.
     digest: 8ffea52cc20f182d70a8ddffb4f1c9f7ac1a11a50689385f432a07180430cefd
@@ -180,7 +196,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/clustergroup-0.8.14.tgz
     version: 0.8.14
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.52840918Z"
+    created: "2024-10-16T18:54:02.162153058Z"
     description: A Helm chart to create per-clustergroup ArgoCD applications and any
       required namespaces or subscriptions.
     digest: 57869937c3d9b690e487f43e84d3b1c67f0450f238594472a0d92db71e250a66
@@ -191,7 +207,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/clustergroup-0.8.13.tgz
     version: 0.8.13
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.522990292Z"
+    created: "2024-10-16T18:54:02.156527109Z"
     description: A Helm chart to create per-clustergroup ArgoCD applications and any
       required namespaces or subscriptions.
     digest: b85e67c23bd7b25b4d6e39786cbd48361cc4ef5b842d10b7185dee5114ea759b
@@ -202,7 +218,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/clustergroup-0.8.12.tgz
     version: 0.8.12
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.51827774Z"
+    created: "2024-10-16T18:54:02.151689691Z"
     description: A Helm chart to create per-clustergroup ArgoCD applications and any
       required namespaces or subscriptions.
     digest: 6f6acee2f9a6d052bac37cbae81962a8e6c37ccf36d409cb65a5f5e705fe7129
@@ -213,7 +229,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/clustergroup-0.8.11.tgz
     version: 0.8.11
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.513523379Z"
+    created: "2024-10-16T18:54:02.146892728Z"
     description: A Helm chart to create per-clustergroup ArgoCD applications and any
       required namespaces or subscriptions.
     digest: 4707dbc43a2c8421021a66d1906beb1a8b9d4ec2c19bf481551f18eebcb88c0c
@@ -224,7 +240,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/clustergroup-0.8.10.tgz
     version: 0.8.10
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.570090729Z"
+    created: "2024-10-16T18:54:02.206708883Z"
     description: A Helm chart to create per-clustergroup ArgoCD applications and any
       required namespaces or subscriptions.
     digest: d360df333d77531074583201b1f52da8bb77a491931dfeacc4091f5ca2e5f14a
@@ -235,7 +251,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/clustergroup-0.8.9.tgz
     version: 0.8.9
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.564871766Z"
+    created: "2024-10-16T18:54:02.201493445Z"
     description: A Helm chart to create per-clustergroup ArgoCD applications and any
       required namespaces or subscriptions.
     digest: 9fc14d81982b9938237ddc3eb3a9bb38fbb3d4cdf7cf7f50f9f6b23235149e65
@@ -246,7 +262,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/clustergroup-0.8.8.tgz
     version: 0.8.8
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.560364105Z"
+    created: "2024-10-16T18:54:02.196411137Z"
     description: A Helm chart to create per-clustergroup ArgoCD applications and any
       required namespaces or subscriptions.
     digest: 5a8c2e062cdae4778dd554298951f6247de57814d6f0f53408d6be5b7d455d94
@@ -257,7 +273,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/clustergroup-0.8.7.tgz
     version: 0.8.7
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.555968504Z"
+    created: "2024-10-16T18:54:02.191887357Z"
     description: A Helm chart to create per-clustergroup ArgoCD applications and any
       required namespaces or subscriptions.
     digest: 143b514d0456d75643897f49a7603979c313c52af33e1f65f1e422a8583970c6
@@ -268,7 +284,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/clustergroup-0.8.6.tgz
     version: 0.8.6
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.550542145Z"
+    created: "2024-10-16T18:54:02.186067959Z"
     description: A Helm chart to create per-clustergroup ArgoCD applications and any
       required namespaces or subscriptions.
     digest: 371e4145801f4d1a91d65cb41f85102a64a1ef73cfd7609019867f24d24a7948
@@ -279,7 +295,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/clustergroup-0.8.5.tgz
     version: 0.8.5
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.546408472Z"
+    created: "2024-10-16T18:54:02.181813284Z"
     description: A Helm chart to create per-clustergroup ArgoCD applications and any
       required namespaces or subscriptions.
     digest: 6e7699c7edf3277800779c668b902a191ecdef903dac585742bc385f2ff34d49
@@ -290,7 +306,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/clustergroup-0.8.4.tgz
     version: 0.8.4
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.542094272Z"
+    created: "2024-10-16T18:54:02.177390344Z"
     description: A Helm chart to create per-clustergroup ArgoCD applications and any
       required namespaces or subscriptions.
     digest: cb87eea06a62309833b7a36aea5551eefef122c127502c97d8e1b00bf3ad4bd7
@@ -301,7 +317,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/clustergroup-0.8.3.tgz
     version: 0.8.3
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.537080419Z"
+    created: "2024-10-16T18:54:02.172919493Z"
     description: A Helm chart to create per-clustergroup ArgoCD applications and any
       required namespaces or subscriptions.
     digest: 48941eb0d5df28baa06af9a5ad0a1e93f1eab416e5a19c160910850900247d98
@@ -312,7 +328,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/clustergroup-0.8.2.tgz
     version: 0.8.2
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.507985984Z"
+    created: "2024-10-16T18:54:02.141731392Z"
     description: A Helm chart to create per-clustergroup ArgoCD applications and any
       required namespaces or subscriptions.
     digest: 288753d89c0a7354c3fc68d40f59a6700f90e1fef08c8e55493e9438abec8ea0
@@ -323,7 +339,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/clustergroup-0.8.1.tgz
     version: 0.8.1
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.504336826Z"
+    created: "2024-10-16T18:54:02.137320534Z"
     description: A Helm chart to create per-clustergroup ArgoCD applications and any
       required namespaces or subscriptions.
     digest: 88cdabd432805486091f39d525916b9ad2d8b3fa5b0b304e1f0fd58c2df26d10
@@ -334,7 +350,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/clustergroup-0.8.0.tgz
     version: 0.8.0
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.500763839Z"
+    created: "2024-10-16T18:54:02.133675944Z"
     description: A Helm chart to create per-clustergroup ArgoCD applications and any
       required namespaces or subscriptions.
     digest: aa66f85813f3740e6a9049c22f739b027cfc4719df8682fbaa1da8a89a691e81
@@ -345,7 +361,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/clustergroup-0.0.5.tgz
     version: 0.0.5
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.497155096Z"
+    created: "2024-10-16T18:54:02.1299917Z"
     description: A Helm chart to create per-clustergroup ArgoCD applications and any
       required namespaces or subscriptions.
     digest: e8dd0bcc0db8dae34be34c7af4ec45b58eab141714e6d77c3eff141629e17588
@@ -356,7 +372,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/clustergroup-0.0.4.tgz
     version: 0.0.4
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.492891814Z"
+    created: "2024-10-16T18:54:02.125767272Z"
     description: A Helm chart to create per-clustergroup ArgoCD applications and any
       required namespaces or subscriptions.
     digest: d32cceec2b6b3e0e28a7ff253d43b7fdfb307b243a1568aab7b92c8caf40ff24
@@ -367,7 +383,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/clustergroup-0.0.3.tgz
     version: 0.0.3
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.489436427Z"
+    created: "2024-10-16T18:54:02.122213793Z"
     description: A Helm chart to create per-clustergroup ArgoCD applications and any
       required namespaces or subscriptions.
     digest: 3e98ec2ddc59d42577185fcd46e79ca3eed46c108ab589ca39653ac94a547bdb
@@ -378,7 +394,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/clustergroup-0.0.2.tgz
     version: 0.0.2
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.486102446Z"
+    created: "2024-10-16T18:54:02.118850832Z"
     description: A Helm chart to create per-clustergroup ArgoCD applications and any
       required namespaces or subscriptions.
     digest: 067b58560edb7be94742dcdae50c12822abb8801eb07938995754f5b37c5aa9d
@@ -391,7 +407,7 @@ entries:
   gitea:
   - apiVersion: v2
     appVersion: 1.21.11
-    created: "2024-10-16T18:46:56.635919618Z"
+    created: "2024-10-16T18:54:02.279529742Z"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -439,7 +455,7 @@ entries:
     version: 0.0.2
   - apiVersion: v2
     appVersion: 1.21.11
-    created: "2024-10-16T18:46:56.61976844Z"
+    created: "2024-10-16T18:54:02.263278491Z"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -487,7 +503,7 @@ entries:
     version: 0.0.1
   golang-external-secrets:
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.717078993Z"
+    created: "2024-10-16T18:54:02.364733354Z"
     dependencies:
     - name: external-secrets
       repository: https://charts.external-secrets.io
@@ -506,7 +522,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/golang-external-secrets-0.1.3.tgz
     version: 0.1.3
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.703799017Z"
+    created: "2024-10-16T18:54:02.349953166Z"
     dependencies:
     - name: external-secrets
       repository: https://charts.external-secrets.io
@@ -520,7 +536,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/golang-external-secrets-0.1.2.tgz
     version: 0.1.2
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.692075951Z"
+    created: "2024-10-16T18:54:02.336865064Z"
     dependencies:
     - name: external-secrets
       repository: https://charts.external-secrets.io
@@ -534,7 +550,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/golang-external-secrets-0.1.1.tgz
     version: 0.1.1
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.680223018Z"
+    created: "2024-10-16T18:54:02.325613889Z"
     dependencies:
     - name: external-secrets
       repository: https://charts.external-secrets.io
@@ -548,7 +564,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/golang-external-secrets-0.1.0.tgz
     version: 0.1.0
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.668527606Z"
+    created: "2024-10-16T18:54:02.314762452Z"
     dependencies:
     - name: external-secrets
       repository: https://charts.external-secrets.io
@@ -562,7 +578,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/golang-external-secrets-0.0.4.tgz
     version: 0.0.4
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.657988605Z"
+    created: "2024-10-16T18:54:02.303066133Z"
     dependencies:
     - name: external-secrets
       repository: https://charts.external-secrets.io
@@ -576,7 +592,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/golang-external-secrets-0.0.3.tgz
     version: 0.0.3
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.650196754Z"
+    created: "2024-10-16T18:54:02.2942834Z"
     dependencies:
     - name: external-secrets
       repository: https://charts.external-secrets.io
@@ -590,7 +606,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/golang-external-secrets-0.0.2.tgz
     version: 0.0.2
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.642801646Z"
+    created: "2024-10-16T18:54:02.287198153Z"
     dependencies:
     - name: external-secrets
       repository: https://charts.external-secrets.io
@@ -605,7 +621,7 @@ entries:
     version: 0.0.1
   hashicorp-vault:
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.76034441Z"
+    created: "2024-10-16T18:54:02.412597923Z"
     dependencies:
     - name: vault
       repository: https://helm.releases.hashicorp.com
@@ -624,7 +640,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/hashicorp-vault-0.1.3.tgz
     version: 0.1.3
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.752140937Z"
+    created: "2024-10-16T18:54:02.405828508Z"
     dependencies:
     - name: vault
       repository: https://helm.releases.hashicorp.com
@@ -638,7 +654,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/hashicorp-vault-0.1.2.tgz
     version: 0.1.2
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.744795689Z"
+    created: "2024-10-16T18:54:02.397388166Z"
     dependencies:
     - name: vault
       repository: https://helm.releases.hashicorp.com
@@ -652,7 +668,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/hashicorp-vault-0.1.1.tgz
     version: 0.1.1
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.738048399Z"
+    created: "2024-10-16T18:54:02.39023315Z"
     dependencies:
     - name: vault
       repository: https://helm.releases.hashicorp.com
@@ -666,7 +682,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/hashicorp-vault-0.1.0.tgz
     version: 0.1.0
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.730045591Z"
+    created: "2024-10-16T18:54:02.382324598Z"
     dependencies:
     - name: vault
       repository: https://helm.releases.hashicorp.com
@@ -680,7 +696,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/hashicorp-vault-0.0.2.tgz
     version: 0.0.2
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.722665175Z"
+    created: "2024-10-16T18:54:02.370572683Z"
     dependencies:
     - name: vault
       repository: https://helm.releases.hashicorp.com
@@ -696,7 +712,7 @@ entries:
   letsencrypt:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2024-10-16T18:46:56.761063231Z"
+    created: "2024-10-16T18:54:02.413754794Z"
     description: A Helm chart to add letsencrypt support to Validated Patterns.
     digest: 6ed2e719eb40e3d34ef552fff265f8fa90071b7eb9360a4d327b811b27469079
     name: letsencrypt
@@ -706,7 +722,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2024-10-16T18:46:56.760698971Z"
+    created: "2024-10-16T18:54:02.412976203Z"
     description: A Helm chart to add letsencrypt support to Validated Patterns.
     digest: aa4b3f423b6a8b7f984a25ed2fbe0563bd3096988d928bf939fe4e39d56e5701
     name: letsencrypt
@@ -717,7 +733,7 @@ entries:
   openshift-data-foundations:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2024-10-16T18:46:56.763824874Z"
+    created: "2024-10-16T18:54:02.416836072Z"
     description: A Helm chart to install ODF on Openshift
     digest: 3357bb7e95dc12278a9655b9fc5c456ef0686108a9d48852d079830f51ff8611
     home: https://github.com/validatedpatterns/openshift-data-foundations-chart
@@ -732,7 +748,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2024-10-16T18:46:56.762239826Z"
+    created: "2024-10-16T18:54:02.415293747Z"
     description: A Helm chart for Kubernetes
     digest: 1c149f88852f8cf769fc19f6ea98ae19c3c762a01a96a219aeb87042fb24eae0
     name: openshift-data-foundations
@@ -742,7 +758,7 @@ entries:
     version: 0.1.0
   pattern-install:
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.767879008Z"
+    created: "2024-10-16T18:54:02.42071967Z"
     description: A Helm chart to build and deploy a Cloud Pattern via the patterns
       operator
     digest: 0948ea2bb3fdbea124d967c3ee97529db9650f434d8695e18958ab387a6afbb2
@@ -758,7 +774,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/pattern-install-0.0.3.tgz
     version: 0.0.3
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.766139002Z"
+    created: "2024-10-16T18:54:02.418927096Z"
     description: A Helm chart to build and deploy a Cloud Pattern via the patterns
       operator
     digest: 86e7365a66f307f3ffb81461b434a52989622742b7a3debe651666dd5b26d6ee
@@ -769,7 +785,7 @@ entries:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/pattern-install-0.0.2.tgz
     version: 0.0.2
   - apiVersion: v2
-    created: "2024-10-16T18:46:56.764975992Z"
+    created: "2024-10-16T18:54:02.417875813Z"
     description: A Helm chart to build and deploy a Cloud Pattern via the patterns
       operator
     digest: 1bd6f7ce6fe5bf2e9f00d589d49bbe58869943cc04438eb2098e33e3beb8a5e8
@@ -782,7 +798,7 @@ entries:
   rbac:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2024-10-16T18:46:56.768567312Z"
+    created: "2024-10-16T18:54:02.421327351Z"
     description: A Helm chart that provisions service accounts, roles and rolebindings
     digest: 602d24ca33f6fc37953113d0bc5dfb67f4e73766b63aa673d03ea22b6d19c61c
     name: rbac
@@ -790,4 +806,4 @@ entries:
     urls:
     - https://github.com/validatedpatterns/helm-charts/releases/download/main/rbac-0.1.0.tgz
     version: 0.1.0
-generated: "2024-10-16T18:46:56.460579883Z"
+generated: "2024-10-16T18:54:02.092514313Z"
