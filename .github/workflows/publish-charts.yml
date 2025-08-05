@@ -94,7 +94,11 @@ jobs:
             
             # Check if dependencies section exists in Chart.yaml
             if yq -e '.dependencies' Chart.yaml > /dev/null 2>&1; then
-              echo "Dependencies found in Chart.yaml. Updating dependencies..."
+              echo "Dependencies found in Chart.yaml. Processing dependencies..."
+              
+              # Create a temporary file to track if repositories were added
+              repo_added_flag=$(mktemp)
+              echo "false" > "$repo_added_flag"
               
               # Extract repository URLs from dependencies and add them as helm repositories
               echo "Discovering repositories from Chart.yaml dependencies..."
@@ -103,7 +107,11 @@ jobs:
                   # Convert URL to repository name by removing protocol and common prefixes
                   repo_name=$(echo "$repo_url" | sed 's|^https\?://||' | sed 's|^www\.||' | sed 's|/$||')
                   echo "Adding repository: $repo_name -> $repo_url"
-                  helm repo add "$repo_name" "$repo_url" || echo "Failed to add repository $repo_name, continuing..."
+                  if helm repo add "$repo_name" "$repo_url"; then
+                    echo "true" > "$repo_added_flag"
+                  else
+                    echo "Failed to add repository $repo_name, continuing..."
+                  fi
                 fi
               done
               
@@ -112,12 +120,24 @@ jobs:
                 echo "Adding additional helm repositories..."
                 echo "${ADDITIONAL_HELM_REPOS}" | yq -r '.[] | "helm repo add " + .name + " " + .url' | while read -r cmd; do
                   echo "Running: $cmd"
-                  eval "$cmd" || echo "Failed to add repository, continuing..."
+                  if eval "$cmd"; then
+                    echo "true" > "$repo_added_flag"
+                  else
+                    echo "Failed to add repository, continuing..."
+                  fi
                 done
               fi
               
-              # Update all repositories
-              helm repo update
+              # Update repositories only if any were added
+              repos_added=$(cat "$repo_added_flag")
+              rm -f "$repo_added_flag"
+              
+              if [ "$repos_added" = "true" ]; then
+                echo "Updating helm repositories..."
+                helm repo update
+              else
+                echo "No repositories were added, skipping helm repo update"
+              fi
               
               # Check if dependencies are already present
               update_needed=false
