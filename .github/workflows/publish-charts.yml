@@ -202,11 +202,12 @@ jobs:
           
           # Package the chart
           helm package "${CHART_DIR}"
-          
           # Read chart metadata from the determined chart directory
           CHART_NAME=$(yq -r '.name' "${CHART_DIR}/Chart.yaml")
           CHART_VERSION=$(yq -r '.version' "${CHART_DIR}/Chart.yaml")
           CHART_TGZ="${CHART_NAME}-${CHART_VERSION}.tgz"
+          # Copy chart to parent dir because this variable is meant to only be the filename
+          cp ${CHART_TGZ} ..
           echo "CHART_NAME=${CHART_NAME}" >> $GITHUB_ENV
           echo "CHART_VERSION=${CHART_VERSION}" >> $GITHUB_ENV
           echo "CHART_TGZ=${CHART_TGZ}" >> $GITHUB_ENV
