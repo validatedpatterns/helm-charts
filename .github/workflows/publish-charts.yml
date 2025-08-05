@@ -16,11 +16,21 @@ on:
         required: false
         description: If specified, checks out the head of this branch rather than the commit tagged by SOURCE_TAG
         default: ""
+      TEMPLATE_DIR:
+        required: false
+        description: Directory containing the helm chart (relative to repo root). If not specified, will auto-detect Chart.yaml location
+        default: ""
+      ADDITIONAL_HELM_REPOS:
+        required: false
+        description: Additional helm repositories to add (JSON format, e.g. '[{"name":"myrepo","url":"https://example.com/charts"}]')
+        default: ""
 
 env:
   SOURCE_TAG: "${{ inputs.SOURCE_TAG }}"
   SOURCE_REPO: "${{ inputs.SOURCE_REPO }}"
   SOURCE_BRANCH_OVERRIDE: "${{ inputs.SOURCE_BRANCH_OVERRIDE }}"
+  TEMPLATE_DIR: "${{ inputs.TEMPLATE_DIR }}"
+  ADDITIONAL_HELM_REPOS: "${{ inputs.ADDITIONAL_HELM_REPOS }}"
   UMBRELLA_REPO: "validatedpatterns/helm-charts"
   ASSETS_BASE_URL: "https://github.com/validatedpatterns/helm-charts/releases/download/main/"
   QUAY_BASE_URL: "oci://quay.io/hybridcloudpatterns"
@@ -49,16 +59,118 @@ jobs:
               --branch "${SOURCE_TAG}" --single-branch helm-repo
           fi
 
-      - name: Package the helm chart
+      - name: Handle chart dependencies
         shell: bash
+        env:
+          TEMPLATE_DIR: ${{ env.TEMPLATE_DIR }}
+          ADDITIONAL_HELM_REPOS: ${{ env.ADDITIONAL_HELM_REPOS }}
         run: |-
           set -euo pipefail
-          helm package helm-repo/${{ inputs.TEMPLATE_DIR }}
-          CHART_NAME=$(yq -r '.name' helm-repo/Chart.yaml)
-          CHART_VERSION=$(yq -r '.version' helm-repo/Chart.yaml)
+          cd helm-repo
+          
+          # Determine the chart directory - check if TEMPLATE_DIR is provided or use default
+          if [ -n "${TEMPLATE_DIR}" ]; then
+            CHART_DIR="${TEMPLATE_DIR}"
+          else
+            # If no TEMPLATE_DIR specified, look for Chart.yaml in common locations
+            if [ -f "Chart.yaml" ]; then
+              CHART_DIR="."
+            elif [ -f "chart/Chart.yaml" ]; then
+              CHART_DIR="chart"
+            elif [ -f "helm/Chart.yaml" ]; then
+              CHART_DIR="helm"
+            else
+              echo "Could not find Chart.yaml file. Please specify TEMPLATE_DIR input."
+              exit 1
+            fi
+          fi
+          
+          cd "${CHART_DIR}"
+          
+          # Check if Chart.yaml exists and has dependencies
+          if [ -f "Chart.yaml" ]; then
+            echo "Found Chart.yaml in ${CHART_DIR}"
+            cat Chart.yaml
+            
+            # Check if dependencies section exists in Chart.yaml
+            if yq -e '.dependencies' Chart.yaml > /dev/null 2>&1; then
+              echo "Dependencies found in Chart.yaml. Updating dependencies..."
+              
+              # Extract repository URLs from dependencies and add them as helm repositories
+              echo "Discovering repositories from Chart.yaml dependencies..."
+              yq -r '.dependencies[]? | select(.repository) | .repository' Chart.yaml | sort -u | while read -r repo_url; do
+                if [ -n "$repo_url" ] && [[ "$repo_url" == http* ]]; then
+                  # Convert URL to repository name by removing protocol and common prefixes
+                  repo_name=$(echo "$repo_url" | sed 's|^https\?://||' | sed 's|^www\.||' | sed 's|/$||')
+                  echo "Adding repository: $repo_name -> $repo_url"
+                  helm repo add "$repo_name" "$repo_url" || echo "Failed to add repository $repo_name, continuing..."
+                fi
+              done
+              
+              # Add additional helm repositories if specified
+              if [ -n "${ADDITIONAL_HELM_REPOS}" ] && [ "${ADDITIONAL_HELM_REPOS}" != "[]" ] && [ "${ADDITIONAL_HELM_REPOS}" != "" ]; then
+                echo "Adding additional helm repositories..."
+                echo "${ADDITIONAL_HELM_REPOS}" | yq -r '.[] | "helm repo add " + .name + " " + .url' | while read -r cmd; do
+                  echo "Running: $cmd"
+                  eval "$cmd" || echo "Failed to add repository, continuing..."
+                done
+              fi
+              
+              # Update all repositories
+              helm repo update
+              
+              # Update dependencies
+              helm dependency update
+              
+              # Verify dependencies were downloaded
+              if [ -d "charts" ]; then
+                echo "Dependencies successfully downloaded:"
+                ls -la charts/
+              else
+                echo "Warning: charts directory not created. Dependencies might not be needed or failed to download."
+              fi
+            else
+              echo "No dependencies found in Chart.yaml"
+            fi
+          else
+            echo "Chart.yaml not found in ${CHART_DIR}"
+            exit 1
+          fi
+
+      - name: Package the helm chart
+        shell: bash
+        env:
+          TEMPLATE_DIR: ${{ env.TEMPLATE_DIR }}
+        run: |-
+          set -euo pipefail
+          cd helm-repo
+          
+          # Determine the chart directory - same logic as dependency handling
+          if [ -n "${TEMPLATE_DIR}" ]; then
+            CHART_DIR="${TEMPLATE_DIR}"
+          else
+            # If no TEMPLATE_DIR specified, look for Chart.yaml in common locations
+            if [ -f "Chart.yaml" ]; then
+              CHART_DIR="."
+            elif [ -f "chart/Chart.yaml" ]; then
+              CHART_DIR="chart"
+            elif [ -f "helm/Chart.yaml" ]; then
+              CHART_DIR="helm"
+            else
+              echo "Could not find Chart.yaml file. Please specify TEMPLATE_DIR input."
+              exit 1
+            fi
+          fi
+          
+          # Package the chart
+          helm package "${CHART_DIR}"
+          
+          # Read chart metadata from the determined chart directory
+          CHART_NAME=$(yq -r '.name' "${CHART_DIR}/Chart.yaml")
+          CHART_VERSION=$(yq -r '.version' "${CHART_DIR}/Chart.yaml")
           CHART_TGZ="${CHART_NAME}-${CHART_VERSION}.tgz"
-          echo "CHART_NAME=$(yq -r '.name' helm-repo/Chart.yaml)" >> $GITHUB_ENV
-          echo "CHART_VERSION=$(yq -r '.version' helm-repo/Chart.yaml)" >> $GITHUB_ENV
+          echo "CHART_NAME=${CHART_NAME}" >> $GITHUB_ENV
+          echo "CHART_VERSION=${CHART_VERSION}" >> $GITHUB_ENV
           echo "CHART_TGZ=${CHART_TGZ}" >> $GITHUB_ENV
 
       - name: Sign the chart
