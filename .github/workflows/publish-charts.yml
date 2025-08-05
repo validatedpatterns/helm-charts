@@ -119,15 +119,53 @@ jobs:
               # Update all repositories
               helm repo update
               
-              # Update dependencies
-              helm dependency update
-              
-              # Verify dependencies were downloaded
+              # Check if dependencies are already present
+              update_needed=false
               if [ -d "charts" ]; then
-                echo "Dependencies successfully downloaded:"
-                ls -la charts/
+                echo "Charts directory exists, checking for missing dependencies..."
+                # Get list of required dependencies from Chart.yaml
+                required_deps=$(yq -r '.dependencies[]? | .name + "-" + .version' Chart.yaml 2>/dev/null || true)
+                if [ -n "$required_deps" ]; then
+                  echo "Required dependencies:"
+                  echo "$required_deps"
+                  
+                  # Check each required dependency
+                  for dep in $required_deps; do
+                    dep_name=$(echo "$dep" | cut -d'-' -f1)
+                    # Look for chart files that match the dependency name
+                    if ! ls charts/"${dep_name}"-*.tgz >/dev/null 2>&1; then
+                      echo "Missing dependency chart: $dep_name"
+                      update_needed=true
+                      break
+                    else
+                      echo "Found existing chart for: $dep_name"
+                    fi
+                  done
+                else
+                  echo "No specific dependencies found, will update to be safe"
+                  update_needed=true
+                fi
               else
-                echo "Warning: charts directory not created. Dependencies might not be needed or failed to download."
+                echo "Charts directory does not exist, dependencies update needed"
+                update_needed=true
+              fi
+              
+              # Update dependencies only if needed
+              if [ "$update_needed" = true ]; then
+                echo "Updating dependencies..."
+                helm dependency update
+                
+                # Verify dependencies were downloaded
+                if [ -d "charts" ]; then
+                  echo "Dependencies successfully downloaded:"
+                  ls -la charts/
+                else
+                  echo "Warning: charts directory not created. Dependencies might not be needed or failed to download."
+                fi
+              else
+                echo "All dependencies are already present, skipping dependency update"
+                echo "Existing charts:"
+                ls -la charts/
               fi
             else
               echo "No dependencies found in Chart.yaml"

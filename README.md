@@ -41,8 +41,11 @@ The workflow automatically handles helm chart dependencies by:
 2. **Discovering required repositories**: Automatically extracts repository URLs from Chart.yaml dependencies and adds them as helm repositories
 3. **Smart repository naming**: Converts repository URLs to names by removing the protocol (https://) and common prefixes
 4. **Adding custom repositories**: Processes any additional repositories specified in ADDITIONAL_HELM_REPOS
-5. **Updating dependencies**: Runs `helm dependency update` to download all chart dependencies
-6. **Verification**: Confirms dependencies were successfully downloaded
+5. **Intelligent dependency checking**: Checks if chart dependencies already exist in the charts/ directory and skips downloading if all dependencies are present
+6. **Selective dependency updates**: Only runs `helm dependency update` when missing dependencies are detected
+7. **Verification**: Confirms dependencies were successfully downloaded or reports existing charts
+
+This intelligent approach improves build performance by avoiding unnecessary dependency downloads when charts are already cached in the repository.
 
 ### Example with dependencies
 
