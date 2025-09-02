@@ -33,7 +33,8 @@ env:
   ADDITIONAL_HELM_REPOS: "${{ inputs.ADDITIONAL_HELM_REPOS }}"
   UMBRELLA_REPO: "validatedpatterns/helm-charts"
   ASSETS_BASE_URL: "https://github.com/validatedpatterns/helm-charts/releases/download/main/"
-  QUAY_BASE_URL: "oci://quay.io/hybridcloudpatterns"
+  LEGACY_QUAY_BASE_URL: "oci://quay.io/hybridcloudpatterns"
+  QUAY_BASE_URL: "oci://quay.io/validatedpatterns"
 
 jobs:
   update-charts:
@@ -314,8 +315,10 @@ jobs:
           git commit -m "Updated ${{ env.CHART_NAME }}-${{ env.CHART_VERSION }}"
           git push origin gh-pages
 
-      - name: Push the chart to quay
+      - name: Push the chart to legacy and new quay repos
         run: |-
           set -e
-          helm registry login -u="${{ secrets.QUAY_HELM_USER }}" -p="${{ secrets.QUAY_HELM_PASS }}" quay.io
+          helm registry login -u="${{ secrets.LEGACY_QUAY_USERNAME }}" -p="${{ secrets.LEGACY_QUAY_PASSWORD }}" quay.io
+          helm push "${{ env.CHART_TGZ }}" "${LEGACY_QUAY_BASE_URL}"
+          helm registry login -u="${{ secrets.QUAY_USERNAME }}" -p="${{ secrets.QUAY_PASSWORD }}" quay.io
           helm push "${{ env.CHART_TGZ }}" "${QUAY_BASE_URL}"
