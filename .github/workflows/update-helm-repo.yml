@@ -22,7 +22,7 @@ jobs:
     if: ${{ github.repository != 'validatedpatterns/helm-charts' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Verify Chart version matches tag version
         run: |-
           export TAG=${{ github.ref_name }}
