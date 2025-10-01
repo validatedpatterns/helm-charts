@@ -16,6 +16,9 @@
 name: vp-patterns/update-helm-repo
 on:
   workflow_call:
+    secrets:
+      CHARTS_REPOS_TOKEN:
+        required: true
 
 jobs:
   update-umbrella-repo:
