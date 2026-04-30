@@ -1,0 +1,59 @@
+# llm-inference-service
+
+![Version: 0.3.0](https://img.shields.io/badge/Version-0.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.0](https://img.shields.io/badge/AppVersion-0.1.0-informational?style=flat-square)
+
+Deploys a kserve-based inference service and runtime for use on RHOAI
+
+## Values
+
+| Key                                        | Type   | Default                                                      | Description |
+| ------------------------------------------ | ------ | ------------------------------------------------------------ | ----------- |
+| dsc.initialize                             | bool   | `true`                                                       |             |
+| dsc.kserve.defaultDeploymentMode           | string | `"RawDeployment"`                                            |             |
+| dsc.kserve.rawDeploymentServiceConfig      | string | `"Headed"`                                                   |             |
+| externalSecret.create                      | bool   | `true`                                                       |             |
+| inferenceService.affinity                  | object | `{}`                                                         |             |
+| inferenceService.maxReplicas               | int    | `1`                                                          |             |
+| inferenceService.minReplicas               | int    | `1`                                                          |             |
+| inferenceService.name                      | string | `"cpu-inference-service"`                                    |             |
+| inferenceService.resources.limits.cpu      | string | `"8"`                                                        |             |
+| inferenceService.resources.limits.memory   | string | `"16Gi"`                                                     |             |
+| inferenceService.resources.requests.cpu    | string | `"4"`                                                        |             |
+| inferenceService.resources.requests.memory | string | `"8Gi"`                                                      |             |
+| inferenceService.tolerations               | object | `{}`                                                         |             |
+| model.downloader.image                     | string | `"registry.access.redhat.com/ubi10/python-312-minimal:10.0"` |             |
+| model.files[0]                             | string | `"mistral-7b-instruct-v0.2.Q5_0.gguf"`                       |             |
+| model.repository                           | string | `"TheBloke/Mistral-7B-Instruct-v0.2-GGUF"`                   |             |
+| model.storage.mountPath                    | string | `"/models"`                                                  |             |
+| servingRuntime.args[0]                     | string | `"--model"`                                                  |             |
+| servingRuntime.args[1]                     | string | `"/models/mistral-7b-instruct-v0.2.Q5_0.gguf"`               |             |
+| servingRuntime.image                       | string | `"ghcr.io/ggml-org/llama.cpp:server"`                        |             |
+| servingRuntime.modelFormat                 | string | `"llama.cpp"`                                                |             |
+| servingRuntime.name                        | string | `"cpu-runtime"`                                              |             |
+| servingRuntime.port                        | int    | `8080`                                                       |             |
+
+## Required Secrets
+
+This chart requires that a values-secret.yaml file exists in your home directory for the pattern which is using this chart.
+
+The file should be named `values-secret-<your_pattern_dir>.yaml` and placed in your home directory (NOT in the pattern repository where it would be committed to Git). The naming convention follows the pattern: `values-secret-<pattern_directory_name>.yaml`.
+
+For example, if you have a pattern in the directory `rag-llm` locally, then this file should be located at `~/values-secret-rag-llm.yaml` and must contain at minimum a Hugging Face token for a user authenticated to use the model specified in the `model.repository` value.
+
+```yaml
+secrets:
+  - name: huggingface
+    fields:
+      - name: token
+        value: hf_xxxxxxxxxxx
+```
+
+## Using Multiple Installations of this chart
+
+If you install this chart multiple times in the same cluster, you will want to set the value `dsc.initialize` to be `false` for all but one of the installations as these resources should only be installed one time.
+
+You also should set the value `externalSecret.create` to be `false` for all but one installation per-namespace as the HuggingFace-token secret should be per-namespace.
+
+---
+
+Autogenerated from chart metadata using [helm-docs v1.14.2](https://github.com/norwoodj/helm-docs/releases/v1.14.2)

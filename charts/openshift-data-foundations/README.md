@@ -1,0 +1,100 @@
+# openshift-data-foundations
+
+![Version: 0.2.3](https://img.shields.io/badge/Version-0.2.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.16.0](https://img.shields.io/badge/AppVersion-1.16.0-informational?style=flat-square)
+
+A Helm chart to install ODF on Openshift
+
+### Notable changes
+
+* v0.2.3: Allow passing of label selector to labelling job to avoid, for example, labelling submariner nodes.
+          Also ensure at least 3 nodes are labelled when using label selector.
+
+* v0.2.2: Reconfigure sync ordering to ensure label job runs before attempts to create storagecluster/storagesystem
+
+* v0.2.1: Introduce boolean to configure where mirroring is enabled. Needed for RamenDR. Defaults to false
+
+**Homepage:** <https://github.com/validatedpatterns/openshift-data-foundations-chart>
+
+## Maintainers
+
+| Name | Email | Url |
+| ---- | ------ | --- |
+| Validated Patterns Team | <validatedpatterns@googlegroups.com> |  |
+
+## Notes
+
+This branch currently tracks the v0.2.x releases which use the host as a
+default failure domain for objectStorage.
+
+## Values
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| global.datacenter.storageClassName | string | `"gp3-csi"` |  |
+| job.image | string | `"image-registry.openshift-image-registry.svc:5000/openshift/cli:latest"` |  |
+| objectStorage.dataPool.failureDomain | string | `"host"` | Failuredomain for the dataPool |
+| objectStorage.dataPool.replicas | int | `3` |  |
+| objectStorage.enable | bool | `true` |  |
+| objectStorage.gateway.instances | int | `2` |  |
+| objectStorage.metadataPool.failureDomain | string | `"host"` | Failuredomain for the metadataPool |
+| objectStorage.resources.limits.cpu | string | `"2"` |  |
+| objectStorage.resources.limits.memory | string | `"6Gi"` |  |
+| objectStorage.resources.requests.cpu | string | `"1"` |  |
+| objectStorage.resources.requests.memory | string | `"4Gi"` |  |
+| odf.enable_mirroring | bool | `false` |  |
+| odf.externalUrl | string | `"https://s3-rgw-openshift-storage"` |  |
+| odf.mds.requests.cpu | int | `3` |  |
+| odf.mds.requests.memory | string | `"8Gi"` |  |
+| odf.mgr.requests.cpu | int | `1` |  |
+| odf.mgr.requests.memory | string | `"3Gi"` |  |
+| odf.mon.requests.cpu | int | `1` |  |
+| odf.mon.requests.memory | string | `"2Gi"` |  |
+| odf.namespace | string | `"openshift-storage"` |  |
+| odf.noobaacore.requests.cpu | int | `1` |  |
+| odf.noobaacore.requests.memory | string | `"4Gi"` |  |
+| odf.noobaadb.requests.cpu | int | `1` |  |
+| odf.noobaadb.requests.memory | string | `"4Gi"` |  |
+| odf.osd.pvc.storage | string | `"2Ti"` |  |
+| odf.osd.requests.cpu | int | `2` |  |
+| odf.osd.requests.memory | string | `"5Gi"` |  |
+| odf.serviceUrl | string | `"http://rook-ceph-rgw-ocs-storagecluster-cephobjectstore.openshift-storage.svc.cluster.local"` |  |
+| odf.storageClass.name | string | `"ocs-storagecluster-ceph-rgw"` |  |
+| odf.storageClass.objectStoreName | string | `"ocs-storagecluster-cephobjectstore"` |  |
+| rbac.roleBindings[0].createBinding | bool | `true` |  |
+| rbac.roleBindings[0].name | string | `"label-storage-nodes"` |  |
+| rbac.roleBindings[0].roleRef.kind | string | `"ClusterRole"` |  |
+| rbac.roleBindings[0].roleRef.name | string | `"label-storage-nodes"` |  |
+| rbac.roleBindings[0].scope.cluster | bool | `true` |  |
+| rbac.roleBindings[0].scope.namespace | string | `""` |  |
+| rbac.roleBindings[0].subjects.apiGroup | string | `""` |  |
+| rbac.roleBindings[0].subjects.kind | string | `"ServiceAccount"` |  |
+| rbac.roleBindings[0].subjects.name | string | `"odf-node-label-sa"` |  |
+| rbac.roleBindings[0].subjects.namespace | string | `"openshift-storage"` |  |
+| rbac.roles[0].apiGroups[0] | string | `"\"\""` |  |
+| rbac.roles[0].createRole | bool | `true` |  |
+| rbac.roles[0].name | string | `"label-storage-nodes"` |  |
+| rbac.roles[0].resources[0] | string | `"nodes"` |  |
+| rbac.roles[0].scope.cluster | bool | `true` |  |
+| rbac.roles[0].verbs[0] | string | `"get"` |  |
+| rbac.roles[0].verbs[1] | string | `"list"` |  |
+| rbac.roles[0].verbs[2] | string | `"patch"` |  |
+| rbac.roles[0].verbs[3] | string | `"update"` |  |
+| route.name | string | `"s3-rgw"` |  |
+| route.port.targetPort | string | `"http"` |  |
+| route.service.name | string | `"rook-ceph-rgw-ocs-storagecluster-cephobjectstore"` |  |
+| route.service.weight | int | `100` |  |
+| serviceAccountName | string | `"odf-node-label-sa"` |  |
+| storageSystem.deploy | bool | `false` |  |
+| storageSystem.inventory.nodeJobLabelSelector | string | `"node-role.kubernetes.io/worker="` |  |
+| storageSystem.inventory.nodes[0] | string | `"nodeA"` |  |
+| storageSystem.inventory.nodes[1] | string | `"nodeB"` |  |
+| storageSystem.inventory.nodes[2] | string | `"nodeC"` |  |
+| storageSystem.inventory.useSpecificNodes | bool | `true` |  |
+| storageSystem.name | string | `"ocs-storagecluster-storagesystem"` |  |
+| storageSystem.namespace | string | `"openshift-storage"` |  |
+| storageSystem.spec.kind | string | `"storagecluster.ocs.openshift.io/v1"` |  |
+| storageSystem.spec.name | string | `"ocs-storagecluster"` |  |
+| storageSystem.spec.namespace | string | `""` |  |
+
+----------------------------------------------
+Autogenerated from chart metadata using [helm-docs v1.14.2](https://github.com/norwoodj/helm-docs/releases/v1.14.2)

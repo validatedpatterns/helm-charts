@@ -1,0 +1,18 @@
+global:
+  imageRegistry: us-central1-docker.pkg.dev/google-samples/microservices-demo
+  imageTag: v0.10.4
+  storageClass: ""
+
+frontend:
+  enableSingleSharedSession: false
+
+redis:
+  image: redis:alpine
+  storage: 1Gi
+  external:
+    enabled: false
+    address: ""
+    port: 6379
+
+loadgenerator:
+  enabled: true

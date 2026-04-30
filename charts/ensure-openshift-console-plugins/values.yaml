@@ -1,0 +1,76 @@
+---
+ensureConsolePlugins: []
+
+ensurePluginsPlaybook: |-
+  ---
+  - name: Ensure plugins for OpenShift console
+    become: false
+    connection: local
+    hosts: localhost
+    gather_facts: false
+    vars:
+      kubeconfig: "{{ lookup('env', 'KUBECONFIG') }}"
+      ensure_plugins: []
+    tasks:
+      - name: Retrieve current console object
+        kubernetes.core.k8s_info:
+          api_version: operator.openshift.io/v1
+          kind: Console
+        register: console_obj
+        until: console_obj.resources | length == 1
+        retries: 20
+        delay: 5
+
+      - name: Retrieve current plugins
+        ansible.builtin.set_fact:
+          current_plugins: "{{ console_obj.resources[0].spec.plugins }}"
+
+      - name: Calculate new plugins
+        ansible.builtin.set_fact:
+          new_plugins: "{{ (current_plugins + ensure_plugins) | unique() }}"
+
+      - name: Ensure the new plugin list
+        kubernetes.core.k8s:
+          definition: "{{ console_obj.resources[0] | combine({'spec': { 'plugins': new_plugins }}) }}"
+          state: present
+        when: new_plugins != current_plugins
+
+configJob:
+  image: quay.io/hybridcloudpatterns/imperative-container:v1
+  schedule: "*/5 * * * *"
+  activeDeadlineSeconds: 3600
+  imagePullPolicy: Always
+  configTimeout: 1800
+
+serviceAccountName: console-activate-sa
+serviceAccountNamespace: openshift-console
+
+rbac:
+  roles:
+    - name: manage-console-plugins
+      createRole: true
+      scope:
+        cluster: true
+      apiGroups:
+        - operator.openshift.io
+      resources:
+        - consoles
+      verbs:
+        - get
+        - list
+        - update
+        - patch
+        - watch
+  roleBindings:
+    - name: manage-console-plugins
+      createBinding: true
+      scope:
+        cluster: true
+      subjects:
+        kind: ServiceAccount
+        name: console-activate-sa
+        namespace: openshift-console
+        apiGroup: ""
+      roleRef:
+        kind: ClusterRole
+        name: manage-console-plugins

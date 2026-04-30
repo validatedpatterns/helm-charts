@@ -1,0 +1,11 @@
+---
+cnv:
+  debug:
+    useEmulation: false
+
+global:
+  clusterVersion: "4.18"
+
+namespaceOverride: openshift-cnv
+sriovLiveMigration: false
+enableCommonBootImageImport: true

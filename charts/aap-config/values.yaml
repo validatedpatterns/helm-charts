@@ -1,0 +1,98 @@
+---
+secretStore:
+  name: vault-backend
+  kind: ClusterSecretStore
+
+aapManifest:
+  key: secret/data/hub/aap-manifest
+
+agof:
+  doAutoHubVaultConfig: true
+  # When non-empty: ExternalSecret agof-vault-file + mount for agof overlay secrets.
+  # Set to "" to skip Vault-backed agof vault file (init writes a minimal empty ~/agof_vault.yml).
+  # Set to "secret/data/hub/agof-vault-file to use one if you need it
+  vaultFileKey: ""
+  automationHubTokenKey: secret/data/hub/automation-hub-token
+  extraPlaybookOpts: ''
+
+  agof_repo: https://github.com/validatedpatterns/agof.git
+  agof_revision: v2
+  # Optional: name of an existing Secret (same namespace) whose keys are mounted for
+  # git in the agof-init container (clone agof_repo) and the agof-config container
+  # (e.g. clone/fetch iac_repo during make). Use one of:
+  # - .git-credentials: full git-credential-store line(s) for HTTPS
+  # - ssh-privatekey (+ optional known_hosts): SSH private key (e.g. kubernetes.io/ssh-auth)
+  # - HTTPS: username + (password or token), or token-only with gitAuthHttpsStyle below
+  gitAuthSecret: ''
+  # Optional Vault path: when set (with gitAuthSecret), an ExternalSecret is created that uses
+  # dataFrom.extract to copy all fields from that Vault secret into the Kubernetes Secret named
+  # gitAuthSecret (same pattern as vaultFileKey / agof-vault-file).
+  gitAuthVaultKey: ''
+  # When the Secret has only a "token" key: how to pick the HTTPS username (PAT / OAuth).
+  # auto: from each repo URL host (github.com -> git; gitlab / gitea / forgejo / codeberg -> oauth2)
+  # github|gitlab|gitea: force that platform's usual clone user (git / oauth2 / oauth2)
+  gitAuthHttpsStyle: auto
+
+  iac_repo: https://github.com/validatedpatterns-demos/ansible-edge-gitops-hmi-config-as-code.git
+  iac_revision: main
+
+configJob:
+  image: quay.io/hybridcloudpatterns/imperative-container:v1
+  schedule: "10 */2 * * *"
+  activeDeadlineSeconds: 3600
+  imagePullPolicy: Always
+  configTimeout: 1800
+
+serviceAccountName: aap-config-sa
+serviceAccountNamespace: aap-config
+
+# Validation job configuration
+validationJob:
+  disabled: false
+  activeDeadlineSeconds: 3600
+
+# RBAC configuration using vp-rbac subchart
+vp-rbac:
+  serviceAccounts:
+    aap-config-sa:
+      namespace: aap-config
+      roleBindings:
+        roles:
+          - view-all
+          - external-secrets-validator
+        clusterRoles:
+          - view-secrets-cms
+          - view-routes
+
+  clusterRoles:
+    view-secrets-cms:
+      rules:
+      - apiGroups: [""]
+        resources: ["secrets", "configmaps"]
+        verbs: ["get", "list", "watch"]
+
+    view-routes:
+      rules:
+      - apiGroups: ["route.openshift.io"]
+        resources: ["routes"]
+        verbs: ["get", "list", "watch"]
+
+  roles:
+    view-all:
+      rules:
+      - apiGroups: ["*"]
+        resources: ["*"]
+        verbs: ["get", "list", "watch"]
+
+    # RBAC for external secrets validation (namespace-scoped)
+    external-secrets-validator:
+      rules:
+      - apiGroups: ["external-secrets.io"]
+        resources: ["externalsecrets"]
+        verbs: ["get", "list", "watch"]
+      - apiGroups: [""]
+        resources: ["secrets"]
+        verbs: ["get", "list", "watch"]
+      - apiGroups: ["authorization.k8s.io"]
+        resources: ["selfsubjectrulesreviews"]
+        verbs: ["create"]

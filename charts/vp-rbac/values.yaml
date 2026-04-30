@@ -1,0 +1,26 @@
+---
+serviceAccounts: {}
+#   saname: # This is the name of the serviceAccount
+#     disabled: false
+#     namespace: my-namespace
+#     roleBindings:
+#       roles:
+#         - name
+#       clusterRoles:
+#         - name
+roles: {}
+#   rolename: # name of role
+#     disabled: false
+#     rules: # Missing or empty rules defaults to ['*'] for apiGroups and resources, and ['get', 'list', 'watch'] for verbs
+#       - apiGroups: # Missing apiGroups defaults to ['*']
+#         resources: # Missing resources defaults to ['*']
+#         resourceNames: # Optional
+#         verbs: # Missing verbs defaults to ['get','list','watch']
+clusterRoles: {}
+#   clusterrolename: # name of clusterrole
+#     disabled: false
+#     rules: # Missing or empty rules defaults to ['*'] for apiGroups and resources, and ['get', 'list', 'watch'] for verbs
+#       - apiGroups: # Missing apiGroups defaults to ['*']
+#         resources: # Missing resources defaults to ['*']
+#         resourceNames: # Optional
+#         verbs: # Missing verbs defaults to ['get','list','watch']

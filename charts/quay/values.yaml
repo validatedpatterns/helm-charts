@@ -1,0 +1,43 @@
+quay:
+  namespace: quay-enterprise
+  configBundleSecret:
+    deploy: true
+    name: quay-init-config-bundle-secret
+  setup:
+    admin:
+      name: quayadmin
+      email: quayadmin@example.com
+    user:
+      name: developer1
+      email: developer1@myorg.com
+  storage:
+    postgres:
+      size: 50Gi # Default and minimum size is 50 Gi
+    clairpostgres:
+      size: 50Gi # Default and minimum size is 50 Gi
+
+job:
+  # Uses OpenShift built-in cli ImageStream; auto-updates with the cluster
+  # Override with e.g. registry.redhat.io/openshift4/ose-cli-rhel9:v4.20
+  # if the internal image registry is not available
+  image: image-registry.openshift-image-registry.svc:5000/openshift/cli
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
+
+quay_config:
+  org:
+    name: devel
+    email: devel@myorg.com
+  repo: example
+
+# Object Storage configuration - using NooBaa MCG
+objectStorage:
+  objectBucketClaim:
+    name: quay-bucket
+    bucketName: quay-datastore
+    storageClass: openshift-storage.noobaa.io

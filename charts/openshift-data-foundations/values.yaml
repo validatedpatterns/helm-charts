@@ -1,0 +1,121 @@
+global:
+  datacenter:
+    storageClassName: gp3-csi
+
+odf:
+  namespace: openshift-storage
+  serviceUrl: "http://rook-ceph-rgw-ocs-storagecluster-cephobjectstore.openshift-storage.svc.cluster.local"
+  externalUrl: "https://s3-rgw-openshift-storage"
+  enable_mirroring: false
+  mon:
+    requests:
+       cpu: 1
+       memory: 2Gi
+  mds:
+    requests:
+      cpu: 3
+      memory: 8Gi
+  mgr:
+    requests:
+      cpu: 1
+      memory: 3Gi
+  noobaacore:
+    requests:
+      cpu: 1
+      memory: 4Gi
+  noobaadb:
+    requests:
+      cpu: 1
+      memory: 4Gi
+  osd:
+    requests:
+      cpu: 2
+      memory: 5Gi
+    pvc:
+      storage: 2Ti
+  storageClass:
+    name: ocs-storagecluster-ceph-rgw
+    # name: openshift-storage.noobaa.io
+    objectStoreName: ocs-storagecluster-cephobjectstore
+
+route:
+  name: s3-rgw
+  service:
+    name: rook-ceph-rgw-ocs-storagecluster-cephobjectstore
+    weight: 100
+  port:
+    targetPort: http
+
+#Define the CephObjectStorage parameters
+objectStorage:
+  enable: true
+  dataPool:
+    replicas: 3
+    # -- Failuredomain for the dataPool
+    failureDomain: host
+  metadataPool:
+    # -- Failuredomain for the metadataPool
+    failureDomain: host
+  gateway:
+    instances: 2
+
+  resources:
+    requests:
+      cpu: "1"
+      memory: 4Gi
+    limits:
+      cpu: "2"
+      memory: 6Gi
+
+#Define the odf storageSystem parameters
+storageSystem:
+  inventory:
+    nodeJobLabelSelector: 'node-role.kubernetes.io/worker='
+    useSpecificNodes: true # true/false to label a specific set of nodes to be part of ODF
+    nodes: # At least specify three nodes
+      - nodeA
+      - nodeB
+      - nodeC
+
+  deploy: false
+  name: ocs-storagecluster-storagesystem
+  namespace: openshift-storage
+  spec:
+    kind: storagecluster.ocs.openshift.io/v1
+    name: ocs-storagecluster
+    namespace: ""
+
+#RoleBasedAccessControl
+serviceAccountName: odf-node-label-sa
+rbac:
+  roles:
+    - name: label-storage-nodes
+      createRole: true
+      apiGroups:
+        - '""'
+      scope:
+        cluster: true
+      resources:
+        - nodes
+      verbs:
+        - "get"
+        - "list"
+        - "patch"
+        - "update"
+  roleBindings:
+    - name: label-storage-nodes
+      createBinding: true
+      scope:
+        cluster: true
+        namespace: ""
+      subjects:
+        kind: ServiceAccount
+        name: odf-node-label-sa
+        namespace: openshift-storage
+        apiGroup: ""
+      roleRef:
+        kind: ClusterRole
+        name: label-storage-nodes
+
+job:
+  image: image-registry.openshift-image-registry.svc:5000/openshift/cli:latest

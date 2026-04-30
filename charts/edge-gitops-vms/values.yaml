@@ -1,0 +1,130 @@
+---
+global:
+  pattern: ansible-edge-gitops
+  clusterDomain: example.com
+
+secretStore:
+  esoApiVersion: external-secrets.io/v1
+  name: vault-backend
+  kind: ClusterSecretStore
+
+vmNamespace: edge-gitops-vms
+
+waitForMetalNode: true
+jobTerminationGracePeriod: 3600
+
+vmDefaults:
+  role: generic
+  externalDataSourceNamespace: openshift-virtualization-os-images
+  externalDataSourceAnnotations:
+    cdi.kubevirt.io/storage.bind.immediate.requested: "true"
+  cloudInitSecret: secret/data/hub/cloud-init #checkov:skip=CKV_SECRET_6:External Secret
+  accessMode: "ReadWriteMany"
+  storageClassName: "ocs-storagecluster-ceph-rbd-virtualization"
+  volumeMode: "Block"
+  count: 1
+  # Could also be sata
+  mainDiskStorageBus: virtio
+  flavor: medium
+  workload: desktop
+  os: rhel8
+  efi: false
+  storage: 30Gi
+  memory: 4Gi
+  machineType: pc-q35-rhel8.4.0
+  cores: 1
+  sockets: 1
+  threads: 1
+  template: rhel8-desktop-medium
+  sshsecret: secret/data/hub/vm-ssh #checkov:skip=CKV_SECRET_6:External Secret
+  cloudinitsecret: secret/data/hub/cloud-init
+  sshpubkeyfield: publickey
+  serviceType: NodePort
+  routeEnableTlsBlock: false
+  publishService: false
+  #routeTlsInsecureEdgeTerminationPolicy: None
+  routeTlsTermination: passthrough
+  # extraLabels is available for default extra labels to add to the virtualmachine
+  # extraAnnotations is available for default extra labels to add to the virtualmachine
+  # The following provide defaults if they are not set in the route hash/map:
+  # routeTlsTermination
+  # routeTlsInsecureEdgeTerminationPolicy (defaults to empty/not present)
+  # routeTlsSecretKeyName - no default
+  ports:
+    - name: ssh
+      port: 22
+      protocol: TCP
+      targetPort: 22
+  routes: {}
+  # The following keys can be used/set in the route map
+  # name (defaults to vm-name)
+  # targetPort (no default)
+  # enableTlsBlock (defaults to false)
+  # tlsTermination (defaults to routeTlsTermination from above)
+  # tlsInsecureEdgeTerminationPolicy (defaults to routeTlsInsecureEdgeTerminationPolicy above)
+  # tlsSecretKeyName - no default - not needed or used if not specified
+
+# Define the VMs you want to create with any specific attributes from vmDefaults
+# in an overrides file.
+vms: {}
+
+registryCredentialExternalSecrets: {}
+# EXAMPLE
+#   quay-creds:
+#     vaultKey: 'hub/quay-creds'
+
+externalDataSources: {}
+# EXAMPLE externalDataSources:
+
+# Example pulled from quay
+#   - name: quay-windows
+#     type: registry
+#     url: "docker://quay.io/eduffy/win2k22-dv:thin"
+#     size: 50G
+#     registryCredentialsSecret: quay-creds # You will need to create either manually or using registryCredentialExternalSecrets above
+
+# Example downloaded from url
+#    - name: ubuntu-installer
+#      type: http
+#      url: https://releases.ubuntu.com/24.04.4/ubuntu-24.04.4-live-server-amd64.iso
+#      size: 10G
+
+
+# This field will disable ExternalSecrets for fetching SSH Authorized Keys and
+# CloudInit configuration. If registry credentials are specified in
+# registryCredentialExternalSecrets then they will be fetched using an
+# ExternalSecret regardless of what this field is set to
+disableExternalSecrets: false
+
+serviceAccountName: ansible-edge-gitops-sa
+rbac:
+  roles:
+    - name: view-machine-api
+      createRole: true
+      apiGroups:
+        - machine.openshift.io
+      scope:
+        cluster: true
+      resources:
+        - machinesets
+      verbs:
+        - "get"
+        - "list"
+        - "watch"
+  roleBindings:
+    - name: view-machine-api
+      createBinding: true
+      scope:
+        cluster: false
+        namespace: "openshift-machine-api"
+      subjects:
+        kind: ServiceAccount
+        name: ansible-edge-gitops-sa
+        namespace: edge-gitops-vms
+        apiGroup: ""
+      roleRef:
+        kind: ClusterRole
+        name: view-machine-api
+
+job:
+  image: image-registry.openshift-image-registry.svc:5000/openshift/cli:latest

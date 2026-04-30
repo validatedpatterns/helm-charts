@@ -1,0 +1,64 @@
+---
+# Secret store configuration
+# Default configuration is vault
+secretStore:
+  name: "vault-backend"
+  kind: "ClusterSecretStore"
+
+
+global:
+  secretStore:
+    # Secret store backend, typically overridden by values-global.yaml
+    backend: ""
+  # must be global as needs to be propagated to ansible playbooks.
+  # SHOULD be set in values-global.yaml
+  coco:
+    securityPolicy: secret/data/hub/securityPolicyConfig
+    securityPolicyFlavour: "insecure" # insecure, signed or reject is expected.
+    attestationStatus: secret/data/hub/attestationStatus
+    secured: false # true or false. If true, the cluster will be secured. If false, the cluster will be insecure.
+
+# KBS (Key Broker Service) configuration
+kbs:
+  admin:
+    # Admin config format: "v1.0" for Trustee 1.0 (auth_public_key),
+    # "v1.1" for Trustee 1.1+ (type = "Simple" with [[admin.personas]])
+    format: "v1.0"
+
+  # Security policy is an expected secret and is required to be pushed into the KBS
+  # presumes security policy flavour is signed
+  cosignKeys: secret/data/hub/coSignKeys
+
+  # Public key for authentication by a user with the KBS management API
+  publicKey: secret/data/hub/kbsPublicKey
+
+  # Dynamic secret resources list - add new secrets here
+  # Each entry generates an ESO and gets added to kbsSecretResources
+  # requires a name of the secret and a key to retrieve using ESO, typically from vault.
+  secretResources: 
+    # Example:
+    - name: "kbsres1"
+      key: "secret/data/hub/kbsres1"
+    - name: "passphrase"
+      key: "secret/data/hub/passphrase"
+  # Pre-existing secrets to add to kbsSecretResources without creating
+  # ExternalSecrets. Use this for secrets that are created outside the
+  # Vault/ESO flow (e.g. by imperative jobs, cert-manager, or other
+  # controllers). Only the secret name is needed; the secret must already
+  # exist in the trustee-operator-system namespace.
+  extraSecrets: []
+
+  # Intel TDX (Trust Domain Extensions) configuration
+  tdx:
+    # Enable TDX attestation support
+    enabled: false
+    # PCCS collateral service URL for quote verification
+    # For Azure: Use https://global.acccache.azure.net/sgx/certification/v4/
+    # For bare metal/Intel: Use https://api.trustedservices.intel.com/sgx/certification/v4/
+    collateralService: "https://api.trustedservices.intel.com/sgx/certification/v4/"
+# Attestation token certificate configuration
+# Used when secretStore.backend is "none" (cert-manager generates certs)
+attestation:
+  commonName: "kbs-trustee-operator-system"
+  organization: "Red Hat"
+

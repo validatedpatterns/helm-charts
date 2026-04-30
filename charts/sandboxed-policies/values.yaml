@@ -1,0 +1,9 @@
+---
+global:
+  clusterPlatform: ""  # Cluster platform: "Azure" or "AWS"
+  coco:
+    azure:
+      defaultVMFlavour: "Standard_DC2as_v5"
+      VMFlavours: "Standard_DC2as_v5,Standard_DC4as_v5,Standard_DC8as_v5,Standard_DC16as_v5"
+      tags: "key1=value1,key2=value2"
+      rootVolumeSize: "20"

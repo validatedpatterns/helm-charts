@@ -1,0 +1,72 @@
+# Default values for hypershift.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# Role Based Access Controls
+# Provide a list of users and/or groups to add to the clusterrolebinding
+rbac:
+  create: true
+  role:
+    name: hcp-admins-crole
+  roleBinding:
+    name: hcp-admins-crb
+  users: []
+  groups: []
+
+clusterGroup:
+  isHubCluster: true
+
+# Reference the Hashicorp Vault backend for ESO
+secretStore:
+  name: vault-backend
+  kind: ClusterSecretStore
+
+# Secret provisioned for the HyperShift installation
+awsCredentials:
+  key: secret/data/hub/awsCreds
+
+# Begin global parameters
+global:
+  hubClusterDomain: hub.example.com
+  localClusterDomain: region-one.example.com
+
+  # Provision External Secret resources: default true
+  useExternalSecrets: true
+
+  # S3 bucket information
+  hypershift:
+    oidc:
+      region: ""
+      bucketName: ""
+
+# End global parameters
+
+# MultiCluster Engine Components
+mce:
+  targetNS: multicluster-engine
+  availabilityConfig: High
+  components:
+    - name: image-based-install-operator
+      enabled: "false"
+    - name: assisted-service
+    - name: cluster-lifecycle
+    - name: cluster-manager
+    - name: discovery
+    - name: hive
+    - name: server-foundation
+    - name: cluster-proxy-addon
+    - name: local-cluster
+    - name: hypershift-local-hosting
+    - name: managedserviceaccount
+    - name: hypershift
+    - name: console-mce
+    - name: cluster-api
+      enabled: "false"
+    - name: cluster-api-provider-aws
+      enabled: "false"
+    - name: cluster-api-provider-metal3
+      enabled: "false"
+    - name: cluster-api-provider-openshift-assisted
+      enabled: "false"
+    - name: cluster-api-provider-azure-preview
+      enabled: "false"

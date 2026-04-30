@@ -1,0 +1,83 @@
+global:
+  # -- List of additional value files to be passed to the pattern
+  extraValueFiles: []
+
+# -- main is used primarily for initial bootstrap pattern configuration
+# @default -- depends on the individual settings
+main:
+  # -- Settings related to the Git repository used to deploy the pattern
+  # @default -- depends on the individual settings
+  git:
+    # -- Repository URL pointing to the pattern
+    repoURL: https://github.com/pattern-clone/mypattern
+    # -- The branch or Git reference to use to deploy the pattern
+    revision: main
+    # -- Setting this field will make it so that an in-cluster gitea instance
+    # will be spawned. `repoURL` will be ignored and the pattern will be deployed
+    # using the in-gitea URL
+    repoUpstreamURL: null
+
+  # -- Settings related to the gitops operator
+  # @default -- depends on the individual settings
+  gitops:
+    # -- Default channel to install the gitops operator from
+    channel: "gitops-1.20"
+    # -- Source to be used to install the gitops operator from
+    operatorSource: redhat-operators
+
+  # -- Settings related to the in-cluster gitea installation
+  gitea:
+    # -- Chart name for the in-cluster gitea installation
+    chartName: gitea
+    # -- Helm Repository URL for the gitea chart
+    helmRepoUrl: https://charts.validatedpatterns.io/
+    # -- Chart version to install
+    chartVersion: "0.0.*"
+
+
+  # Settings related to the multi source configuration of patterns
+  # @default -- depends on the individual settings
+  multiSourceConfig:
+    # -- Enables a multisource configuration for the clustergroup chart
+    enabled: false
+    # -- The URL of the VP helm charts repository (defaults to https://charts.validatedpatterns.io)
+    helmRepoUrl: null
+    # -- The clustergroup chart version to be used when deploying a pattern (defaults to 0.8.*)
+    clusterGroupChartVersion: null
+
+  # -- String to enable certain experimental capabilities in the operator and the
+  # framework. Not needed unless you know exactly what you're doing.
+  experimentalCapabilities: ""
+
+  # -- Settings related to the patterns operator installation
+  # @default -- depends on the individual settings
+  patternsOperator:
+    # -- Whether to create the Subscription (and Namespace/OperatorGroup) for the patterns operator.
+    # Set to false if the operator is already installed or managed externally.
+    enableSubscription: true
+    # -- channel name to install the patterns operator from
+    channel: fast
+    # -- Source to be used to install the patterns operator from
+    source: community-operators
+    # -- Installation plan approval of the patterns operator
+    installPlanApproval: Automatic
+    # -- Source namespace to install the patterns operator from
+    sourceNamespace: openshift-marketplace
+    # -- Namespace where the patterns operator subscription and related resources will be created
+    subscriptionNamespace: openshift-operators
+    # -- Starting CSV for the install of the patterns operator
+    startingCSV: null
+
+  # -- Name of the clusterGroup to be used. Drives the clusterGroup chart
+  clusterGroupName: default
+
+  # -- Name of the secret containing access credentials to clone the Git repository to deploy the pattern
+  # See https://validatedpatterns.io/blog/2023-12-20-private-repos/ for more information
+  tokenSecret: null
+  # -- Namespace where the above secret will be
+  tokenSecretNamespace: null
+
+  # -- Settings related to the segment.io analytics collection by the patterns operator
+  analytics:
+    # -- Whether analytics are enabled or not
+    enabled: true
