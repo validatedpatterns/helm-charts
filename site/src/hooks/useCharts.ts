@@ -8,7 +8,7 @@ export function useCharts() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch(`${import.meta.env.BASE_URL}index.yaml`)
+    fetch('/index.yaml')
       .then(res => {
         if (!res.ok) throw new Error(`Failed to fetch index.yaml: ${res.status}`);
         return res.text();
