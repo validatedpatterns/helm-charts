@@ -18,7 +18,7 @@ export function ChartDetail({ charts }: { charts: ChartSummary[] }) {
   useEffect(() => {
     if (!name) return;
     setReadmeLoading(true);
-    fetch(`/docs/charts/${name}/README.md`)
+    fetch(`${import.meta.env.BASE_URL}docs/charts/${name}/README.md`)
       .then(res => {
         if (!res.ok) throw new Error('not found');
         const ct = res.headers.get('content-type') || '';

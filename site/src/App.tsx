@@ -5,11 +5,16 @@ import { Catalog } from './components/Catalog';
 import { ChartDetail } from './components/ChartDetail';
 import { useCharts } from './hooks/useCharts';
 
+function routerBasename(): string | undefined {
+  const b = import.meta.env.BASE_URL.replace(/\/$/, '');
+  return b === '' ? undefined : b;
+}
+
 export default function App() {
   const { charts, loading, error } = useCharts();
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={routerBasename()}>
       <Header />
       <main style={{ flex: 1 }}>
         {loading ? (
