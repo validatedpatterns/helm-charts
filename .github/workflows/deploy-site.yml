@@ -1,0 +1,98 @@
+name: Deploy site to gh-pages
+on:
+  workflow_dispatch:
+
+env:
+  UMBRELLA_REPO: "validatedpatterns/helm-charts"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      - name: Build site
+        run: |-
+          set -e
+          cd site
+          npm ci
+          npm run build
+          cp -rv dist /tmp/site-dist
+
+      - name: Backfill chart docs from releases
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |-
+          set -e
+          mkdir -p /tmp/extracted-docs
+          ASSETS=$(gh api "repos/${UMBRELLA_REPO}/releases/latest" --jq '.assets[].browser_download_url' 2>/dev/null || true)
+          if [ -z "$ASSETS" ]; then
+            echo "No release assets found."
+            exit 1
+          fi
+
+          declare -A LATEST_URL
+          for url in $ASSETS; do
+            filename=$(basename "$url")
+            [[ "$filename" == *.tgz ]] || continue
+            name=$(echo "$filename" | sed -E 's/-[0-9]+\.[0-9]+\.[0-9]+(-.*)?\.tgz$//')
+            version=$(echo "$filename" | sed -E 's/.*-([0-9]+\.[0-9]+\.[0-9]+(-.*)?)\.tgz$/\1/')
+            if [ -z "${LATEST_URL[$name]+x}" ]; then
+              LATEST_URL[$name]="$url"
+            else
+              current_file=$(basename "${LATEST_URL[$name]}")
+              current_ver=$(echo "$current_file" | sed -E 's/.*-([0-9]+\.[0-9]+\.[0-9]+(-.*)?)\.tgz$/\1/')
+              higher=$(printf '%s\n%s' "$current_ver" "$version" | sort -V | tail -1)
+              if [ "$higher" = "$version" ]; then
+                LATEST_URL[$name]="$url"
+              fi
+            fi
+          done
+
+          echo "Extracting docs for ${#LATEST_URL[@]} charts..."
+          for name in $(echo "${!LATEST_URL[@]}" | tr ' ' '\n' | sort); do
+            url="${LATEST_URL[$name]}"
+            filename=$(basename "$url")
+            echo -n "  $name... "
+            curl -sLo "/tmp/$filename" "$url"
+            mkdir -p "/tmp/extracted-docs/charts/$name"
+            tar xzf "/tmp/$filename" -C "/tmp/extracted-docs/charts/$name/" \
+              --strip-components=1 "$name/README.md" 2>/dev/null || true
+            tar xzf "/tmp/$filename" -C "/tmp/extracted-docs/charts/$name/" \
+              --strip-components=1 "$name/values.yaml" 2>/dev/null || true
+            if [ -f "/tmp/extracted-docs/charts/$name/README.md" ] || [ -f "/tmp/extracted-docs/charts/$name/values.yaml" ]; then
+              echo "OK"
+            else
+              echo "SKIP"
+              rmdir "/tmp/extracted-docs/charts/$name" 2>/dev/null || true
+            fi
+            rm -f "/tmp/$filename"
+          done
+
+      - name: Deploy to gh-pages
+        run: |-
+          set -e
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+          git checkout gh-pages
+          # Deploy built site
+          cp -rv /tmp/site-dist/* .
+          # SPA fallback for GitHub Pages
+          cp -v index.html 404.html
+          # Copy all extracted chart docs
+          cp -rv /tmp/extracted-docs/* .
+          # Clean up old files
+          rm -f index.tpl
+          git add assets/ charts/ favicon.svg icons.svg index.html
+          git commit -m "Rebuild github pages site"
+          git push origin gh-pages
