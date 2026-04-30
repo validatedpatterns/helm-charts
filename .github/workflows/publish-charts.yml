@@ -127,11 +127,9 @@ jobs:
         with:
           node-version: 24
 
-      # Umbrella Pages URL is always …/helm-charts/ (UMBRELLA_REPO). This workflow is often
-      # workflow_dispatch'd from other repos; do not derive base from github.event.repository.
       - name: Build site
         env:
-          VITE_BASE_PATH: /helm-charts/
+          VITE_BASE_PATH: /${{ github.event.repository.name }}/
         run: |-
           set -e
           cd git-repo/site

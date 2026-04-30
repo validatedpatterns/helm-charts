@@ -22,6 +22,8 @@ jobs:
           node-version: 24
 
       - name: Build site
+        env:
+          VITE_BASE_PATH: /${{ github.event.repository.name }}/
         run: |-
           set -e
           cd site
