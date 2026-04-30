@@ -305,13 +305,7 @@ jobs:
           git checkout gh-pages
           # This copies the newly generated index.yaml to the git repo
           cp -fv ../index.yaml .
-          # Copy index.tpl from the main branch which is where it lives
-          git checkout origin/main index.tpl
-          # Install index.html generator
-          helm plugin install https://github.com/halkeye/helm-repo-html
-          helm repo-html
-          ls -l index.html
-          git add index.yaml index.html
+          git add index.yaml
           git commit -m "Updated ${{ env.CHART_NAME }}-${{ env.CHART_VERSION }}"
           git push origin gh-pages
 
@@ -322,3 +316,6 @@ jobs:
           helm push "${{ env.CHART_TGZ }}" "${LEGACY_QUAY_BASE_URL}"
           helm registry login -u="${{ secrets.QUAY_USERNAME }}" -p="${{ secrets.QUAY_PASSWORD }}" quay.io
           helm push "${{ env.CHART_TGZ }}" "${QUAY_BASE_URL}"
+
+      - name: Update github pages site
+        run: gh workflow run deploy-site.yml
