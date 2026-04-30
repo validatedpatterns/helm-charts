@@ -316,3 +316,11 @@ jobs:
           helm push "${{ env.CHART_TGZ }}" "${LEGACY_QUAY_BASE_URL}"
           helm registry login -u="${{ secrets.QUAY_USERNAME }}" -p="${{ secrets.QUAY_PASSWORD }}" quay.io
           helm push "${{ env.CHART_TGZ }}" "${QUAY_BASE_URL}"
+
+      - name: Update charts site
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |-
+          gh workflow run deploy-site.yml \
+            --repo validatedpatterns/helm-charts \
+            --ref main \

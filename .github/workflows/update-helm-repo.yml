@@ -46,8 +46,3 @@ jobs:
             --ref main \
             -f SOURCE_TAG="${{ github.ref_name }}" \
             -f SOURCE_REPO="${{ github.repository }}"
-
-      - name: Update github pages site
-        env:
-          GH_TOKEN: ${{ secrets.CHARTS_REPOS_TOKEN }}
-        run: gh workflow run deploy-site.yml
