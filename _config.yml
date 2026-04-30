@@ -1,9 +1,9 @@
 # GitHub's Pages builder always runs Jekyll (see actions/jekyll-build-pages); `.nojekyll`
-# does not skip that step. Helm/Ansible `{{ }}` in charts and npm READMEs under `site/`
-# are parsed as Liquid and break the build — keep them out of Jekyll entirely.
+# at the repo root does not skip that step. Prefer publishing from the `/docs` folder only
+# (Settings → Pages → Build and deployment → Branch: main, Folder: /docs) so Jekyll never
+# sees `charts/` or `site/`. This file still lists excludes if the publishing source is `/`.
 #
-# Jekyll 3 merges this file over defaults; a custom `exclude` replaces the default array,
-# so reproduce Jekyll 3.10 defaults and add repo-specific paths.
+# Jekyll 3: a custom `exclude` replaces the default array, so keep Jekyll 3.10 defaults here.
 exclude:
   - Gemfile
   - Gemfile.lock
