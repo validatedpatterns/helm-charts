@@ -10,8 +10,8 @@ export function ChartCard({ chart }: { chart: ChartSummary }) {
       className="chart-card"
       role="link"
       tabIndex={0}
-      onClick={() => navigate(`/charts/${chart.name}`)}
-      onKeyDown={e => { if (e.key === 'Enter') navigate(`/charts/${chart.name}`); }}
+      onClick={() => navigate(`charts/${chart.name}`)}
+      onKeyDown={e => { if (e.key === 'Enter') navigate(`charts/${chart.name}`); }}
     >
       <div className="card-header">
         <h3 className="card-name">{chart.name}</h3>
