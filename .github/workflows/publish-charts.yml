@@ -318,4 +318,6 @@ jobs:
           helm push "${{ env.CHART_TGZ }}" "${QUAY_BASE_URL}"
 
       - name: Update github pages site
+        env:
+          GH_TOKEN: ${{ secrets.CHARTS_REPOS_TOKEN }}
         run: gh workflow run deploy-site.yml
