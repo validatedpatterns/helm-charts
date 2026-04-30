@@ -1,6 +1,6 @@
 # boutique
 
-![Version: 0.0.4](https://img.shields.io/badge/Version-0.0.4-informational?style=flat-square)
+![Version: 0.0.6](https://img.shields.io/badge/Version-0.0.4-informational?style=flat-square)
 
 Helm Chart to deploy Google's Boutique App
 
