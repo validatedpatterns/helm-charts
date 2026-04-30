@@ -316,8 +316,3 @@ jobs:
           helm push "${{ env.CHART_TGZ }}" "${LEGACY_QUAY_BASE_URL}"
           helm registry login -u="${{ secrets.QUAY_USERNAME }}" -p="${{ secrets.QUAY_PASSWORD }}" quay.io
           helm push "${{ env.CHART_TGZ }}" "${QUAY_BASE_URL}"
-
-      - name: Update github pages site
-        env:
-          GH_TOKEN: ${{ secrets.CHARTS_REPOS_TOKEN }}
-        run: gh workflow run deploy-site.yml
