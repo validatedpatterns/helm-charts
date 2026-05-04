@@ -296,7 +296,7 @@ jobs:
           fetch-depth: 0
           path: git-repo
 
-      - name: Commit to repo
+      - name: Commit to gh-pages
         run: |-
           set -e
           cd git-repo
@@ -308,11 +308,6 @@ jobs:
           git add index.yaml
           git commit -m "Updated ${{ env.CHART_NAME }}-${{ env.CHART_VERSION }}"
           git push origin gh-pages
-          git checkout main
-          cp -fv ../index.yaml .
-          git add index.yaml
-          git commit -m "Updated ${{ env.CHART_NAME }}-${{ env.CHART_VERSION }}"
-          git push origin main
 
       - name: Push the chart to legacy and new quay repos
         run: |-
