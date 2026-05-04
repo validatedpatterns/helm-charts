@@ -14,7 +14,7 @@ const SORT_FNS: Record<SortKey, (a: ChartSummary, b: ChartSummary) => number> = 
 
 export function Catalog({ charts }: { charts: ChartSummary[] }) {
   const [query, setQuery] = useState('');
-  const [sort, setSort] = useState<SortKey>('latest');
+  const [sort, setSort] = useState<SortKey>('az');
 
   const filtered = useMemo(() => {
     const q = query.toLowerCase().trim();

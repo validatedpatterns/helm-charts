@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import yaml from 'js-yaml';
 import type { HelmIndex, ChartSummary } from '../types';
+import { compareSemver } from '../semver';
 
 export function useCharts() {
   const [charts, setCharts] = useState<ChartSummary[]>([]);
@@ -19,7 +20,7 @@ export function useCharts() {
 
         for (const [name, versions] of Object.entries(data.entries)) {
           const sorted = [...versions].sort(
-            (a, b) => new Date(b.created).getTime() - new Date(a.created).getTime()
+            (a, b) => compareSemver(b.version, a.version)
           );
           const latest = sorted[0];
 
