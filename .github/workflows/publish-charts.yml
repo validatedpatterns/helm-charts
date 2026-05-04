@@ -296,7 +296,7 @@ jobs:
           fetch-depth: 0
           path: git-repo
 
-      - name: Commit to gh-pages
+      - name: Commit to repo
         run: |-
           set -e
           cd git-repo
@@ -308,11 +308,6 @@ jobs:
           git add index.yaml
           git commit -m "Updated ${{ env.CHART_NAME }}-${{ env.CHART_VERSION }}"
           git push origin gh-pages
-
-      - name: Commit index.yaml back to main branch as well
-        run: |-
-          set -e
-          cd git-repo
           git checkout main
           git add index.yaml
           git commit -m "Updated ${{ env.CHART_NAME }}-${{ env.CHART_VERSION }}"
