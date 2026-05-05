@@ -93,6 +93,6 @@ jobs:
           cp -rv /tmp/extracted-docs/* .
           # Clean up old files
           rm -f index.tpl
-          git add assets/ charts/ favicon.svg icons.svg index.html
+          git add assets/ charts/ favicon.svg icons.svg index.html 404.html
           git commit -m "Rebuild github pages site"
           git push origin gh-pages
