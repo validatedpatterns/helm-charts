@@ -48,6 +48,10 @@ kbs:
   # exist in the trustee-operator-system namespace.
   extraSecrets: []
 
+  # NVIDIA GPU confidential computing configuration
+  gpu:
+    enabled: false
+
   # Intel TDX (Trust Domain Extensions) configuration
   tdx:
     # Enable TDX attestation support
