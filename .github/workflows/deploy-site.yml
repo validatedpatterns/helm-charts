@@ -4,6 +4,7 @@ on:
 
 env:
   UMBRELLA_REPO: "validatedpatterns/helm-charts"
+  ASSETS_BASE_URL: "https://github.com/validatedpatterns/helm-charts/releases/download/main/"
 
 jobs:
   deploy:
@@ -15,6 +16,11 @@ jobs:
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
+
+      - name: Install Helm
+        uses: azure/setup-helm@v5.0.0
+        with:
+          version: v3.19.5
 
       - name: Setup Node.js
         uses: actions/setup-node@v6
@@ -29,55 +35,92 @@ jobs:
           npm run build
           cp -rv dist /tmp/site-dist
 
-      - name: Backfill chart docs from releases
+      - name: Download release assets and generate helm index
         env:
           GH_TOKEN: ${{ github.token }}
         run: |-
           set -e
-          mkdir -p /tmp/extracted-docs
-          ASSETS=$(gh api "repos/${UMBRELLA_REPO}/releases/latest" --jq '.assets[].browser_download_url' 2>/dev/null || true)
+          mkdir -p /tmp/all-charts
+          ASSETS=$(gh api "repos/${UMBRELLA_REPO}/releases/latest" \
+            --jq '.assets[].browser_download_url' 2>/dev/null || true)
           if [ -z "$ASSETS" ]; then
             echo "No release assets found."
             exit 1
           fi
 
-          declare -A LATEST_URL
           for url in $ASSETS; do
             filename=$(basename "$url")
             [[ "$filename" == *.tgz ]] || continue
+            echo "Downloading $filename..."
+            curl -sLo "/tmp/all-charts/$filename" "$url"
+          done
+
+          echo "Generating index.yaml..."
+          helm repo index --url "${ASSETS_BASE_URL}" /tmp/all-charts
+          cp /tmp/all-charts/index.yaml /tmp/index.yaml
+
+      - name: Fix index.yaml timestamps
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |-
+          set -e
+          TIMESTAMPS=$(gh api "repos/${UMBRELLA_REPO}/releases/latest" \
+            --jq '[.assets[] | select(.name | endswith(".tgz")) | {(.name): .created_at}] | add')
+
+          for chart in $(yq -r '.entries | keys[]' /tmp/index.yaml); do
+            for idx in $(yq -r ".entries[\"${chart}\"] | keys[]" /tmp/index.yaml); do
+              version=$(yq -r ".entries[\"${chart}\"][${idx}].version" /tmp/index.yaml)
+              tgz="${chart}-${version}.tgz"
+              ts=$(echo "$TIMESTAMPS" | jq -r --arg k "$tgz" '.[$k] // empty')
+              if [ -n "$ts" ]; then
+                yq -i ".entries[\"${chart}\"][${idx}].created = \"${ts}\"" /tmp/index.yaml
+              fi
+            done
+          done
+
+          cat /tmp/index.yaml
+
+      - name: Extract chart docs from latest versions
+        run: |-
+          set -e
+          mkdir -p /tmp/extracted-docs
+
+          declare -A LATEST_FILE
+          for filepath in /tmp/all-charts/*.tgz; do
+            filename=$(basename "$filepath")
             name=$(echo "$filename" | sed -E 's/-[0-9]+\.[0-9]+\.[0-9]+(-.*)?\.tgz$//')
             version=$(echo "$filename" | sed -E 's/.*-([0-9]+\.[0-9]+\.[0-9]+(-.*)?)\.tgz$/\1/')
-            if [ -z "${LATEST_URL[$name]+x}" ]; then
-              LATEST_URL[$name]="$url"
+            if [ -z "${LATEST_FILE[$name]+x}" ]; then
+              LATEST_FILE[$name]="$filepath"
             else
-              current_file=$(basename "${LATEST_URL[$name]}")
+              current_file=$(basename "${LATEST_FILE[$name]}")
               current_ver=$(echo "$current_file" | sed -E 's/.*-([0-9]+\.[0-9]+\.[0-9]+(-.*)?)\.tgz$/\1/')
               higher=$(printf '%s\n%s' "$current_ver" "$version" | sort -V | tail -1)
               if [ "$higher" = "$version" ]; then
-                LATEST_URL[$name]="$url"
+                LATEST_FILE[$name]="$filepath"
               fi
             fi
           done
 
-          echo "Extracting docs for ${#LATEST_URL[@]} charts..."
-          for name in $(echo "${!LATEST_URL[@]}" | tr ' ' '\n' | sort); do
-            url="${LATEST_URL[$name]}"
-            filename=$(basename "$url")
+          echo "Extracting docs for ${#LATEST_FILE[@]} charts..."
+          for name in $(echo "${!LATEST_FILE[@]}" | tr ' ' '\n' | sort); do
+            filepath="${LATEST_FILE[$name]}"
             echo -n "  $name... "
-            curl -sLo "/tmp/$filename" "$url"
             mkdir -p "/tmp/extracted-docs/charts/$name"
-            tar xzf "/tmp/$filename" -C "/tmp/extracted-docs/charts/$name/" \
+            tar xzf "$filepath" -C "/tmp/extracted-docs/charts/$name/" \
               --strip-components=1 "$name/README.md" 2>/dev/null || true
-            tar xzf "/tmp/$filename" -C "/tmp/extracted-docs/charts/$name/" \
+            tar xzf "$filepath" -C "/tmp/extracted-docs/charts/$name/" \
               --strip-components=1 "$name/values.yaml" 2>/dev/null || true
-            if [ -f "/tmp/extracted-docs/charts/$name/README.md" ] || [ -f "/tmp/extracted-docs/charts/$name/values.yaml" ]; then
+            if [ -f "/tmp/extracted-docs/charts/$name/README.md" ] || \
+               [ -f "/tmp/extracted-docs/charts/$name/values.yaml" ]; then
               echo "OK"
             else
               echo "SKIP"
               rmdir "/tmp/extracted-docs/charts/$name" 2>/dev/null || true
             fi
-            rm -f "/tmp/$filename"
           done
+
+          rm -rf /tmp/all-charts
 
       - name: Deploy to gh-pages
         run: |-
@@ -91,8 +134,8 @@ jobs:
           cp -v index.html 404.html
           # Copy all extracted chart docs
           cp -rv /tmp/extracted-docs/* .
-          # Clean up old files
-          rm -f index.tpl
-          git add assets/ charts/ favicon.svg icons.svg index.html 404.html
+          # Copy helm repo index
+          cp -v /tmp/index.yaml .
+          git add assets/ charts/ favicon.svg icons.svg index.html 404.html index.yaml
           git commit -m "Rebuild github pages site"
           git push origin gh-pages
