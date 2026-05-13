@@ -27,27 +27,19 @@ The `publish-charts.yml` workflow supports the following inputs:
 - **SOURCE_REPO** (required): The helm chart repo in `owner/repo` format
 - **SOURCE_BRANCH_OVERRIDE** (optional): If specified, checks out the head of this branch rather than the commit tagged by SOURCE_TAG
 - **TEMPLATE_DIR** (optional): Directory containing the helm chart (relative to repo root). If not specified, will auto-detect Chart.yaml location by looking in common locations (., chart/, helm/)
-- **ADDITIONAL_HELM_REPOS** (optional): Additional helm repositories to add in JSON format, e.g.:
-
-  ```json
-  [{"name":"myrepo","url":"https://example.com/charts"}]
-  ```
 
 ## Dependency Handling
 
-The workflow automatically handles helm chart dependencies by:
+The workflow automatically handles helm chart dependencies declared in `Chart.yaml`:
 
-1. **Auto-detecting chart location**: Looks for Chart.yaml in common locations if TEMPLATE_DIR is not specified
-2. **Discovering required repositories**: Automatically extracts repository URLs from Chart.yaml dependencies and adds them as helm repositories
-3. **Smart repository naming**: Converts repository URLs to names by removing the protocol (https://) and common prefixes
-4. **Adding custom repositories**: Processes any additional repositories specified in ADDITIONAL_HELM_REPOS
-5. **Intelligent dependency checking**: Checks if chart dependencies already exist in the charts/ directory and skips downloading if all dependencies are present
-6. **Selective dependency updates**: Only runs `helm dependency update` when missing dependencies are detected
-7. **Verification**: Confirms dependencies were successfully downloaded or reports existing charts
+1. **Auto-detecting chart location**: Looks for `Chart.yaml` in common locations (`.`, `chart/`, `helm/`) if `TEMPLATE_DIR` is not specified
+2. **Registering repositories**: Extracts repository URLs from `Chart.yaml` dependencies and registers them with `helm repo add`
+3. **Building dependencies**: Runs `helm dependency build` to download all declared dependencies into the `charts/` directory
+4. **Bundling**: `helm package` produces a `.tgz` that includes the chart and all its dependencies
 
-This intelligent approach improves build performance by avoiding unnecessary dependency downloads when charts are already cached in the repository.
+All chart dependencies must be declared in `Chart.yaml` with valid repository URLs.
 
-### Example with dependencies
+### Example with a custom chart directory
 
 ```bash
 gh workflow run publish-charts.yml \
@@ -55,12 +47,10 @@ gh workflow run publish-charts.yml \
   --ref main \
   -f SOURCE_TAG="${{ github.ref_name }}" \
   -f SOURCE_REPO="${{ github.repository }}" \
-  -f TEMPLATE_DIR="helm-chart" \
-  -f ADDITIONAL_HELM_REPOS='[{"name":"mycompany","url":"https://charts.mycompany.com"}]'
+  -f TEMPLATE_DIR="helm-chart"
 ```
 
 ## Requirements
 
 - The remote repo must have a correct token set in the CHARTS_REPOS_TOKEN secret for the repository
-- If using dependencies, ensure all required helm repositories are properly specified in the Chart.yaml dependencies with valid repository URLs, or included in ADDITIONAL_HELM_REPOS
-- Repository URLs in dependencies should be complete URLs (e.g., `https://charts.bitnami.com/bitnami`)
+- All required helm repositories must be specified in the `Chart.yaml` dependencies with complete URLs (e.g., `https://charts.bitnami.com/bitnami`)
