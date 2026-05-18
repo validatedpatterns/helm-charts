@@ -35,6 +35,13 @@ jobs:
     runs-on: ubuntu-latest
     permissions: write-all
     steps:
+      - name: Checkout umbrella repo
+        uses: actions/checkout@v6
+        with:
+          sparse-checkout: |
+            scripts
+          sparse-checkout-cone-mode: false
+
       - name: Install Helm
         uses: azure/setup-helm@v5.0.0
         with:
@@ -74,9 +81,7 @@ jobs:
       - name: Build chart dependencies
         run: |-
           set -euo pipefail
-          bash scripts/register-chart-repos.sh "helm-repo/${CHART_DIR}"
-          cd "helm-repo/${CHART_DIR}"
-          helm dependency build
+          bash scripts/prepare-chart-dependencies.sh "helm-repo/${CHART_DIR}"
 
       - name: Package the helm chart
         run: |-

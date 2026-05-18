@@ -29,6 +29,25 @@ chart-repos:
 
 Direct `https://` repository URLs continue to work without `ct.yaml`. Git (`git:`), OCI (`oci://`), and `file://` dependencies are not registered via `helm repo add`; use vendored `charts/*.tgz`, HTTPS/OCI URLs, or extend CI separately for those cases.
 
+### Vendored `charts/*.tgz` (skip dependency build)
+
+When every dependency in `Chart.lock` has a matching `charts/<name>-<version>.tgz` in the tagged commit, `publish-charts` skips `helm repo add` and `helm dependency build` (no network fetch). Archives are validated with `helm show chart`.
+
+Control via `ct.yaml`:
+
+```yaml
+# Default when omitted: auto (skip build when vendored archives are complete)
+trust-vendored-charts: auto
+
+# Always require a fresh dependency build
+# trust-vendored-charts: false
+
+# Require vendored archives; fail publish if any are missing
+# trust-vendored-charts: true
+```
+
+Commit both `Chart.lock` and the vendored `.tgz` files on the release tag. `helm package` bundles whatever is in `charts/`.
+
 In order for the charts-repo github action to be able to invoke a workflow from
 the umbrella repository it needs a PAT token with the following permissions:
 - Actions: r/w
