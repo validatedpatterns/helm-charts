@@ -1,0 +1,35 @@
+# All keys under reloader are passed to the stakater reloader subchart dependency.
+reloader:
+  reloader:
+    # -- Cluster-wide watch of all namespaces
+    watchGlobally: true
+    # -- Enable OpenShift DeploymentConfig RBAC when the API exists
+    isOpenshift: true
+    # -- Watch Secrets Store CSI SecretProviderClass and SecretProviderClassPodStatus resources
+    enableCSIIntegration: true
+    # -- Ignore ConfigMaps when true (cannot be true together with ignoreSecrets)
+    ignoreConfigMaps: false
+    # -- Ignore Secrets when true (cannot be true together with ignoreConfigMaps)
+    ignoreSecrets: false
+    # -- Exclude Jobs from reload monitoring
+    ignoreJobs: false
+    # -- Exclude CronJobs from reload monitoring
+    ignoreCronJobs: false
+    # -- Reload on ConfigMap or Secret changes by default; opt out per workload with reloader.stakater.com/auto: "false"
+    autoReloadAll: true
+    # -- Enable leader election for multiple replicas
+    enableHA: true
+    # -- Trigger rollouts when new ConfigMaps or Secrets appear
+    reloadOnCreate: true
+    # -- With HA, reconcile after leader restart (pairs with reloadOnCreate)
+    syncAfterRestart: true
+    deployment:
+      # -- Number of controller replicas (requires enableHA when greater than 1)
+      replicas: 2
+      # -- Pod securityContext; on OpenShift 4.13+ also pass --set reloader.reloader.deployment.securityContext.runAsUser=null
+      securityContext:
+        # -- Run as non-root
+        runAsNonRoot: true
+        seccompProfile:
+          # -- Seccomp profile for the pod
+          type: RuntimeDefault
