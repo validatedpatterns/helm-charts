@@ -81,33 +81,7 @@ jobs:
             exit 0
           fi
 
-          tmp="$(mktemp)"
-          yq -r '.dependencies[]? | select(.repository) | .repository' Chart.yaml >>"$tmp"
-          if [[ -f Chart.lock ]]; then
-            yq -r '.dependencies[]? | select(.repository) | .repository' Chart.lock >>"$tmp"
-          fi
-
-          sort -u "$tmp" | while read -r repo_url; do
-            if [[ "$repo_url" != http://* && "$repo_url" != https://* ]]; then
-              echo "Skipping non-HTTP repository reference: ${repo_url}"
-              continue
-            fi
-            # Helm repo *names* cannot contain '/'. URL-derived names like
-            # stakater.github.io/stakater-charts always fail helm repo add.
-            repo_safe="ext-$(printf '%s' "$repo_url" | sha256sum | awk '{print $1}' | cut -c1-16)"
-            echo "Adding repo: ${repo_safe} -> ${repo_url}"
-            helm repo add "${repo_safe}" "${repo_url}" --force-update
-          done
-          rm -f "$tmp"
-
-          repo_count="$(helm repo list -o json 2>/dev/null | jq 'length' 2>/dev/null || echo 0)"
-          if [ "${repo_count}" -gt 0 ]; then
-            helm repo update
-          else
-            echo "Skipping helm repo update: no HTTP chart repositories were registered"
-          fi
-
-          helm dependency build
+          helm dependency update
 
       - name: Package the helm chart
         run: |-
