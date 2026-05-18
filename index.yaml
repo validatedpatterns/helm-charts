@@ -2846,6 +2846,16 @@ entries:
       version: 0.1.0
   openshift-external-secrets:
     - apiVersion: v2
+      created: "2026-05-18T13:26:23Z"
+      description: A Helm chart to set up the Openshift External Secrets Operator
+      digest: 329677c332d269c644565c350dfe2cd032a18e06ccc494990d26a7b0499e37e8
+      keywords:
+        - pattern
+      name: openshift-external-secrets
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/openshift-external-secrets-0.0.4.tgz
+      version: 0.0.4
+    - apiVersion: v2
       created: "2026-01-19T08:54:30Z"
       description: A Helm chart to set up the Openshift External Secrets Operator
       digest: 0064f29d17dfcb0bd00155eae4a168ea543c799ccf5c3b17a75bf4be254ae2f2
@@ -3896,4 +3906,4 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/ztwim-0.1.1.tgz
       version: 0.1.1
-generated: "2026-05-13T13:49:32.316380931Z"
+generated: "2026-05-18T13:29:17.185659261Z"
