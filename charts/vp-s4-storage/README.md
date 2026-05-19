@@ -1,29 +1,33 @@
 # vp-s4-storage
 
-![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square)
+![Version: 0.2.0](https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square)
 
-Validated Patterns chart for S4 object storage with External Secrets, bucket provisioning via a ConfigMap-mounted Ansible playbook, and the upstream s4 Helm chart.
+Validated Patterns chart for non-production S4 object storage (dev/demo) with External Secrets and bucket provisioning. For production S3 on OpenShift, use openshift-data-foundations (ODF).
 
 Wraps the [S4](https://github.com/rh-aiservices-bu/s4) Helm chart with External Secrets for deployment credentials and imperative Jobs to provision S3 buckets.
+
+> **Not for production.** This chart deploys [S4](https://github.com/rh-aiservices-bu/s4) for development, test, and demonstration. It is not intended for production S3 object storage. For production S3 workloads on OpenShift, use the Validated Patterns **[openshift-data-foundations](https://github.com/validatedpatterns/openshift-data-foundations-chart)** chart ([ODF](https://www.redhat.com/en/technologies/cloud-computing/openshift-data-foundation) on the VP catalog: `chart: openshift-data-foundations` from [charts.validatedpatterns.io](https://charts.validatedpatterns.io)).
 
 Defaults assume an OpenShift cluster: OpenShift Route for the Web UI (Ingress disabled), cluster-default StorageClass for PVCs, pinned S4 image tag, and restricted pod security contexts compatible with the `restricted-v2` SCC.
 
 ## Bucket provisioning
 
-Bucket create/destroy logic is shipped as an Ansible playbook in a ConfigMap (`playbooks/s4-buckets.yml`), mounted into the [imperative-container](https://quay.io/hybridcloudpatterns/imperative-container) (ansible + `amazon.aws`). Default variables live in `vars/defaults.yml` inside the same ConfigMap; the Job and CronJob pass `s4Role.buckets`, **admin** credentials from `s4-admin-credentials`, and optional `s4Role.destroy` at runtime.
+Bucket create/destroy logic is shipped as an Ansible playbook in a ConfigMap (`playbooks/s4-buckets.yml`), mounted into the [utility-container](https://quay.io/validatedpatterns/utility-container) (ansible + `amazon.aws`). Default variables live in `vars/defaults.yml` on the mount (ConfigMap key `vars.defaults.yml`); the Job and CronJob pass `s4Role.buckets`, **`s4-credentials`**, and optional `s4Role.destroy` at runtime.
 
 The playbook and variable model were adapted from [eduffy-redhat/s4-role](https://github.com/eduffy-redhat/s4-role). **Credit to Evan Duffy (Red Hat)** for the original Ansible role and approach to managing buckets on an S4 endpoint.
 
 ## Secrets (Validated Patterns)
 
-Credentials are split into **admin** and **usage** Vault secrets:
+S4 has two access paths, stored in **two Vault secrets** and merged into **one Kubernetes Secret** for the upstream `s4` subchart (no subchart changes):
 
-| Vault / VP name | Kubernetes Secret | Purpose |
-|-----------------|---------------------|---------|
-| `s4-admin-credentials` | `s4-admin-credentials` | RGW admin keys and Web UI login; S4 Deployment and bucket Jobs |
-| `s4-usage-credentials` | `s4-usage-credentials` | Application/workload S3 access (not mounted into the S4 pod) |
+| Access path | Keys | Vault secret (example) |
+|-------------|------|------------------------|
+| **Web UI** | `UI_USERNAME`, `UI_PASSWORD` [, `JWT_SECRET`] | `s4-ui-credentials` |
+| **S3 API** | `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` | `s4-api-credentials` |
 
-Admin: fixed `s4admin` access key and UI user; **generated** RGW secret and UI password (`advancedPolicy`). Usage: **generated** access key id (`basicPolicy`) and secret (`advancedPolicy`).
+External Secrets Operator uses **one** `ExternalSecret` (`s4Credentials.secretName`) with two `dataFrom.extract` entries (UI and API Vault paths). That avoids `creationPolicy: Merge`, which fails if the target Secret does not exist yet when both resources reconcile in parallel. The resulting secret is passed to the unmodified `s4` subchart via `s4.s3.existingSecret` and is used by bucket Jobs. The API Vault path is the RGW identity for the endpoint, provisioning, and application consumers.
+
+Default examples use `s4admin` for the UI user and S3 access key id; the UI password and API secret key are **generated** (`advancedPolicy`).
 
 Copy `examples/secrets/values-secret.v2.yaml` into your pattern `common/examples/secrets/` and run your pattern secrets tooling (e.g. `./scripts/make-secrets.sh`). Then point the chart at the Vault paths with a values overlay like `examples/chart-secret-values.yaml`.
 
@@ -36,11 +40,8 @@ Copy `examples/secrets/values-secret.v2.yaml` into your pattern `common/examples
 # Use from your pattern repo with the secrets tooling, e.g.:
 #   ./scripts/make-secrets.sh -f common/examples/secrets/values-secret.v2.yaml
 #
-# This defines two Vault secrets:
-#   s4-admin-credentials  — RGW/S3 admin + Web UI (S4 Deployment and bucket Jobs)
-#   s4-usage-credentials  — application/workload S3 access (separate consumers)
-#
-# Wire the resulting Vault paths into the chart (see examples/chart-secret-values.yaml).
+# Two Vault secrets (Web UI vs S3 API) merge into Kubernetes Secret s4-credentials.
+# Wire Vault paths into the chart via examples/chart-secret-values.yaml.
 
 version: "2.0"
 backingStore: vault
@@ -60,51 +61,25 @@ vaultPolicies:
     rule "charset" { charset = "!@#$%^&*" min-chars = 1 }
 
 secrets:
-  # ---------------------------------------------------------------------------
-  # Admin credentials (cluster management)
-  # ---------------------------------------------------------------------------
-  # Kubernetes Secret: s4-admin-credentials (default name)
-  # Used by: S4 Helm subchart (existingSecret), bucket provisioning Job/CronJob
-  #
-  # Keys must match what the upstream s4 chart expects:
-  #   AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, UI_USERNAME, UI_PASSWORD
-  # Optional: JWT_SECRET (auto-generated by S4 if omitted)
-  - name: s4-admin-credentials
+  - name: s4-ui-credentials
     vaultPrefixes:
       - global
     fields:
-      - name: AWS_ACCESS_KEY_ID
-        # RGW admin access key id (S4 default); change if your deployment uses another id
-        value: s4admin
-        onMissingValue: error
-      - name: AWS_SECRET_ACCESS_KEY
-        # RGW admin secret — generated on first run, rotated with override: true
-        onMissingValue: generate
-        override: true
-        vaultPolicy: advancedPolicy
       - name: UI_USERNAME
         value: s4admin
         onMissingValue: error
       - name: UI_PASSWORD
-        # Web UI password — generated with the stronger policy
         onMissingValue: generate
         override: true
         vaultPolicy: advancedPolicy
 
-  # ---------------------------------------------------------------------------
-  # Usage credentials (application / workload access)
-  # ---------------------------------------------------------------------------
-  # Kubernetes Secret: s4-usage-credentials (default name)
-  # Not mounted into the S4 pod; sync for workloads that read/write buckets.
-  # Provision matching RGW users in S4 separately, or align keys with your process.
-  - name: s4-usage-credentials
+  - name: s4-api-credentials
     vaultPrefixes:
       - global
     fields:
       - name: AWS_ACCESS_KEY_ID
-        onMissingValue: generate
-        override: true
-        vaultPolicy: basicPolicy
+        value: s4admin
+        onMissingValue: error
       - name: AWS_SECRET_ACCESS_KEY
         onMissingValue: generate
         override: true
@@ -115,17 +90,17 @@ secrets:
 ### `examples/chart-secret-values.yaml`
 
 ```yaml
-# Example Helm values overlay: point vp-s4-storage ExternalSecrets at Vault paths
-# produced from examples/secrets/values-secret.v2.yaml (global prefix).
+# Overlay for vp-s4-storage after running pattern secrets tooling.
+# Adjust vaultKey paths to match your hub/site prefix (global, cluster, etc.).
 #
-# On a workload cluster, use the cluster vault prefix instead, e.g.:
-#   secret/data/cluster/<cluster-name>/s4-admin-credentials
+#   secret/data/global/s4-ui-credentials
+#   secret/data/global/s4-api-credentials
 
-s4AdminCredentials:
-  vaultKey: secret/data/global/s4-admin-credentials
+s4UICredentials:
+  vaultKey: secret/data/global/s4-ui-credentials
 
-s4UsageCredentials:
-  vaultKey: secret/data/global/s4-usage-credentials
+s4APICredentials:
+  vaultKey: secret/data/global/s4-api-credentials
 
 ```
 
@@ -154,16 +129,16 @@ clusterGroup:
   applications:
     vp-s4-storage:
       name: vp-s4-storage
-      namespace: s4-storage
+      namespace: vp-s4-storage
       argoProject: hub
       chart: vp-s4-storage
-      chartVersion: 0.1.*
+      chartVersion: 0.2.*
       overrides:
         # Vault paths from examples/secrets/values-secret.v2.yaml (adjust prefix as needed)
-        - name: s4AdminCredentials.vaultKey
-          value: secret/data/global/s4-admin-credentials
-        - name: s4UsageCredentials.vaultKey
-          value: secret/data/global/s4-usage-credentials
+        - name: s4UICredentials.vaultKey
+          value: secret/data/global/s4-ui-credentials
+        - name: s4APICredentials.vaultKey
+          value: secret/data/global/s4-api-credentials
         # Bucket names for the imperative Job/CronJob playbook
         - name: s4Role.buckets[0]
           value: my-app-data
@@ -171,9 +146,15 @@ clusterGroup:
           value: my-app-logs
         # vp-rbac Role/RoleBinding namespace must match the Argo CD app namespace
         - name: vp-rbac.serviceAccounts.vp-s4-storage-sa.namespace
-          value: s4-storage
+          value: vp-s4-storage
         - name: vp-rbac.roles.external-secrets-validator.namespace
-          value: s4-storage
+          value: vp-s4-storage
+        # ConsoleLink is enabled by default; href uses global.localClusterDomain from values-global.yaml
+        # from values-global.yaml (same as clustergroup Argo CD ConsoleLinks). Optional overrides:
+        # - name: consoleLink.href
+        #   value: https://s4.apps.mycluster.example.com
+        # - name: s4.route.host
+        #   value: s4.apps.mycluster.example.com
         # Optional Route hostnames (both Routes enabled by default; see examples/clustergroup-route-overrides.yaml)
         # - name: s4.route.host
         #   value: s4.apps.mycluster.example.com
@@ -211,6 +192,9 @@ Full examples (uncomment the scenario you need):
 #       host: ""
 #       annotations:
 #         haproxy.router.openshift.io/timeout: 600s
+#       tls:
+#         termination: edge
+#         insecureEdgeTerminationPolicy: Allow  # HTTP :80 and HTTPS :443
 
 # -----------------------------------------------------------------------------
 # 2) Web UI — custom FQDN (DNS must point at the cluster ingress/router)
@@ -237,7 +221,7 @@ Full examples (uncomment the scenario you need):
 #         haproxy.router.openshift.io/timeout: 600s
 #       tls:
 #         termination: edge
-#         insecureEdgeTerminationPolicy: Redirect
+#         insecureEdgeTerminationPolicy: Allow  # or Redirect for HTTPS-only
 
 # -----------------------------------------------------------------------------
 # 4) S3 API internal only (Web UI Route still public)
@@ -404,11 +388,11 @@ echo "S3 API:  vp-s4-storage-api-${NS}.${INGRESS_DOMAIN}"
 oc get route -n "${NS}" -l app.kubernetes.io/name=s4 -o custom-columns=NAME:.metadata.name,HOST:.spec.host
 ```
 
-Log in to the Web UI with **admin** credentials from `s4-admin-credentials` (`UI_USERNAME` / `UI_PASSWORD`). Do not use the Web UI Route URL as an S3 endpoint.
+Log in to the Web UI with **`s4-credentials`** (`UI_USERNAME` / `UI_PASSWORD`). Do not use the Web UI Route URL as an S3 endpoint.
 
 ### S3 / bucket access (applications and automation)
 
-Use credentials from **`s4-usage-credentials`** (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`), region `us-east-1`. Buckets in `s4Role.buckets` are created by the chart Job/CronJob with **admin** credentials; consumers use **usage** credentials.
+Use the S3 keys in **`s4-credentials`** (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`), region `us-east-1`. The same secret backs the RGW process, bucket Jobs (`s4Role.buckets`), and application clients.
 
 **In-cluster** (typical for pods on the same cluster):
 
@@ -417,23 +401,36 @@ http://vp-s4-storage.s4-storage.svc:7480
 ```
 
 ```bash
-export AWS_ACCESS_KEY_ID=$(oc get secret s4-usage-credentials -n s4-storage -o jsonpath='{.data.AWS_ACCESS_KEY_ID}' | base64 -d)
-export AWS_SECRET_ACCESS_KEY=$(oc get secret s4-usage-credentials -n s4-storage -o jsonpath='{.data.AWS_SECRET_ACCESS_KEY}' | base64 -d)
+export AWS_ACCESS_KEY_ID=$(oc get secret s4-credentials -n s4-storage -o jsonpath='{.data.AWS_ACCESS_KEY_ID}' | base64 -d)
+export AWS_SECRET_ACCESS_KEY=$(oc get secret s4-credentials -n s4-storage -o jsonpath='{.data.AWS_SECRET_ACCESS_KEY}' | base64 -d)
 aws --endpoint-url http://vp-s4-storage.s4-storage.svc:7480 s3 ls
 ```
 
 **Outside the cluster** (default chart also creates an S3 API Route):
 
-Use the S3 Route FQDN (`{s4.fullname}-api` Route) with HTTPS:
+The S3 API Route defaults to `s4.route.s3Api.tls.insecureEdgeTerminationPolicy: Allow`, so clients can use **HTTP on port 80** or **HTTPS on port 443** (edge termination). The Web UI Route still redirects HTTP to HTTPS (`Redirect`).
 
 ```bash
 S3_HOST=$(oc get route vp-s4-storage-api -n s4-storage -o jsonpath='{.spec.host}')
-aws --endpoint-url "https://${S3_HOST}" s3 ls
+aws --endpoint-url "http://${S3_HOST}" s3 ls
+# or: aws --endpoint-url "https://${S3_HOST}" s3 ls
 ```
 
-Or set `s4.route.s3Api.host` to a stable name (e.g. `s3-s4.apps.mycluster.example.com`) in values or clusterGroup overrides. Restrict access with network policy and **usage** credentials; the S3 Route exposes the API outside the cluster.
+Or set `s4.route.s3Api.host` to a stable name (e.g. `s3-s4.apps.mycluster.example.com`) in values or clusterGroup overrides. Set `s4.route.s3Api.tls.insecureEdgeTerminationPolicy: Redirect` to force HTTPS only. Restrict access with network policy; the S3 Route exposes the API outside the cluster.
 
 ## Notable changes
+
+### Argo CD sync wave ordering
+
+Default `s4.commonAnnotations` sets `argocd.argoproj.io/sync-wave: "2"` on S4 subchart resources (Deployment, Service, PVC, and related objects). Umbrella-chart resources keep their existing waves: ExternalSecrets and the validation Job at **1**, bucket ConfigMap at **2**, bootstrap Job at **3**, CronJob at **5**. That ensures credentials exist before the S4 Deployment starts and the bootstrap Job still runs after the workload is up.
+
+### S3 API Route HTTP (port 80)
+
+Default `s4.route.s3Api.tls.insecureEdgeTerminationPolicy` is `Allow` so the S3 API Route serves HTTP on port 80 as well as HTTPS on port 443. The Web UI Route remains `Redirect` (HTTP to HTTPS).
+
+### OpenShift ConsoleLink (Web UI)
+
+When the Web UI Route is enabled (`consoleLink.enabled` defaults to `true`), the chart creates a cluster `ConsoleLink` in the console **Application menu** (`consoleLink.section: Storage`), matching the Validated Patterns clustergroup style used for Argo CD (`common/clustergroup/templates/plumbing/argocd.yaml`) and Vault ConsoleLinks. The `spec.href` URL is `s4.route.host` when set, else `https://{route}-{namespace}.{ingress-domain}` with `ingress-domain` from `coalesce(consoleLink.ingressDomain, global.localClusterDomain)` — `global.localClusterDomain` is set by the pattern framework in `values-global.yaml`. Override with `consoleLink.href` if needed. Set `consoleLink.enabled: false` to disable. The icon is the 64×64 PNG from [rh-aiservices-bu/s4](https://github.com/rh-aiservices-bu/s4) (`assets/s4-icon-64x64.png`), bundled in the chart as a data URI unless `consoleLink.imageURL` is set.
 
 **Homepage:** <https://github.com/rh-aiservices-bu/s4>
 
@@ -456,12 +453,19 @@ Or set `s4.route.s3Api.host` to a stable name (e.g. `s3-s4.apps.mycluster.exampl
 | configJob.activeDeadlineSeconds | int | `3600` |  |
 | configJob.configTimeout | int | `1800` |  |
 | configJob.disabled | bool | `false` |  |
-| configJob.image | string | `"quay.io/hybridcloudpatterns/imperative-container:v1"` |  |
+| configJob.image | string | `"quay.io/validatedpatterns/utility-container:latest"` |  |
 | configJob.imagePullPolicy | string | `"IfNotPresent"` |  |
 | configJob.s4ReadyTimeoutSeconds | int | `600` |  |
 | configJob.schedule | string | `"10 */2 * * *"` |  |
+| consoleLink.enabled | bool | `true` |  |
+| consoleLink.href | string | `""` |  |
+| consoleLink.imageURL | string | `""` |  |
+| consoleLink.ingressDomain | string | `""` |  |
+| consoleLink.section | string | `"Storage"` |  |
+| consoleLink.text | string | `"S4 Web UI"` |  |
 | s4.auth.cookieRequireHttps | bool | `true` |  |
 | s4.auth.enabled | bool | `true` |  |
+| s4.commonAnnotations."argocd.argoproj.io/sync-wave" | string | `"2"` |  |
 | s4.image.pullPolicy | string | `"IfNotPresent"` |  |
 | s4.image.repository | string | `"quay.io/rh-aiservices-bu/s4"` |  |
 | s4.image.tag | string | `"0.3.2"` |  |
@@ -472,11 +476,11 @@ Or set `s4.route.s3Api.host` to a stable name (e.g. `s3-s4.apps.mycluster.exampl
 | s4.route.enabled | bool | `true` |  |
 | s4.route.s3Api.annotations."haproxy.router.openshift.io/timeout" | string | `"600s"` |  |
 | s4.route.s3Api.enabled | bool | `true` |  |
-| s4.route.s3Api.tls.insecureEdgeTerminationPolicy | string | `"Redirect"` |  |
+| s4.route.s3Api.tls.insecureEdgeTerminationPolicy | string | `"Allow"` |  |
 | s4.route.s3Api.tls.termination | string | `"edge"` |  |
 | s4.route.tls.insecureEdgeTerminationPolicy | string | `"Redirect"` |  |
 | s4.route.tls.termination | string | `"edge"` |  |
-| s4.s3.existingSecret | string | `"s4-admin-credentials"` |  |
+| s4.s3.existingSecret | string | `"s4-credentials"` |  |
 | s4.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | s4.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | s4.securityContext.runAsNonRoot | bool | `true` |  |
@@ -488,15 +492,14 @@ Or set `s4.route.s3Api.host` to a stable name (e.g. `s3-s4.apps.mycluster.exampl
 | s4.storage.data.size | string | `"10Gi"` |  |
 | s4.storage.data.storageClass | string | `""` |  |
 | s4.storage.localStorage.enabled | bool | `false` |  |
-| s4AdminCredentials.secretName | string | `"s4-admin-credentials"` |  |
-| s4AdminCredentials.vaultKey | string | `"secret/data/global/s4-admin-credentials"` |  |
+| s4APICredentials.vaultKey | string | `"secret/data/global/s4-api-credentials"` |  |
+| s4Credentials.secretName | string | `"s4-credentials"` |  |
 | s4Role.buckets | list | `[]` |  |
 | s4Role.destroy | bool | `false` |  |
 | s4Role.endpoint.address | string | `""` |  |
 | s4Role.endpoint.port | int | `7480` |  |
 | s4Role.endpoint.protocol | string | `"http"` |  |
-| s4UsageCredentials.secretName | string | `"s4-usage-credentials"` |  |
-| s4UsageCredentials.vaultKey | string | `"secret/data/global/s4-usage-credentials"` |  |
+| s4UICredentials.vaultKey | string | `"secret/data/global/s4-ui-credentials"` |  |
 | secretStore.kind | string | `"ClusterSecretStore"` |  |
 | secretStore.name | string | `"vault-backend"` |  |
 | serviceAccountName | string | `"vp-s4-storage-sa"` |  |

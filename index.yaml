@@ -3759,6 +3759,30 @@ entries:
       version: 0.1.0
   vp-s4-storage:
     - apiVersion: v2
+      created: "2026-05-19T17:58:23Z"
+      dependencies:
+        - name: s4
+          repository: file://charts/s4
+          version: 0.1.0
+        - name: vp-rbac
+          repository: https://charts.validatedpatterns.io
+          version: 0.1.*
+      description: Validated Patterns chart for non-production S4 object storage (dev/demo) with External Secrets and bucket provisioning. For production S3 on OpenShift, use openshift-data-foundations (ODF).
+      digest: deb00e05a080cc7a8567c482c8a5d5a25a96891cf72a4a9dd7551b9d8ae10985
+      home: https://github.com/rh-aiservices-bu/s4
+      keywords:
+        - pattern
+        - s4
+        - storage
+        - s3
+      name: vp-s4-storage
+      sources:
+        - https://github.com/rh-aiservices-bu/s4
+        - https://github.com/eduffy-redhat/s4-role
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/vp-s4-storage-0.2.0.tgz
+      version: 0.2.0
+    - apiVersion: v2
       created: "2026-05-18T18:48:20Z"
       dependencies:
         - name: s4
@@ -3956,4 +3980,4 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/ztwim-0.1.1.tgz
       version: 0.1.1
-generated: "2026-05-18T18:51:02.956710507Z"
+generated: "2026-05-19T18:00:57.713000458Z"

@@ -4,18 +4,17 @@ secretStore:
   name: vault-backend
   kind: ClusterSecretStore
 
-# Admin credentials: S4 Deployment + bucket Jobs (see examples/secrets/values-secret.v2.yaml)
-s4AdminCredentials:
-  secretName: s4-admin-credentials
-  # Vault KV v2 path, e.g. secret/data/hub/s4-admin-credentials
-  vaultKey: "secret/data/global/s4-admin-credentials"
-  # Keys: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, UI_USERNAME, UI_PASSWORD [, JWT_SECRET]
+# Kubernetes Secret for the s4 subchart (one ExternalSecret, two Vault paths via dataFrom)
+s4Credentials:
+  secretName: s4-credentials
 
-# Usage credentials: workload/application S3 consumers (separate ExternalSecret)
-s4UsageCredentials:
-  secretName: s4-usage-credentials
-  vaultKey: "secret/data/global/s4-usage-credentials"
-  # Keys: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
+# Vault: Web UI login (UI_USERNAME, UI_PASSWORD [, JWT_SECRET])
+s4UICredentials:
+  vaultKey: "secret/data/global/s4-ui-credentials"
+
+# Vault: S3 API (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY) — RGW, bucket Jobs, app consumers
+s4APICredentials:
+  vaultKey: "secret/data/global/s4-api-credentials"
 
 # Upstream s4 subchart (https://github.com/rh-aiservices-bu/s4) — defaults target OpenShift
 s4:
@@ -26,7 +25,7 @@ s4:
     pullPolicy: IfNotPresent
 
   s3:
-    existingSecret: s4-admin-credentials
+    existingSecret: s4-credentials
 
   auth:
     enabled: true
@@ -66,10 +65,15 @@ s4:
         haproxy.router.openshift.io/timeout: 600s
       tls:
         termination: edge
-        insecureEdgeTerminationPolicy: Redirect
+        # Allow HTTP on router port 80 (HTTPS on 443 still available with edge termination)
+        insecureEdgeTerminationPolicy: Allow
 
   serviceAccount:
     create: true
+
+  # Argo CD sync order: ExternalSecrets/validation (1), bucket ConfigMap (2), S4 workload (2), bootstrap (3), CronJob (5)
+  commonAnnotations:
+    argocd.argoproj.io/sync-wave: "2"
 
   podSecurityContext:
     runAsNonRoot: true
@@ -100,7 +104,7 @@ serviceAccountNamespace: ""
 
 configJob:
   disabled: false
-  image: quay.io/hybridcloudpatterns/imperative-container:v1
+  image: quay.io/validatedpatterns/utility-container:latest
   imagePullPolicy: IfNotPresent
   schedule: "10 */2 * * *"
   activeDeadlineSeconds: 3600
@@ -110,6 +114,18 @@ configJob:
 validationJob:
   disabled: false
   activeDeadlineSeconds: 3600
+
+# OpenShift console Application menu link to the S4 Web UI Route (enabled by default when the Route is enabled)
+consoleLink:
+  enabled: true
+  text: S4 Web UI
+  section: Storage
+  # Full https URL override; otherwise uses s4.route.host or {route}-{namespace}.{ingress-domain}
+  href: ""
+  # Optional override; when empty, uses global.localClusterDomain (Validated Patterns)
+  ingressDomain: ""
+  # Defaults to bundled assets/s4-icon-64x64.png from https://github.com/rh-aiservices-bu/s4
+  imageURL: ""
 
 vp-rbac:
   serviceAccounts:
