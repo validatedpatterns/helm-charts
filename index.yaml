@@ -1712,6 +1712,15 @@ entries:
       version: 0.0.1
   edge-gitops-vms:
     - apiVersion: v2
+      created: "2026-05-20T22:26:20Z"
+      description: Edge GitOps VMs
+      digest: 5f19bc5e97031d9b0e0948c63f975bd1fc7b011f51ca287cff8f3f36c86b34d9
+      name: edge-gitops-vms
+      type: application
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/edge-gitops-vms-0.5.0.tgz
+      version: 0.5.0
+    - apiVersion: v2
       created: "2026-04-22T19:25:13Z"
       description: Edge GitOps VMs
       digest: 83e9bc3bebd30bbe3bd8525e4bfd08ca5cd36fdb110d5cd13837e34affb55961
@@ -4040,4 +4049,4 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/ztwim-0.1.1.tgz
       version: 0.1.1
-generated: "2026-05-20T13:38:57.708163036Z"
+generated: "2026-05-20T22:28:47.680451369Z"

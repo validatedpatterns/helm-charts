@@ -8,9 +8,9 @@ secretStore:
   name: vault-backend
   kind: ClusterSecretStore
 
-vmNamespace: edge-gitops-vms
+vmNamespace: gitops-vms
 
-waitForMetalNode: true
+waitForMetalNode: false
 jobTerminationGracePeriod: 3600
 
 vmDefaults:
@@ -23,19 +23,24 @@ vmDefaults:
   storageClassName: "ocs-storagecluster-ceph-rbd-virtualization"
   volumeMode: "Block"
   count: 1
-  # Could also be sata
+  # Override per VM or per additionalDisks[].bus (e.g. sata for generic Windows images).
   mainDiskStorageBus: virtio
+  additionalDiskStorageBus: virtio
+  # Always | RerunOnFailure | Manual | Halted | Once (mutually exclusive with spec.running)
+  runStrategy: Always
   flavor: medium
-  workload: desktop
-  os: rhel8
+  workload: server
+  os: rhel9
   efi: false
   storage: 30Gi
   memory: 4Gi
-  machineType: pc-q35-rhel8.4.0
+  # Generic q35 alias (KubeVirt AMD64 default); libvirt resolves per node. Prefer this over
+  # pc-q35-rhel9.x.0 unless you must pin a version for live-migration homogeneity.
+  machineType: q35
   cores: 1
   sockets: 1
   threads: 1
-  template: rhel8-desktop-medium
+  template: rhel9-server-medium
   sshsecret: secret/data/hub/vm-ssh #checkov:skip=CKV_SECRET_6:External Secret
   cloudinitsecret: secret/data/hub/cloud-init
   sshpubkeyfield: publickey
@@ -66,6 +71,12 @@ vmDefaults:
 
 # Define the VMs you want to create with any specific attributes from vmDefaults
 # in an overrides file.
+# Per-VM additionalDisks (optional; can also be set under vmDefaults):
+#   additionalDisks:
+#     - name: data
+#       storage: 100Gi
+#       # bus, accessMode, storageClassName, volumeMode optional (inherit vmDefaults)
+#       # dataVolume: clone from a DataSource name; omit for a blank disk
 vms: {}
 
 registryCredentialExternalSecrets: {}
@@ -120,7 +131,7 @@ rbac:
       subjects:
         kind: ServiceAccount
         name: ansible-edge-gitops-sa
-        namespace: edge-gitops-vms
+        namespace: gitops-vms
         apiGroup: ""
       roleRef:
         kind: ClusterRole
