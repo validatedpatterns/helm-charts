@@ -4,6 +4,20 @@ global:
     kind: ClusterSecretStore
     name: vault-backend
 
+# -- One-shot ExternalSecret provisioning for keycloak-users.
+# When oneShot is true, the keycloak-users ExternalSecret becomes an
+# ArgoCD Sync hook with BeforeHookCreation and deletionPolicy: Retain.
+# A PostSync job in the wrapper chart (e.g. rh-keycloak in
+# layered-zero-trust) deletes the ExternalSecret with --cascade=orphan
+# (so the Secret survives), then cleans up Secrets labeled
+# secretCleanupLabel=delete.
+# When false (default), keycloak-users is a regular ExternalSecret with
+# no hook annotations — the Secret and ExternalSecret persist.
+# @default -- disabled (regular ExternalSecret, no hooks)
+externalSecrets:
+  oneShot: false
+  secretCleanupLabel: "ztvp.io/cleanup"
+
 # -- Default-deny NetworkPolicy for the keycloak namespace.
 # When enabled, deploys a namespace-wide NetworkPolicy that blocks all ingress and egress
 # for pods without an explicit allow policy. Patterns that need zero-trust network isolation
@@ -12,10 +26,10 @@ global:
 defaultDenyNetworkPolicy:
   enabled: false
 
-# -- Per-pod NetworkPolicy rules for keycloak, postgresql-db, and operator pods.
+# -- Per-pod NetworkPolicy rules for keycloak, PostgreSQL, and operator pods.
 # Only effective when defaultDenyNetworkPolicy is enabled. The RHBK operator manages its own
 # ingress policy for keycloak pods (keycloak-network-policy) — these templates add egress
-# rules for keycloak and full ingress/egress rules for postgresql and operator pods.
+# rules for keycloak and full ingress/egress rules for PostgreSQL and operator pods.
 networkPolicy:
   keycloak:
     enabled: false
