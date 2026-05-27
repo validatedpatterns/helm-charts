@@ -3574,6 +3574,19 @@ entries:
       version: 0.0.1
   sandboxed-policies:
     - apiVersion: v2
+      created: "2026-05-27T05:33:09Z"
+      description: A Helm chart to build and push polcies to support sandboxed containers into the spoke cluster of a validated pattern.
+      digest: 5c54ee37adbd7eea3ef566c1ed0c266e0a060dadebe63345fa5207b89c4140c8
+      keywords:
+        - pattern
+        - sandboxed-containers
+        - confidential-computing
+        - confidential-containers
+      name: sandboxed-policies
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/sandboxed-policies-0.2.0.tgz
+      version: 0.2.0
+    - apiVersion: v2
       created: "2026-03-05T05:38:34Z"
       description: A Helm chart to build and push polcies to support sandboxed containers into the spoke cluster of a validated pattern.
       digest: 99433d2a23af73e7d78c943ad33480c39fb84856398605762b33136a726f5253
@@ -4077,4 +4090,4 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/ztwim-0.1.1.tgz
       version: 0.1.1
-generated: "2026-05-27T01:33:45.606557334Z"
+generated: "2026-05-27T05:34:41.264087363Z"
