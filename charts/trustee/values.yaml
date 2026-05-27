@@ -48,6 +48,13 @@ kbs:
   # exist in the trustee-operator-system namespace.
   extraSecrets: []
 
+  # Number of HTTP worker threads for the KBS server.
+  # If unset, the KBS binary defaults to one worker per logical CPU core,
+  # which can cause "too many open files" crashes on high-core-count systems
+  # where the container's nofile ulimit is lower than the worker count.
+  # Set this to a reasonable value (e.g., 4-8) on systems with many cores.
+  # workerCount: 4
+
   # NVIDIA GPU confidential computing configuration
   gpu:
     enabled: false
