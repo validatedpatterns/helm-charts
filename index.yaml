@@ -3441,6 +3441,21 @@ entries:
       version: 0.0.2
   rhbk:
     - apiVersion: v2
+      created: "2026-05-29T03:00:47Z"
+      description: Deploys RHBK
+      digest: 650d1080eacc867e9d639602e3d19ac13823a7e7718635b705fa15d3f1613ef1
+      home: https://github.com/validatedpatterns/rhbk-chart
+      keywords:
+        - pattern
+      maintainers:
+        - email: validatedpatterns@googlegroups.com
+          name: Validated Patterns Team
+      name: rhbk
+      type: application
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/rhbk-0.0.10.tgz
+      version: 0.0.10
+    - apiVersion: v2
       created: "2026-05-22T04:03:40Z"
       description: Deploys RHBK
       digest: 64ecb7e0f07cce5b3532a5c9404922907c2d661adf9cb7456b038e5fa76abdd6
@@ -4116,4 +4131,4 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/ztwim-0.1.1.tgz
       version: 0.1.1
-generated: "2026-05-28T23:49:19.612360536Z"
+generated: "2026-05-29T03:02:09.197371796Z"
