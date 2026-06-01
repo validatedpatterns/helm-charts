@@ -2521,6 +2521,16 @@ entries:
       version: 0.0.1
   hypershift-config:
     - apiVersion: v2
+      created: "2026-06-01T13:32:45Z"
+      description: Helm Chart to configure the hypershift feature
+      digest: c8f7086ac46466b0b0869a615a5ac66bf34d391c38b579e15b2ce1c1a85cce73
+      keywords:
+        - pattern
+      name: hypershift-config
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/hypershift-config-0.0.2.tgz
+      version: 0.0.2
+    - apiVersion: v2
       created: "2026-04-17T17:09:28Z"
       description: Helm Chart to configure the hypershift feature
       digest: 556454e380fbbd401d8297a1e091db3d6a97bb104b61186c081c5aa306f1240a
@@ -3689,6 +3699,19 @@ entries:
       version: 0.1.0
   trustee:
     - apiVersion: v2
+      created: "2026-06-01T09:26:32Z"
+      description: A Helm chart to provide an opinionated deployment of Trustee in a validated pattern
+      digest: a5c77b4bd5f0eaa365419f502dd6a176ccd295f27e68e93e7c8797532e3e7da0
+      keywords:
+        - pattern
+        - trustee
+        - confidential-computing
+        - confidential-containers
+      name: trustee
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/trustee-0.7.0.tgz
+      version: 0.7.0
+    - apiVersion: v2
       created: "2026-05-28T23:47:07Z"
       description: A Helm chart to provide an opinionated deployment of Trustee in a validated pattern
       digest: 60703635578b0cb3fcb8edf91f9308ceda6bcb29f9a7dc6a0b023613a9f053b9
@@ -4131,4 +4154,4 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/ztwim-0.1.1.tgz
       version: 0.1.1
-generated: "2026-05-29T03:02:09.197371796Z"
+generated: "2026-06-01T13:35:00.384461014Z"

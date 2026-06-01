@@ -12,6 +12,7 @@ rbac:
     name: hcp-admins-crb
   users: []
   groups: []
+  sudoerGroups: []
 
 clusterGroup:
   isHubCluster: true
