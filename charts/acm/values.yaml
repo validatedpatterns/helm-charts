@@ -68,6 +68,17 @@ acm:
   # -- MultiClusterHub spec (empty by default)
   mch_spec: {}
 
+  # -- Extra resource health checks to add to the spoke ArgoCD instance.
+  # Each entry needs group, kind, and check (Lua script) fields.
+  # @default -- empty list
+  extraResourceHealthChecks: []
+  # - group: argoproj.io
+  #   kind: Application
+  #   check: |
+  #     local health_status = {}
+  #     health_status.status = "Healthy"
+  #     return health_status
+
   # -- Just used for IIB testing, drives the source and channel for the MCE subscription triggered by ACM
   # @default -- Uses the official redhat sources
   mce_operator:

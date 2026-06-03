@@ -1,6 +1,6 @@
 # acm
 
-![Version: 0.2.4](https://img.shields.io/badge/Version-0.2.4-informational?style=flat-square)
+![Version: 0.2.5](https://img.shields.io/badge/Version-0.2.5-informational?style=flat-square)
 
 A Helm chart to configure Advanced Cluster Manager for OpenShift.
 
@@ -10,6 +10,7 @@ This chart is used by the Validated Patterns to configure ACM and manage remote 
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| acm.extraResourceHealthChecks | list | empty list | Extra resource health checks to add to the spoke ArgoCD instance. Each entry needs group, kind, and check (Lua script) fields. |
 | acm.mce_operator | object | Uses the official redhat sources | Just used for IIB testing, drives the source and channel for the MCE subscription triggered by ACM |
 | acm.mch_spec | object | `{}` | MultiClusterHub spec (empty by default) |
 | acm.spokeGitops.channel | string | `"gitops-1.20"` | Default gitops channel to install on remote clusters |
