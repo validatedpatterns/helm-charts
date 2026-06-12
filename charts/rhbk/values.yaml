@@ -1,26 +1,58 @@
 global:
   localClusterDomain: apps.example.com
+  creationPolicy: Owner
+  deletionPolicy: Retain
+  refreshInterval: 1h
+  refreshPolicy: Periodic
   secretStore:
     kind: ClusterSecretStore
     name: vault-backend
 
-# -- One-shot ExternalSecret provisioning for keycloak-users.
-# When oneShot is true, the keycloak-users ExternalSecret becomes an
-# ArgoCD Sync hook with HookSucceeded and creationPolicy: Orphan.
-# Orphan prevents ESO from setting an ownerReference on the Secret,
-# so k8s GC will not cascade-delete the Secret when ArgoCD removes
-# the ExternalSecret hook after sync.
-# A PostSync Job in the wrapper chart (e.g. rh-keycloak in
-# layered-zero-trust) then cleans up Secrets labeled
-# secretCleanupLabel=delete.
-# When oneShot is false (default), keycloak-users is a regular
-# ExternalSecret with no hook annotations — the Secret and
-# ExternalSecret persist.
-# @default -- disabled (regular ExternalSecret, no hooks)
+# -- Properties associated with ExternalSecret resources.
 externalSecrets:
-  oneShot: false
-  creationPolicy: Owner
-  secretCleanupLabel: "validatedpatterns.io/cleanup"
+  acs:
+    metadata: {}
+    targetMetadata: {}
+    #creationPolicy: Owner
+    #deletionPolicy: Retain
+    #refreshPolicy: Periodic
+    #refreshInterval: 1h
+  adminUser:
+    metadata: {}
+    targetMetadata: {}
+    #creationPolicy: Owner
+    #deletionPolicy: Retain
+    #refreshPolicy: Periodic
+    #refreshInterval: 1h
+  keycloakUsers:
+    metadata: {}
+    targetMetadata: {}
+    #creationPolicy: Owner
+    #deletionPolicy: Retain
+    #refreshPolicy: Periodic
+    #refreshInterval: 1h
+    labels: {}
+  oidcClientSecret:
+    metadata: {}
+    targetMetadata: {}
+    #creationPolicy: Owner
+    #deletionPolicy: Retain
+    #refreshPolicy: Periodic
+    #refreshInterval: 1h
+  postgresqlDb:
+    metadata: {}
+    targetMetadata: {}
+    #creationPolicy: Owner
+    #deletionPolicy: Retain
+    #refreshPolicy: Periodic
+    #refreshInterval: 1h
+  rhtpa:
+    metadata: {}
+    targetMetadata: {}
+    #creationPolicy: Owner
+    #deletionPolicy: Retain
+    #refreshPolicy: Periodic
+    #refreshInterval: 1h
 
 # -- Default-deny NetworkPolicy for the keycloak namespace.
 # When enabled, deploys a namespace-wide NetworkPolicy that blocks all ingress and egress
