@@ -1,0 +1,137 @@
+# regionaldr-with-virt
+
+![Version: 0.0.1](https://img.shields.io/badge/Version-0.0.1-informational?style=flat-square)
+
+A Helm chart to deploy RegionalDR configuration including virtualization
+
+This chart provides a Regional DR configuration
+
+## VM protection prerequisites
+
+Do not protect VMs until the DRPolicy referenced by `drpc.drPolicyRef` is ready on the hub:
+
+1. The `Validated` condition is `True`:
+
+   ```bash
+   oc get drpolicy 2m-vm -o jsonpath='{.status.conditions[?(@.type=="Validated")].status}'
+   ```
+
+2. `status.async.peerClasses` includes a non-empty `replicationID` for the virtualization storage class (`drpc.vmStorageClassName`, default `ocs-storagecluster-ceph-rbd-virtualization`).
+
+The `drcluster-validation-<policy>` job (Argo CD sync-wave **8**) enforces these checks before the DRPlacementControl (sync-wave **10**) is applied. Without `replicationID` on the virtualization peer class, Ramen may route VM block PVCs to VolSync instead of async VolumeReplication.
+
+## Notable changes
+
+v0.1.0 - Initial release
+
+<!-- prettier-ignore-start -->
+## Values
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| ansible.configMapArgoSyncOptions | string | `"Prune=false,ServerSideApply=true"` |  |
+| ansible.containerImage | string | `"quay.io/validatedpatterns/utility-container:latest"` |  |
+| ansible.verbosity | int | `0` |  |
+| boutique.chartName | string | `"boutique"` |  |
+| boutique.chartVersion | string | `"0.0.9"` |  |
+| boutique.deploy | bool | `false` |  |
+| boutique.helmRepoAlias | string | `"validatedpatterns"` |  |
+| boutique.helmRepoUrl | string | `"https://charts.validatedpatterns.io"` |  |
+| boutique.namespace | string | `"boutique"` |  |
+| byoc | bool | `false` |  |
+| clusterCaMgt.createNamespace | bool | `false` | Create clusterCaMgt.namespace when installing the chart. |
+| clusterCaMgt.namespace | string | `"cluster-ca-mgt"` | Namespace for ODF CA prerequisites and Ramen trusted-CA workloads. |
+| clusterDeployments.awsSecretKey | string | `"secret/hub/aws"` |  |
+| clusterDeployments.pullSecretKey | string | `"secret/hub/openshiftPullSecret"` |  |
+| clusterDeployments.secretRefreshInterval | string | `"90s"` |  |
+| drpc.drPolicyRef.name | string | `"2m-vm"` |  |
+| drpc.healthCheck.deleteWaitDelay | int | `5` |  |
+| drpc.healthCheck.deleteWaitRetries | int | `24` |  |
+| drpc.healthCheck.maxAttempts | int | `30` |  |
+| drpc.healthCheck.retryDelaySeconds | int | `30` |  |
+| drpc.kubeObjectProtection.captureInterval | string | `"2m0s"` |  |
+| drpc.kubeObjectProtection.kubeObjectSelector | object | `{}` |  |
+| drpc.name | string | `"gitops-vm-protection"` |  |
+| drpc.namespace | string | `"openshift-dr-ops"` |  |
+| drpc.placementRef.name | string | `"gitops-vm-protection-placement-1"` |  |
+| drpc.placementRef.namespace | string | `"openshift-dr-ops"` |  |
+| drpc.preferredCluster | string | `"ocp-primary"` |  |
+| drpc.protectedNamespaces[0] | string | `"gitops-vms"` |  |
+| drpc.pvcSelector | object | `{}` |  |
+| drpc.vmStorageClassName | string | `"ocs-storagecluster-ceph-rbd-virtualization"` | Block PVC storage class for KubeVirt VMs. drcluster-validation (sync-wave 8) blocks DRPC until DRPolicy status is Validated=True and status.async.peerClasses include replicationID. |
+| edgeGitopsVms.chartVersion | string | `"0.5.0"` |  |
+| global.clusterDomain | string | `"cluster.example.com"` |  |
+| global.clusterPlatform | string | `"AWS"` |  |
+| global.pattern | string | `"ramendr-starter-kit-hub"` |  |
+| helmUnittest.rdrMerge.enabled | bool | `false` |  |
+| helmUnittest.rdrMerge.mergeInstallConfig.base | object | `{}` |  |
+| helmUnittest.rdrMerge.mergeInstallConfig.over | object | `{}` |  |
+| main.clusterGroupName | string | `"resilient"` |  |
+| odf.drCluster.primaryS3ProfileName | string | `""` |  |
+| odf.drCluster.secondaryS3ProfileName | string | `""` |  |
+| odf.postInstallFixesEnabled | bool | `true` |  |
+| odfRamenTrustedCa.pollInterval | int | `15` |  |
+| odfRamenTrustedCa.ramenS3WaitSeconds | int | `3600` |  |
+| odfRamenTrustedCa.trustedCaWaitSeconds | int | `3600` |  |
+| redis.external.address | string | `"rhel9-redis-001.gitops-vms.svc.cluster.local"` |  |
+| redis.external.enabled | bool | `false` |  |
+| regionalDR[0].clusters.primary.clusterGroup | string | `"resilient"` |  |
+| regionalDR[0].clusters.primary.install_config.apiVersion | string | `"v1"` |  |
+| regionalDR[0].clusters.primary.install_config.baseDomain | string | `"{{ join \".\" (slice (splitList \".\" $.Values.global.clusterDomain) 1) }}"` |  |
+| regionalDR[0].clusters.primary.install_config.compute[0].name | string | `"worker"` |  |
+| regionalDR[0].clusters.primary.install_config.compute[0].platform.aws.type | string | `"m5.metal"` |  |
+| regionalDR[0].clusters.primary.install_config.compute[0].replicas | int | `3` |  |
+| regionalDR[0].clusters.primary.install_config.controlPlane.name | string | `"master"` |  |
+| regionalDR[0].clusters.primary.install_config.controlPlane.platform.aws.type | string | `"m5.4xlarge"` |  |
+| regionalDR[0].clusters.primary.install_config.controlPlane.replicas | int | `3` |  |
+| regionalDR[0].clusters.primary.install_config.metadata.name | string | `"ocp-primary"` |  |
+| regionalDR[0].clusters.primary.install_config.networking.clusterNetwork[0].cidr | string | `"10.132.0.0/14"` |  |
+| regionalDR[0].clusters.primary.install_config.networking.clusterNetwork[0].hostPrefix | int | `23` |  |
+| regionalDR[0].clusters.primary.install_config.networking.machineNetwork[0].cidr | string | `"10.1.0.0/16"` |  |
+| regionalDR[0].clusters.primary.install_config.networking.networkType | string | `"OVNKubernetes"` |  |
+| regionalDR[0].clusters.primary.install_config.networking.serviceNetwork[0] | string | `"172.20.0.0/16"` |  |
+| regionalDR[0].clusters.primary.install_config.platform.aws.region | string | `"us-west-1"` |  |
+| regionalDR[0].clusters.primary.install_config.platform.aws.userTags.project | string | `"ValidatedPatterns"` |  |
+| regionalDR[0].clusters.primary.install_config.publish | string | `"External"` |  |
+| regionalDR[0].clusters.primary.install_config.pullSecret | string | `""` |  |
+| regionalDR[0].clusters.primary.install_config.sshKey | string | `""` |  |
+| regionalDR[0].clusters.primary.name | string | `"ocp-primary"` |  |
+| regionalDR[0].clusters.primary.version | string | `"4.18.7"` |  |
+| regionalDR[0].clusters.secondary.clusterGroup | string | `"resilient"` |  |
+| regionalDR[0].clusters.secondary.install_config.apiVersion | string | `"v1"` |  |
+| regionalDR[0].clusters.secondary.install_config.baseDomain | string | `"{{ join \".\" (slice (splitList \".\" $.Values.global.clusterDomain) 1) }}"` |  |
+| regionalDR[0].clusters.secondary.install_config.compute[0].name | string | `"worker"` |  |
+| regionalDR[0].clusters.secondary.install_config.compute[0].platform.aws.type | string | `"m5.metal"` |  |
+| regionalDR[0].clusters.secondary.install_config.compute[0].replicas | int | `3` |  |
+| regionalDR[0].clusters.secondary.install_config.controlPlane.name | string | `"master"` |  |
+| regionalDR[0].clusters.secondary.install_config.controlPlane.platform.aws.type | string | `"m5.4xlarge"` |  |
+| regionalDR[0].clusters.secondary.install_config.controlPlane.replicas | int | `3` |  |
+| regionalDR[0].clusters.secondary.install_config.metadata.name | string | `"ocp-secondary"` |  |
+| regionalDR[0].clusters.secondary.install_config.networking.clusterNetwork[0].cidr | string | `"10.136.0.0/14"` |  |
+| regionalDR[0].clusters.secondary.install_config.networking.clusterNetwork[0].hostPrefix | int | `23` |  |
+| regionalDR[0].clusters.secondary.install_config.networking.machineNetwork[0].cidr | string | `"10.2.0.0/16"` |  |
+| regionalDR[0].clusters.secondary.install_config.networking.networkType | string | `"OVNKubernetes"` |  |
+| regionalDR[0].clusters.secondary.install_config.networking.serviceNetwork[0] | string | `"172.21.0.0/16"` |  |
+| regionalDR[0].clusters.secondary.install_config.platform.aws.region | string | `"us-east-1"` |  |
+| regionalDR[0].clusters.secondary.install_config.platform.aws.userTags.project | string | `"ValidatedPatterns"` |  |
+| regionalDR[0].clusters.secondary.install_config.publish | string | `"External"` |  |
+| regionalDR[0].clusters.secondary.install_config.pullSecret | string | `""` |  |
+| regionalDR[0].clusters.secondary.install_config.sshKey | string | `""` |  |
+| regionalDR[0].clusters.secondary.name | string | `"ocp-secondary"` |  |
+| regionalDR[0].clusters.secondary.version | string | `"4.18.7"` |  |
+| regionalDR[0].drpolicies[0].interval | string | `"2m"` |  |
+| regionalDR[0].drpolicies[0].vmSupport | bool | `true` |  |
+| regionalDR[0].drpolicies[1].interval | string | `"2m"` |  |
+| regionalDR[0].globalnetEnabled | bool | `false` |  |
+| regionalDR[0].name | string | `"resilient"` |  |
+| secretStore.kind | string | `"ClusterSecretStore"` |  |
+| secretStore.name | string | `"vault-backend"` |  |
+| submariner.NATTEnable | bool | `true` |  |
+| submariner.cableDriver | string | `"vxlan"` |  |
+| submariner.instanceType | string | `"m5.xlarge"` |  |
+| submariner.ipsecNatPort | int | `4500` |  |
+| submariner.sgTagJobEnabled | bool | `false` |  |
+
+----------------------------------------------
+Autogenerated from chart metadata using [helm-docs v1.14.2](https://github.com/norwoodj/helm-docs/releases/v1.14.2)
+<!-- prettier-ignore-end -->

@@ -1807,6 +1807,21 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/compliance-scanning-0.0.1.tgz
       version: 0.0.1
+  data-protection-application:
+    - apiVersion: v2
+      created: "2026-06-24T17:10:36Z"
+      description: This application configures OADP/Velero for regional DR
+      digest: 5aeb71717a484b50fa1d23abea02b75217fafa18a85bc043862266f265838d12
+      keywords:
+        - acm
+        - odf
+        - openshift
+        - regional dr
+        - disaster recovery
+      name: data-protection-application
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/data-protection-application-0.0.1.tgz
+      version: 0.0.1
   edge-gitops-vms:
     - apiVersion: v2
       created: "2026-05-20T22:26:20Z"
@@ -3260,6 +3275,17 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/openshift-virtualization-instance-0.1.0.tgz
       version: 0.1.0
+  opp-policy-chart:
+    - apiVersion: v2
+      created: "2026-06-24T17:11:33Z"
+      description: A Helm chart to serve as the Validated Patterns Template
+      digest: e433da80f97538505e34eda9f25e6174ff13052684a9b98011723897f791ca01
+      keywords:
+        - pattern
+      name: opp-policy-chart
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/opp-policy-chart-0.0.1.tgz
+      version: 0.0.1
   pattern-install:
     - apiVersion: v2
       created: "2026-04-27T08:21:41Z"
@@ -3530,6 +3556,17 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/rbac-0.1.0.tgz
       version: 0.1.0
+  regionaldr-with-virt:
+    - apiVersion: v2
+      created: "2026-06-24T17:11:09Z"
+      description: A Helm chart to deploy RegionalDR configuration including virtualization
+      digest: b29397fe686b4dee5e0402f7a0d1b6693199ff584ad7f484b480c164a297d40d
+      keywords:
+        - pattern
+      name: regionaldr-with-virt
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/regionaldr-with-virt-0.0.1.tgz
+      version: 0.0.1
   rh-keycloak:
     - apiVersion: v2
       created: "2026-03-17T15:49:09Z"
@@ -4296,4 +4333,4 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/ztwim-0.1.1.tgz
       version: 0.1.1
-generated: "2026-06-24T17:08:31.56394766Z"
+generated: "2026-06-24T17:13:38.488641175Z"

@@ -1,0 +1,217 @@
+---
+# "Bring Your Own Cluster". When true, Hive ClusterDeployment may carry a stale infraID from a failed
+# provision attempt; the submariner SG tag job uses the managed cluster Infrastructure CR instead.
+byoc: false
+
+# Namespace for ODF SSL / CA post-install Jobs and RBAC (not cluster-proxy-ca-bundle).
+clusterCaMgt:
+  # -- Namespace for ODF CA prerequisites and Ramen trusted-CA workloads.
+  namespace: cluster-ca-mgt
+  # -- Create clusterCaMgt.namespace when installing the chart.
+  createNamespace: false
+
+global:
+  clusterDomain: cluster.example.com
+  # Pattern name; target application namespace = global.pattern-main.clusterGroupName
+  pattern: ramendr-starter-kit-hub
+  # AWS: Hive AWS creds ExternalSecret, ClusterDeployment platform.aws, Submariner gateway/credentials. Use non-AWS (e.g. BareMetal) to skip those.
+  clusterPlatform: AWS
+
+# ODF post-install automation: MirrorPeer, prerequisites checker + Ramen hub trusted CA jobs/RBAC.
+odf:
+  postInstallFixesEnabled: true
+  # When postInstallFixesEnabled is false: chart creates DRCluster CRs (hub) for primary/secondary; set S3 profile names that exist in hub Ramen config.
+  drCluster:
+    primaryS3ProfileName: ""
+    secondaryS3ProfileName: ""
+
+# Main cluster group (primary); target application namespace = global.pattern-main.clusterGroupName
+main:
+  clusterGroupName: resilient
+
+# Edge GitOps VMs deployment (script and helm chart)
+edgeGitopsVms:
+  chartVersion: "0.5.0"
+
+# Optional: install boutique from charts.validatedpatterns.io on the same cluster as edge-gitops-vms (PostSync job).
+boutique:
+  deploy: false
+  namespace: boutique
+  chartVersion: "0.0.9"
+  chartName: boutique
+  helmRepoUrl: https://charts.validatedpatterns.io
+  helmRepoAlias: validatedpatterns
+
+redis:
+  external:
+    enabled: false
+    address: rhel9-redis-001.gitops-vms.svc.cluster.local
+
+secretStore:
+  name: vault-backend
+  kind: ClusterSecretStore
+
+clusterDeployments:
+  awsSecretKey: secret/hub/aws
+  pullSecretKey: secret/hub/openshiftPullSecret
+  secretRefreshInterval: 90s
+
+submariner:
+  instanceType: m5.xlarge
+  ipsecNatPort: 4500
+  NATTEnable: true
+  cableDriver: vxlan
+  # EC2 security group tagging job (AWS only; requires global.clusterPlatform AWS).
+  sgTagJobEnabled: false
+
+# Minimal overrides for cluster names, versions, regions (e.g. overrides/values-cluster-names.yaml).
+# Merge override file FIRST so full regionalDR stays here and only clusterOverrides are applied.
+# clusterOverrides:
+#   primary:
+#     name: ocp-primary
+#     version: 4.18.7
+#     install_config:
+#       metadata:
+#         name: ocp-primary
+#       platform:
+#         aws:
+#           region: us-west-1
+#   secondary:
+#     name: ocp-secondary
+#     ...
+
+# DRPlacementControl (gitops-vm-protection) - override in values-cluster-names or values
+drpc:
+  name: gitops-vm-protection
+  namespace: openshift-dr-ops
+  drPolicyRef:
+    name: 2m-vm
+  kubeObjectProtection:
+    captureInterval: 2m0s
+    kubeObjectSelector: {}
+  placementRef:
+    name: gitops-vm-protection-placement-1
+    namespace: openshift-dr-ops
+  protectedNamespaces:
+    - gitops-vms
+  pvcSelector: {}
+  preferredCluster: ocp-primary # default; override in values-cluster-names or values
+  # -- Block PVC storage class for KubeVirt VMs. drcluster-validation (sync-wave 8) blocks DRPC until
+  # DRPolicy status is Validated=True and status.async.peerClasses include replicationID.
+  vmStorageClassName: ocs-storagecluster-ceph-rbd-virtualization
+  # PostSync job drpc-health-check-argocd-sync-disable (ansible drpc_health_check role).
+  healthCheck:
+    maxAttempts: 30
+    retryDelaySeconds: 30
+    deleteWaitRetries: 24
+    deleteWaitDelay: 5
+
+ansible:
+  containerImage: quay.io/validatedpatterns/utility-container:latest
+  # Ansible-playbook verbosity (0-4). Jobs using rdr.ansibleBootstrap export ANSIBLE_VERBOSITY when > 0.
+  verbosity: 0
+  # Argo CD resource sync-options for regionaldr-ansible. ServerSideApply converges large CM data;
+  # add Replace=true only if your Argo CD server allows sync replace (often disabled on Argo CD v3).
+  configMapArgoSyncOptions: Prune=false,ServerSideApply=true
+
+# When odf.postInstallFixesEnabled is true: odf-dr-prerequisites + odf-ramen-trusted-ca jobs/RBAC below.
+# Post-sync job odf-ramen-trusted-ca (wave 9): CA from hub cluster-proxy-ca-bundle; waits for Ramen s3StoreProfiles.
+odfRamenTrustedCa:
+  ramenS3WaitSeconds: 3600
+  trustedCaWaitSeconds: 3600
+  pollInterval: 15
+
+regionalDR:
+  - name: resilient # Matches with ClusterSet
+    globalnetEnabled: false # Support for overlapping CIDR
+    clusters: # Pair of clusters, make sure to create each in a different region
+      primary:
+        name: ocp-primary
+        clusterGroup: resilient
+        version: 4.18.7
+        install_config:
+          apiVersion: v1
+          baseDomain: '{{ join "." (slice (splitList "." $.Values.global.clusterDomain) 1) }}'
+          metadata:
+            name: ocp-primary
+          controlPlane:
+            name: master
+            replicas: 3
+            platform:
+              aws:
+                type: m5.4xlarge
+          compute:
+            - name: worker
+              replicas: 3
+              platform:
+                aws:
+                  type: m5.metal
+          networking:
+            clusterNetwork:
+              - cidr: 10.132.0.0/14
+                hostPrefix: 23
+            machineNetwork:
+              - cidr: 10.1.0.0/16
+            networkType: OVNKubernetes
+            serviceNetwork:
+              - 172.20.0.0/16
+          platform:
+            aws:
+              region: us-west-1
+              userTags:
+                project: ValidatedPatterns
+          publish: External
+          sshKey: ""
+          pullSecret: ""
+      secondary:
+        name: ocp-secondary
+        clusterGroup: resilient
+        version: 4.18.7
+        install_config:
+          apiVersion: v1
+          baseDomain: '{{ join "." (slice (splitList "." $.Values.global.clusterDomain) 1) }}'
+          metadata:
+            name: ocp-secondary
+          controlPlane:
+            name: master
+            replicas: 3
+            platform:
+              aws:
+                type: m5.4xlarge
+          compute:
+            - name: worker
+              replicas: 3
+              platform:
+                aws:
+                  type: m5.metal
+          networking:
+            clusterNetwork:
+              - cidr: 10.136.0.0/14
+                hostPrefix: 23
+            machineNetwork:
+              - cidr: 10.2.0.0/16
+            networkType: OVNKubernetes
+            serviceNetwork:
+              - 172.21.0.0/16
+          platform:
+            aws:
+              region: us-east-1
+              userTags:
+                project: ValidatedPatterns
+          publish: External
+          sshKey: ""
+          pullSecret: ""
+    # List of sync policy intervals: RPO should be larger than the sync time.
+    # If your sync process takes 3 mins, the interval should be at least 4-5 mins.
+    drpolicies:
+      - interval: 2m
+        vmSupport: true
+      - interval: 2m
+
+# helm-unittest only (templates/helm-unittest/rdr-merge-fixture.yaml). Stays off for normal installs.
+helmUnittest:
+  rdrMerge:
+    enabled: false
+    mergeInstallConfig:
+      base: {}
+      over: {}
