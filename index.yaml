@@ -2,6 +2,21 @@ apiVersion: v1
 entries:
   aap-config:
     - apiVersion: v2
+      created: "2026-06-26T17:50:54Z"
+      dependencies:
+        - name: vp-rbac
+          repository: https://charts.validatedpatterns.io
+          version: 0.1.*
+      description: A Helm chart to build and deploy secrets using external-secrets for ansible-edge-gitops
+      digest: 829856504f45e163a31ce3d7a177b56afbbeac3d44291ef8d906ef3da0cb7b6e
+      home: https://github.com/validatedpatterns/aap-config-chart.git
+      keywords:
+        - pattern
+      name: aap-config
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/aap-config-0.2.3.tgz
+      version: 0.2.3
+    - apiVersion: v2
       created: "2026-04-27T18:09:55Z"
       dependencies:
         - name: vp-rbac
@@ -4333,4 +4348,4 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/ztwim-0.1.1.tgz
       version: 0.1.1
-generated: "2026-06-26T17:47:54.386312766Z"
+generated: "2026-06-26T17:52:30.506365169Z"
