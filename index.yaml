@@ -3277,9 +3277,9 @@ entries:
       version: 0.1.0
   opp-policy-chart:
     - apiVersion: v2
-      created: "2026-06-24T17:11:33Z"
+      created: "2026-06-26T17:46:27Z"
       description: A Helm chart to serve as the Validated Patterns Template
-      digest: e433da80f97538505e34eda9f25e6174ff13052684a9b98011723897f791ca01
+      digest: 22242a34abce9c523645c1282ed0797136c3375855cad6e6f3bea3244267dc10
       keywords:
         - pattern
       name: opp-policy-chart
@@ -4333,4 +4333,4 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/ztwim-0.1.1.tgz
       version: 0.1.1
-generated: "2026-06-24T17:13:38.488641175Z"
+generated: "2026-06-26T17:47:54.386312766Z"
