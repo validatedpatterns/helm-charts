@@ -1,6 +1,6 @@
 # acm
 
-![Version: 0.2.7](https://img.shields.io/badge/Version-0.2.7-informational?style=flat-square)
+![Version: 0.2.8](https://img.shields.io/badge/Version-0.2.8-informational?style=flat-square)
 
 A Helm chart to configure Advanced Cluster Manager for OpenShift.
 
@@ -13,7 +13,7 @@ This chart is used by the Validated Patterns to configure ACM and manage remote 
 | acm.extraResourceHealthChecks | list | empty list | Extra resource health checks to add to the spoke ArgoCD instance. Each entry needs group, kind, and check (Lua script) fields. |
 | acm.mce_operator | object | Uses the official redhat sources | Just used for IIB testing, drives the source and channel for the MCE subscription triggered by ACM |
 | acm.mch_spec | object | `{}` | MultiClusterHub spec (empty by default) |
-| acm.spokeGitops.channel | string | `"gitops-1.20"` | Default gitops channel to install on remote clusters |
+| acm.spokeGitops.channel | string | `"gitops-1.21"` | Default gitops channel to install on remote clusters |
 | acm.spokeGitops.source | string | `"redhat-operators"` |  |
 | clusterGroup | object | depends on the individual settings | Dictionary of all the clustergroups of the pattern |
 | clusterGroup.managedClusterGroups | object | `{}` | The set of cluters managed by ACM which is running inside this clusterGroup |
@@ -27,8 +27,8 @@ This chart is used by the Validated Patterns to configure ACM and manage remote 
 | global.secretStore.backend | string | `"vault"` |  |
 | global.targetRevision | string | `"main"` | The branch or Git reference to use to deploy the pattern |
 | global.vpArgoNamespace | string | `"openshift-gitops"` | The namespace where the cluster-wide ArgoCD instance runs |
-| main | object | `{"gitops":{"channel":"gitops-1.20"}}` | Deprecated: Use acm.spokeGitops which takes precedence |
-| main.gitops.channel | string | `"gitops-1.20"` | DEPRECATED: Default gitops channel to install on remote clusters (Use acm.spokeGitops.channel) |
+| main | object | `{"gitops":{"channel":"gitops-1.21"}}` | Deprecated: Use acm.spokeGitops which takes precedence |
+| main.gitops.channel | string | `"gitops-1.21"` | DEPRECATED: Default gitops channel to install on remote clusters (Use acm.spokeGitops.channel) |
 | secretStore | object | depends on the individual settings | Default secretstore configuration variables |
 | secretStore.name | string | `"vault-backend"` | Name of the clustersecretstore to be used for secrets |
 

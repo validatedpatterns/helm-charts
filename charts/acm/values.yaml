@@ -2,7 +2,7 @@
 main:
   gitops:
     # -- DEPRECATED: Default gitops channel to install on remote clusters (Use acm.spokeGitops.channel)
-    channel: "gitops-1.20"
+    channel: "gitops-1.21"
 
 global:
   # -- List of additional value files to be passed to the pattern
@@ -16,6 +16,10 @@ global:
   targetRevision: main
   options:
     applicationRetryLimit: 20
+    # applicationRetryBackoff:
+    #   duration: 10s
+    #   factor: 2
+    #   maxDuration: 5m
   secretStore:
     backend: "vault"
 
@@ -89,7 +93,7 @@ acm:
   spokeGitops:
     source: redhat-operators
     # -- Default gitops channel to install on remote clusters
-    channel: "gitops-1.20"
+    channel: "gitops-1.21"
 
 
 # -- Default secretstore configuration variables

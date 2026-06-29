@@ -145,6 +145,16 @@ entries:
       version: 0.1.0
   acm:
     - apiVersion: v2
+      created: "2026-06-29T13:43:58Z"
+      description: A Helm chart to configure Advanced Cluster Manager for OpenShift.
+      digest: 04f931889641c2c785bea9438f7ac3bf55fb10176eabfb66754614de408268fd
+      keywords:
+        - pattern
+      name: acm
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/acm-0.2.8.tgz
+      version: 0.2.8
+    - apiVersion: v2
       created: "2026-06-24T16:40:58Z"
       description: A Helm chart to configure Advanced Cluster Manager for OpenShift.
       digest: c4d191efa0c0f82d8d8d94545920c62b13a7434d0fa961cfdc34c84712f42543
@@ -4378,4 +4388,4 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/ztwim-0.1.1.tgz
       version: 0.1.1
-generated: "2026-06-29T13:40:58.153569567Z"
+generated: "2026-06-29T13:45:21.830172556Z"
