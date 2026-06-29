@@ -3622,6 +3622,16 @@ entries:
       version: 0.1.0
   regionaldr-with-virt:
     - apiVersion: v2
+      created: "2026-06-29T20:19:36Z"
+      description: A Helm chart to deploy RegionalDR configuration including virtualization
+      digest: 444aee26a88396118684782df97c61354a6f91b8ce3b87b01f0dab53461746ca
+      keywords:
+        - pattern
+      name: regionaldr-with-virt
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/regionaldr-with-virt-0.0.2.tgz
+      version: 0.0.2
+    - apiVersion: v2
       created: "2026-06-24T17:11:09Z"
       description: A Helm chart to deploy RegionalDR configuration including virtualization
       digest: b29397fe686b4dee5e0402f7a0d1b6693199ff584ad7f484b480c164a297d40d
@@ -4397,4 +4407,4 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/ztwim-0.1.1.tgz
       version: 0.1.1
-generated: "2026-06-29T20:10:52.456272715Z"
+generated: "2026-06-29T20:20:54.471480286Z"
