@@ -11,6 +11,7 @@ secretStore:
 vmNamespace: gitops-vms
 
 waitForMetalNode: false
+setDefaultVirtStorageClass: true
 jobTerminationGracePeriod: 3600
 
 vmDefaults:
@@ -23,7 +24,7 @@ vmDefaults:
   storageClassName: "ocs-storagecluster-ceph-rbd-virtualization"
   volumeMode: "Block"
   count: 1
-  # Override per VM or per additionalDisks[].bus (e.g. sata for generic Windows images).
+  # Override per VM or per additionalDisks[].bus / additionalPvcDisks[].bus (e.g. sata for generic Windows images).
   mainDiskStorageBus: virtio
   additionalDiskStorageBus: virtio
   # Always | RerunOnFailure | Manual | Halted | Once (mutually exclusive with spec.running)
@@ -77,6 +78,13 @@ vmDefaults:
 #       storage: 100Gi
 #       # bus, accessMode, storageClassName, volumeMode optional (inherit vmDefaults)
 #       # dataVolume: clone from a DataSource name; omit for a blank disk
+# Per-VM additionalPvcDisks (optional; can also be set under vmDefaults):
+#   additionalPvcDisks:
+#     - name: data
+#       storage: 100Gi
+#       # create: false to attach an existing PVC instead of creating one
+#       # pvcName or claimName optional; defaults to {vm-name}-{name} when creating, or name when attaching
+#       # bus, accessMode, storageClassName, volumeMode optional (inherit vmDefaults)
 vms: {}
 
 registryCredentialExternalSecrets: {}

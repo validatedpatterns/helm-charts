@@ -1,6 +1,6 @@
 # edge-gitops-vms
 
-![Version: 0.5.0](https://img.shields.io/badge/Version-0.5.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 0.5.2](https://img.shields.io/badge/Version-0.5.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
 Edge GitOps VMs
 
@@ -8,6 +8,8 @@ This chart is used to set up Edge GitOps VMs in conjunction with OpenShift Virtu
 
 ### Notable changes
 
+* v0.5.2: Add optional additionalPvcDisks with default PVC creation; set create: false to attach existing PVCs
+* v0.5.1: Add optional job to set the default KubeVirt storage class from vmDefaults.storageClassName
 * v0.5.0: Change default VM type to rhel9 and workload type to server; change other defaults to "gitops-vms" from "edge-gitops-vms"
 * v0.5.0: Change default waitForMetalNode to false
 * v0.5.0: Add optional additional disks per VM; use spec.runStrategy instead of spec.running (default Always); default machineType q35 (KubeVirt generic q35 alias)
@@ -54,6 +56,7 @@ This chart is used to set up Edge GitOps VMs in conjunction with OpenShift Virtu
 | secretStore.kind | string | `"ClusterSecretStore"` |  |
 | secretStore.name | string | `"vault-backend"` |  |
 | serviceAccountName | string | `"ansible-edge-gitops-sa"` |  |
+| setDefaultVirtStorageClass | bool | `true` |  |
 | vmDefaults.accessMode | string | `"ReadWriteMany"` |  |
 | vmDefaults.additionalDiskStorageBus | string | `"virtio"` |  |
 | vmDefaults.cloudInitSecret | string | `"secret/data/hub/cloud-init"` |  |
