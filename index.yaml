@@ -2942,6 +2942,19 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/ocp-compliance-scanning-0.0.2.tgz
       version: 0.0.2
+  odf-dr-chart:
+    - apiVersion: v2
+      created: "2026-07-02T17:04:50Z"
+      description: 'Standalone Helm chart for ODF storage infrastructure supporting Regional DR. Deploys ODF SSL certificate extraction, Submariner network overlay, MirrorPeer storage mirroring, ODF DR prerequisites. '
+      digest: 4cc8d52571ba43f9a52ba6e4b14316983b8e309100faa77bb41d0f6df33bfb9e
+      keywords:
+        - odf
+        - pattern
+        - regionaldr
+      name: odf-dr-chart
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/odf-dr-chart-0.0.1.tgz
+      version: 0.0.1
   openshift-data-foundations:
     - apiVersion: v2
       appVersion: 1.16.0
@@ -4461,4 +4474,4 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/ztwim-0.1.1.tgz
       version: 0.1.1
-generated: "2026-07-02T16:24:31.96930917Z"
+generated: "2026-07-02T17:06:22.574090555Z"
