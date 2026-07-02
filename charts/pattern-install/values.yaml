@@ -68,8 +68,13 @@ main:
     # -- Starting CSV for the install of the patterns operator
     startingCSV: null
 
-  # -- Name of the clusterGroup to be used. Drives the clusterGroup chart
-  clusterGroupName: default
+  # -- (DEPRECATED) Name of the clusterGroup to be used. Drives the clusterGroup chart.
+  # Use main.variant instead. Cannot be set together with main.variant.
+  clusterGroupName: null
+
+  # -- Name of the variant to be used. Drives the clusterGroup chart.
+  # Replaces main.clusterGroupName. Cannot be set together with main.clusterGroupName.
+  variant: null
 
   # -- Name of the secret containing access credentials to clone the Git repository to deploy the pattern
   # See https://validatedpatterns.io/blog/2023-12-20-private-repos/ for more information
