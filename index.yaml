@@ -3389,6 +3389,21 @@ entries:
       version: 0.0.1
   pattern-install:
     - apiVersion: v2
+      created: "2026-07-06T17:34:27Z"
+      description: A Helm chart to build and deploy a Cloud Pattern via the patterns operator
+      digest: 0bd2b2b5f056295cae0acf40cb5302cec0d2484cbd5eb5e4968f3419014e3771
+      home: https://github.com/validatedpatterns/pattern-install-chart
+      icon: https://validatedpatterns.io/images/validated-patterns.png
+      keywords:
+        - pattern
+      maintainers:
+        - email: validatedpatterns@googlegroups.com
+          name: Validated Patterns Team
+      name: pattern-install
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/pattern-install-0.0.17.tgz
+      version: 0.0.17
+    - apiVersion: v2
       created: "2026-07-02T16:21:38Z"
       description: A Helm chart to build and deploy a Cloud Pattern via the patterns operator
       digest: 5444e79037a046cd68408c266e633b9ef7317c68c0f43f14ef731f184eda06a9
@@ -4484,4 +4499,4 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/ztwim-0.1.1.tgz
       version: 0.1.1
-generated: "2026-07-05T14:52:54.902465148Z"
+generated: "2026-07-06T17:35:51.788737042Z"

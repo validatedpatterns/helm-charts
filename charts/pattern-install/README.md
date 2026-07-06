@@ -1,6 +1,6 @@
 # pattern-install
 
-![Version: 0.0.16](https://img.shields.io/badge/Version-0.0.16-informational?style=flat-square)
+![Version: 0.0.17](https://img.shields.io/badge/Version-0.0.17-informational?style=flat-square)
 
 A Helm chart to build and deploy a Cloud Pattern via the patterns operator
 
@@ -33,6 +33,8 @@ This chart is used by the Validated Patterns installation script that can be fou
 | main.gitea.chartVersion | string | `"0.0.*"` | Chart version to install |
 | main.gitea.helmRepoUrl | string | `"https://charts.validatedpatterns.io/"` | Helm Repository URL for the gitea chart |
 | main.gitops | object | depends on the individual settings | Settings related to the gitops operator |
+| main.gitops.additionalArgoAdmins | string | `""` | Comma-separated list of additional ArgoCD admin groups. Only used when argoRBAC is not set. |
+| main.gitops.argoRBAC | string | `""` | Full ArgoCD RBAC spec as a YAML string. When set, it completely overrides the default RBAC policy and additionalArgoAdmins is ignored. |
 | main.gitops.channel | string | `"gitops-1.21"` | Default channel to install the gitops operator from |
 | main.gitops.operatorSource | string | `"redhat-operators"` | Source to be used to install the gitops operator from |
 | main.multiSourceConfig.clusterGroupChartVersion | string | `nil` | The clustergroup chart version to be used when deploying a pattern (defaults to 0.8.*) |
