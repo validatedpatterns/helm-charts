@@ -3962,6 +3962,19 @@ entries:
       version: 0.0.3
   sandboxed-containers:
     - apiVersion: v2
+      created: "2026-07-16T07:07:08Z"
+      description: A Helm chart to provide an opinionated deployment of Sandboxed Containers in a validated pattern
+      digest: 74149703ae8f4cb5adee52ebda5107df150ceb62c99e1dc8ba5375c07fb98a84
+      keywords:
+        - pattern
+        - sandboxed-containers
+        - confidential-computing
+        - confidential-containers
+      name: sandboxed-containers
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/sandboxed-containers-0.2.1.tgz
+      version: 0.2.1
+    - apiVersion: v2
       created: "2026-03-06T02:45:54Z"
       description: A Helm chart to provide an opinionated deployment of Sandboxed Containers in a validated pattern
       digest: ba544dc8bd375ada6ada6bcd0e3c4a3d39c71d4512fc3ab0a2548078b6033cbf
@@ -4557,4 +4570,4 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/ztwim-0.1.1.tgz
       version: 0.1.1
-generated: "2026-07-16T06:59:50.497845056Z"
+generated: "2026-07-16T07:09:35.656274377Z"
