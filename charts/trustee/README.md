@@ -1,6 +1,6 @@
 # trustee
 
-![Version: 0.8.0](https://img.shields.io/badge/Version-0.8.0-informational?style=flat-square)
+![Version: 0.9.0](https://img.shields.io/badge/Version-0.9.0-informational?style=flat-square)
 
 A Helm chart to provide an opinionated deployment of Trustee in a validated pattern
 
@@ -31,12 +31,17 @@ In order to use this chart, you will need to:
 | global.coco.securityPolicy | string | `"secret/data/hub/securityPolicyConfig"` |  |
 | global.coco.securityPolicyFlavour | string | `"insecure"` |  |
 | global.secretStore.backend | string | `""` |  |
-| kbs.admin.format | string | `"v1.0"` |  |
+| kbs.azure.abiMajor | string | `"0"` |  |
+| kbs.azure.abiMinor | string | `"31"` |  |
+| kbs.azure.singleSocket | string | `"false"` |  |
+| kbs.azure.smtAllowed | string | `"true"` |  |
+| kbs.azure.smtEnabled | string | `"true"` |  |
+| kbs.azure.snpLaunchMeasurement | string | `"qnydpVwThuWxZTsSWXi+2ns/laha6w+d2723g84FaijJ0CHaI5w0pYw6ZXZUJw7v"` |  |
+| kbs.azure.tsmeEnabled | string | `"true"` |  |
 | kbs.baremetal.enabled | bool | `false` |  |
 | kbs.cosignKeys | string | `"secret/data/hub/coSignKeys"` |  |
 | kbs.extraSecrets[0] | string | `"credential"` |  |
 | kbs.gpu.enabled | bool | `false` |  |
-| kbs.publicKey | string | `"secret/data/hub/kbsPublicKey"` |  |
 | kbs.resourcePolicy.enforceHardware | bool | `true` |  |
 | kbs.secretResources[0].key | string | `"secret/data/hub/kbsres1"` |  |
 | kbs.secretResources[0].name | string | `"kbsres1"` |  |

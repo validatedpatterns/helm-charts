@@ -20,17 +20,9 @@ global:
 
 # KBS (Key Broker Service) configuration
 kbs:
-  admin:
-    # Admin config format: "v1.0" for Trustee 1.0 (auth_public_key),
-    # "v1.1" for Trustee 1.1+ (type = "Simple" with [[admin.personas]])
-    format: "v1.0"
-
   # Security policy is an expected secret and is required to be pushed into the KBS
   # presumes security policy flavour is signed
   cosignKeys: secret/data/hub/coSignKeys
-
-  # Public key for authentication by a user with the KBS management API
-  publicKey: secret/data/hub/kbsPublicKey
 
   # Dynamic secret resources list - add new secrets here
   # Each entry generates an ESO and gets added to kbsSecretResources
@@ -77,6 +69,37 @@ kbs:
     # Requires firmware values pushed to secret/data/hub/firmwareReferenceValues
     # See docs/firmware-reference-values.md in coco-pattern for collection workflow
     enabled: false
+
+  # Azure SEV-SNP platform configuration reference values
+  # These are used by the attestation policy to verify the CVM configuration.
+  # The values below are defaults for Azure DCasv5-series VMs (AMD SEV-SNP).
+  #
+  # These are Azure platform constants that describe the SEV-SNP policy
+  # enforced by Azure for confidential VMs. They may vary by:
+  #
+  #   VM Series       | SMT | TSME | ABI Minor | Notes
+  #   ----------------|-----|------|-----------|------
+  #   DCasv5 (Genoa)  | true| true | 31        | Standard CoCo peer-pod VMs
+  #   DCadsv5 (Genoa) | true| true | 31        | With local NVMe
+  #   ECasv5 (Genoa)  | true| true | 31        | Memory-optimized
+  #   DCesv5 (Milan)  | true| true | 31        | Earlier generation, may differ
+  #
+  # The SNP launch measurement (snpLaunchMeasurement) is a hash of the
+  # Azure UEFI firmware + vTPM initial state. It is static per Azure CVM
+  # firmware generation but will change when Azure updates the firmware.
+  # It is NOT derived from the workload image — it is an Azure platform
+  # constant for the VM type.
+  #
+  # If attestation fails on configuration/executables claims, check the
+  # trustee logs for the actual values reported by the VM and update these.
+  azure:
+    snpLaunchMeasurement: "qnydpVwThuWxZTsSWXi+2ns/laha6w+d2723g84FaijJ0CHaI5w0pYw6ZXZUJw7v"
+    smtEnabled: "true"
+    tsmeEnabled: "true"
+    abiMajor: "0"
+    abiMinor: "31"
+    singleSocket: "false"
+    smtAllowed: "true"
 
   # Resource policy configuration
   resourcePolicy:
