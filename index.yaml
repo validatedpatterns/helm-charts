@@ -2999,6 +2999,18 @@ entries:
       version: 0.0.2
   odf-dr-chart:
     - apiVersion: v2
+      created: "2026-07-22T14:45:00Z"
+      description: 'Standalone Helm chart for ODF storage infrastructure supporting Regional DR. Deploys ODF SSL certificate extraction, Submariner network overlay, MirrorPeer storage mirroring, ODF DR prerequisites. '
+      digest: 43a3ba756448916cca17476a84c1a542799f88a84415bded37db4d02b5b81ac3
+      keywords:
+        - odf
+        - pattern
+        - regionaldr
+      name: odf-dr-chart
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/odf-dr-chart-0.0.2.tgz
+      version: 0.0.2
+    - apiVersion: v2
       created: "2026-07-02T17:04:50Z"
       description: 'Standalone Helm chart for ODF storage infrastructure supporting Regional DR. Deploys ODF SSL certificate extraction, Submariner network overlay, MirrorPeer storage mirroring, ODF DR prerequisites. '
       digest: 4cc8d52571ba43f9a52ba6e4b14316983b8e309100faa77bb41d0f6df33bfb9e
@@ -4612,4 +4624,4 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/ztwim-0.1.1.tgz
       version: 0.1.1
-generated: "2026-07-22T13:34:31.138398826Z"
+generated: "2026-07-22T14:47:34.862278858Z"
