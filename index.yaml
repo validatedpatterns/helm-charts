@@ -4002,6 +4002,19 @@ entries:
       version: 0.0.1
   sandboxed-policies:
     - apiVersion: v2
+      created: "2026-07-21T05:10:32Z"
+      description: A Helm chart to build and push polcies to support sandboxed containers into the spoke cluster of a validated pattern.
+      digest: 717194b750d78cb5fa071fdf146656ce1d63f2c1b508d36136e3c6956ea1176e
+      keywords:
+        - pattern
+        - sandboxed-containers
+        - confidential-computing
+        - confidential-containers
+      name: sandboxed-policies
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/sandboxed-policies-0.3.0.tgz
+      version: 0.3.0
+    - apiVersion: v2
       created: "2026-05-27T05:33:09Z"
       description: A Helm chart to build and push polcies to support sandboxed containers into the spoke cluster of a validated pattern.
       digest: 5c54ee37adbd7eea3ef566c1ed0c266e0a060dadebe63345fa5207b89c4140c8
@@ -4293,6 +4306,22 @@ entries:
       version: 0.1.0
   vp-manage-proxy-cluster-ca:
     - apiVersion: v2
+      created: "2026-07-22T13:31:39Z"
+      description: OpenShift chart for cluster-wide Proxy trusted CA bundles. Each cluster exports CAs via ESO PushSecret to Vault; ExternalSecret and trust-manager Bundle merge labeled Secrets into openshift-config. Hub CronJob writes hub-export material and patches Proxy/cluster. No ACM or ManifestWork required.
+      digest: 49e0d88484ed104aa8a13de2bb2edc1c217e527532e613f33aa281fa514930cf
+      keywords:
+        - openshift
+        - proxy
+        - tls
+        - validated-patterns
+        - external-secrets
+        - trust-manager
+      name: vp-manage-proxy-cluster-ca
+      type: application
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/vp-manage-proxy-cluster-ca-0.2.0.tgz
+      version: 0.2.0
+    - apiVersion: v2
       created: "2026-05-07T20:48:21Z"
       description: 'Hub-side chart for OpenShift. With ACM (default), distributes a merged CA bundle to ManagedClusters via ManifestWork (default gather: API + ingress CAs; optional system trust store), including Proxy/cluster trustedCA on spokes unless turned off. API CA collection is tunable via includeApiCA (default true). Set acm.enabled false for a standalone cluster: gather hub-local CA inputs and manage local Proxy/ConfigMap without ACM APIs. ACM Policy + PlacementBinding (when acm.enabled) add Governance visibility with default inform remediation; they do not gate rollout. Override policy.* or excludeManagedClusters as needed.'
       digest: fa8a3de066e85efda032d8fa16159880e7509de2c21f259d227a98147827a696
@@ -4583,4 +4612,4 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/ztwim-0.1.1.tgz
       version: 0.1.1
-generated: "2026-07-21T05:11:26.602144788Z"
+generated: "2026-07-22T13:34:31.138398826Z"
