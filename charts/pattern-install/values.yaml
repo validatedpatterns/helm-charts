@@ -30,6 +30,10 @@ main:
     # -- Full ArgoCD RBAC spec as a YAML string. When set, it completely
     # overrides the default RBAC policy and additionalArgoAdmins is ignored.
     argoRBAC: ""
+    # -- Arbitrary ArgoCD .spec YAML to deep-merge into the operator-built
+    # ArgoCD CR. Allows customizing any part of the ArgoCD spec without
+    # requiring individual config keys.
+    customArgoYaml: ""
 
   # -- Settings related to the in-cluster gitea installation
   gitea:

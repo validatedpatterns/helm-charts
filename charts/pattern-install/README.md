@@ -1,6 +1,6 @@
 # pattern-install
 
-![Version: 0.0.17](https://img.shields.io/badge/Version-0.0.17-informational?style=flat-square)
+![Version: 0.0.18](https://img.shields.io/badge/Version-0.0.18-informational?style=flat-square)
 
 A Helm chart to build and deploy a Cloud Pattern via the patterns operator
 
@@ -36,6 +36,7 @@ This chart is used by the Validated Patterns installation script that can be fou
 | main.gitops.additionalArgoAdmins | string | `""` | Comma-separated list of additional ArgoCD admin groups. Only used when argoRBAC is not set. |
 | main.gitops.argoRBAC | string | `""` | Full ArgoCD RBAC spec as a YAML string. When set, it completely overrides the default RBAC policy and additionalArgoAdmins is ignored. |
 | main.gitops.channel | string | `"gitops-1.21"` | Default channel to install the gitops operator from |
+| main.gitops.customArgoYaml | string | `""` | Arbitrary ArgoCD .spec YAML to deep-merge into the operator-built ArgoCD CR. Allows customizing any part of the ArgoCD spec without requiring individual config keys. |
 | main.gitops.operatorSource | string | `"redhat-operators"` | Source to be used to install the gitops operator from |
 | main.multiSourceConfig.clusterGroupChartVersion | string | `nil` | The clustergroup chart version to be used when deploying a pattern (defaults to 0.8.*) |
 | main.multiSourceConfig.enabled | bool | `false` | Enables a multisource configuration for the clustergroup chart |
