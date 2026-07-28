@@ -1,6 +1,6 @@
 # clustergroup
 
-![Version: 0.9.56](https://img.shields.io/badge/Version-0.9.56-informational?style=flat-square)
+![Version: 0.9.57](https://img.shields.io/badge/Version-0.9.57-informational?style=flat-square)
 
 A Helm chart to create per-clustergroup ArgoCD applications and any required namespaces or subscriptions.
 
@@ -125,6 +125,7 @@ clusterGroup:
 | global.singleArgoCD | bool | `false` | When set to true, a single ArgoCD instance (in `global.vpArgoNamespace`) is used instead of creating a per-clustergroup instance |
 | global.targetRevision | string | `"main"` |  |
 | global.vpArgoNamespace | string | `"openshift-gitops"` |  |
+| global.vpNewFolderDir | bool | `false` |  |
 | secretStore.kind | string | `"ClusterSecretStore"` |  |
 | secretStore.name | string | `"vault-backend"` |  |
 

@@ -5,6 +5,8 @@ global:
   pattern: common
   # cluster-wide argo namespace
   vpArgoNamespace: openshift-gitops
+  # Are values files under ./variants/<variant>/values-*.yaml
+  vpNewFolderDir: false
   secretLoader:
     disabled: false
   secretStore:
