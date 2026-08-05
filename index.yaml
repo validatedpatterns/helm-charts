@@ -3038,6 +3038,18 @@ entries:
       version: 0.0.2
   odf-dr-chart:
     - apiVersion: v2
+      created: "2026-08-05T18:57:51Z"
+      description: 'ODF-specific Regional DR chart: MirrorPeer, ODF prerequisites, and observability ObjectBucketClaim/storage policy. Submariner and s3-ssl live in opp-policy-chart. '
+      digest: 43dd1c95fd2534ed7bc506a7ab4e0ec772ff50d519b7ab49b20dac521c34ad70
+      keywords:
+        - odf
+        - pattern
+        - regionaldr
+      name: odf-dr-chart
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/odf-dr-chart-0.1.0.tgz
+      version: 0.1.0
+    - apiVersion: v2
       created: "2026-07-22T14:45:00Z"
       description: 'Standalone Helm chart for ODF storage infrastructure supporting Regional DR. Deploys ODF SSL certificate extraction, Submariner network overlay, MirrorPeer storage mirroring, ODF DR prerequisites. '
       digest: 43a3ba756448916cca17476a84c1a542799f88a84415bded37db4d02b5b81ac3
@@ -3463,6 +3475,20 @@ entries:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/openshift-virtualization-instance-0.1.0.tgz
       version: 0.1.0
   opp-policy-chart:
+    - apiVersion: v2
+      created: "2026-08-05T18:57:24Z"
+      description: 'ACM/OCM policy chart for Submariner, s3-ssl CA sync, and Ramen s3StoreProfiles CA injection (from vp-manage-proxy-cluster-ca) supporting Regional Disaster Recovery. '
+      digest: 2b2adceaf2f07c57fa5a3c1d4dc6ce2e8f2b5e13d80df8f9c6bbbc4f42db251e
+      keywords:
+        - pattern
+        - submariner
+        - s3
+        - ramen
+        - regionaldr
+      name: opp-policy-chart
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/opp-policy-chart-0.1.0.tgz
+      version: 0.1.0
     - apiVersion: v2
       created: "2026-07-02T13:43:02Z"
       description: A Helm chart to serve as the Validated Patterns Template
@@ -4694,4 +4720,4 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/ztwim-0.1.1.tgz
       version: 0.1.1
-generated: "2026-08-05T18:57:52.394463926Z"
+generated: "2026-08-05T19:09:43.125407791Z"
