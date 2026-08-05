@@ -1,7 +1,7 @@
 
 # vp-manage-proxy-cluster-ca
 
-![Version: 0.2.0](https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 0.2.1](https://img.shields.io/badge/Version-0.2.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
 OpenShift chart for cluster-wide Proxy trusted CA bundles. Each cluster exports CAs via ESO PushSecret to Vault; ExternalSecret and trust-manager Bundle merge labeled Secrets into openshift-config. Hub CronJob writes hub-export material and patches Proxy/cluster. No ACM or ManifestWork required.
 
@@ -401,6 +401,29 @@ oc logs -n vp-proxy-ca-sync job/$(oc get jobs -n vp-proxy-ca-sync -o name | grep
 
 **`apiVersion: external-secrets.io/v1alpha1`** for **PushSecret** is expected (upstream ESO API). **ExternalSecret** uses **`v1`**.
 
+### Troubleshooting: Argo CD OutOfSync on ExternalSecret / PushSecret
+
+This chart sets ESO **1.0**-compatible CRD defaults in Git so desired and live match:
+
+| Resource | Field | Value |
+|----------|-------|-------|
+| ExternalSecret `dataFrom.extract` | `conversionStrategy` | `Default` |
+| ExternalSecret `dataFrom.extract` | `decodingStrategy` | `None` |
+| ExternalSecret `dataFrom.extract` | `metadataPolicy` | `None` |
+| PushSecret `data[]` | `conversionStrategy` | `None` |
+
+Do **not** set `nullBytePolicy` in the chart — it is newer than ESO 1.0. If a newer operator
+defaults it on the live object (`Ignore`), add only this Application ignore (with
+`RespectIgnoreDifferences=true`):
+
+```yaml
+ignoreDifferences:
+  - group: external-secrets.io
+    kind: ExternalSecret
+    jqPathExpressions:
+      - .spec.dataFrom[].extract.nullBytePolicy
+```
+
 ### Troubleshooting: ExternalSecret `Secret does not exist`
 
 ```text
@@ -460,6 +483,12 @@ If **vault-backend** stays **NotReady**, the root cause is in platform Vault/ESO
 - OpenShift proxy: [Configuring the cluster-wide proxy](https://docs.openshift.com/container-platform/latest/networking/configuring-a-custom-pki.html#nw-proxy-configure-cluster_configuring-a-custom-pki).
 
 ## Notable changes
+
+### v0.2.1
+
+- Set ESO 1.0-compatible ExternalSecret extract and PushSecret `conversionStrategy` defaults in
+  Git so Argo CD stays Synced without broad ignoreDifferences. Document ignoring only
+  `nullBytePolicy` when a newer ESO defaults it on the live object.
 
 ### v0.2.0 (trust-manager + ESO PushSecret)
 
