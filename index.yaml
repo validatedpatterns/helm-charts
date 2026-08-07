@@ -3495,6 +3495,20 @@ entries:
       version: 0.1.0
   opp-policy-chart:
     - apiVersion: v2
+      created: "2026-08-07T13:00:58Z"
+      description: 'ACM/OCM policy chart for Submariner, s3-ssl CA sync, and Ramen s3StoreProfiles CA injection (from vp-manage-proxy-cluster-ca) supporting Regional Disaster Recovery. '
+      digest: d1301cbf729069302be9abfb53b1c7a67a566a9e7824eba5741f8d80ea82560a
+      keywords:
+        - pattern
+        - submariner
+        - s3
+        - ramen
+        - regionaldr
+      name: opp-policy-chart
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/opp-policy-chart-0.1.2.tgz
+      version: 0.1.2
+    - apiVersion: v2
       created: "2026-08-06T11:53:08Z"
       description: 'ACM/OCM policy chart for Submariner, s3-ssl CA sync, and Ramen s3StoreProfiles CA injection (from vp-manage-proxy-cluster-ca) supporting Regional Disaster Recovery. '
       digest: d31ba55741c64ade5b29e09d3fef85f03c116fd71b991a16a8eae2b1b3dcc61b
@@ -4763,4 +4777,4 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/ztwim-0.1.1.tgz
       version: 0.1.1
-generated: "2026-08-07T07:26:46.25405997Z"
+generated: "2026-08-07T13:03:54.906417132Z"
