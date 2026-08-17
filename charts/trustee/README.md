@@ -1,6 +1,6 @@
 # trustee
 
-![Version: 0.9.0](https://img.shields.io/badge/Version-0.9.0-informational?style=flat-square)
+![Version: 0.10.0](https://img.shields.io/badge/Version-0.10.0-informational?style=flat-square)
 
 A Helm chart to provide an opinionated deployment of Trustee in a validated pattern
 
@@ -42,12 +42,17 @@ In order to use this chart, you will need to:
 | kbs.cosignKeys | string | `"secret/data/hub/coSignKeys"` |  |
 | kbs.extraSecrets[0] | string | `"credential"` |  |
 | kbs.gpu.enabled | bool | `false` |  |
+| kbs.registryCa.enabled | bool | `false` |  |
 | kbs.resourcePolicy.enforceHardware | bool | `true` |  |
 | kbs.secretResources[0].key | string | `"secret/data/hub/kbsres1"` |  |
 | kbs.secretResources[0].name | string | `"kbsres1"` |  |
 | kbs.secretResources[1].key | string | `"secret/data/hub/passphrase"` |  |
 | kbs.secretResources[1].name | string | `"passphrase"` |  |
-| kbs.tdx.collateralService | string | `"https://api.trustedservices.intel.com/sgx/certification/v4/"` |  |
+| kbs.snp.enabled | bool | `false` |  |
+| kbs.snp.vcekSecrets | list | `[]` |  |
+| kbs.tdx.collateralFileName | string | `"platform_collaterals.json"` |  |
+| kbs.tdx.collateralMountPath | string | `"/opt/confidential-containers/attestation-service/tdx"` |  |
+| kbs.tdx.collateralService | string | `"file:///opt/confidential-containers/attestation-service/tdx/platform_collaterals.json"` |  |
 | kbs.tdx.enabled | bool | `false` |  |
 | secretStore.kind | string | `"ClusterSecretStore"` |  |
 | secretStore.name | string | `"vault-backend"` |  |

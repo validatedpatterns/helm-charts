@@ -56,10 +56,41 @@ kbs:
   tdx:
     # Enable TDX attestation support
     enabled: false
-    # PCCS collateral service URL for quote verification
-    # For Azure: Use https://global.acccache.azure.net/sgx/certification/v4/
-    # For bare metal/Intel: Use https://api.trustedservices.intel.com/sgx/certification/v4/
-    collateralService: "https://api.trustedservices.intel.com/sgx/certification/v4/"
+    # DCAP collateral service URL for quote verification.
+    # Default is file:// mode for offline/disconnected environments:
+    #   Reads pre-collected collateral JSON from the KBS pod filesystem,
+    #   mounted via kbsLocalCertCacheSpec from the tdx-collateral Secret.
+    # For connected mode, override with:
+    #   https://api.trustedservices.intel.com/sgx/certification/v4/
+    # For Azure: https://global.acccache.azure.net/sgx/certification/v4/
+    collateralService: "file:///opt/confidential-containers/attestation-service/tdx/platform_collaterals.json"
+    # Mount path for kbsLocalCertCacheSpec — where the tdx-collateral Secret
+    # is mounted into the KBS pod. Must match the directory portion of the
+    # file:// URL in collateralService.
+    collateralMountPath: "/opt/confidential-containers/attestation-service/tdx"
+    # Key name in the Vault secret = filename under collateralMountPath.
+    # Must match the filename portion of the file:// URL in collateralService.
+    collateralFileName: "platform_collaterals.json"
+
+  # AMD SEV-SNP bare metal attestation configuration
+  snp:
+    # Enable SNP offline attestation (VCEK certificate cache)
+    # When enabled, adds snp_verifier with OfflineStore to KBS config
+    # and mounts VCEK secrets into the KBS pod via kbsLocalCertCacheSpec.
+    enabled: false
+    # VCEK secrets list — populated by `make snp-gen-overrides` in coco-pattern.
+    # Each entry maps a node's hardware ID to a K8s secret containing vcek.der.
+    # Collected via: make snp-collect-vcek-urls (cluster) + make snp-download-vcek (internet)
+    vcekSecrets: []
+    # Example:
+    # - hwid: "abc123def456..."
+    #   secretName: "snp-vcek-abc123def456"
+
+  # Private registry CA certificate injection
+  # Enable to inject private registry CA cert into imperative namespace for
+  # initdata generation. Requires registryCaCert in Vault.
+  registryCa:
+    enabled: false
 
   # Bare metal attestation configuration
   # Enables firmware reference value collection and enforcement
