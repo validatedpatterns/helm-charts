@@ -52,5 +52,6 @@ gh workflow run publish-charts.yml \
 
 ## Requirements
 
-- The remote repo must have a correct token set in the CHARTS_REPOS_TOKEN secret for the repository
+- The org must provide `CHARTS_REPOS_APP_ID` and `CHARTS_REPOS_APP_PRIVATE_KEY` org secrets for a GitHub App installed on this repository (see [.github/workflows/README.md](.github/workflows/README.md))
+- Caller repos use `secrets: inherit` — no per-repo credential setup needed
 - All required helm repositories must be specified in the `Chart.yaml` dependencies with complete URLs (e.g., `https://charts.bitnami.com/bitnami`)
