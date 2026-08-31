@@ -1,23 +1,20 @@
 # Note this workflow is only maintained in this repo
 # It should be invoked from each chart's repo
 #
-# This invokes the workflow named 'publish-charts' in the umbrella repo
-# It expects to have a secret called CHARTS_REPOS_TOKEN which contains
-# the GitHub token that has permissions to invoke workflows and commit code
-# inside the umbrella-repo.
-# The following fine-grained permissions were used in testing and were limited
-# to the umbrella repo only:
-# - Actions: r/w
-# - Commit statuses: r/w
-# - Contents: r/w
-# - Deployments: r/w
-# - Pages: r/w
+# This invokes the workflow named 'publish-charts' in the umbrella repo.
+# Callers should use `secrets: inherit`; the following org secrets are required:
+#   CHARTS_REPOS_APP_ID            - GitHub App ID (org-owned, not tied to a user)
+#   CHARTS_REPOS_APP_PRIVATE_KEY   - GitHub App private key PEM
+# The app must be installed on validatedpatterns/helm-charts with:
+#   Actions: Read and write
 
 name: vp-patterns/update-helm-repo
 on:
   workflow_call:
     secrets:
-      CHARTS_REPOS_TOKEN:
+      CHARTS_REPOS_APP_ID:
+        required: true
+      CHARTS_REPOS_APP_PRIVATE_KEY:
         required: true
 
 jobs:
@@ -25,7 +22,7 @@ jobs:
     if: ${{ github.repository != 'validatedpatterns/helm-charts' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Verify Chart version matches tag version
         run: |-
           export TAG=${{ github.ref_name }}
@@ -36,10 +33,19 @@ jobs:
             exit 1
           fi
 
+      - name: Create GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.CHARTS_REPOS_APP_ID }}
+          private-key: ${{ secrets.CHARTS_REPOS_APP_PRIVATE_KEY }}
+          owner: validatedpatterns
+          repositories: helm-charts
+
       - name: Invoke umbrella-repo publish charts workflow
         id: update
         env:
-          GH_TOKEN: ${{ secrets.CHARTS_REPOS_TOKEN }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |-
           gh workflow run publish-charts.yml \
             --repo validatedpatterns/helm-charts \
