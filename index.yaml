@@ -3104,6 +3104,21 @@ entries:
   openshift-data-foundations:
     - apiVersion: v2
       appVersion: 1.16.0
+      created: "2026-09-01T16:11:10Z"
+      description: A Helm chart to install ODF on Openshift
+      digest: 81c43094890d57adcc0df32ee9ff7a988b4d009acf6bf4e5b031c68d7c7a308d
+      home: https://github.com/validatedpatterns/openshift-data-foundations-chart
+      icon: https://validatedpatterns.io/images/validated-patterns.png
+      maintainers:
+        - email: validatedpatterns@googlegroups.com
+          name: Validated Patterns Team
+      name: openshift-data-foundations
+      type: application
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/openshift-data-foundations-0.3.3.tgz
+      version: 0.3.3
+    - apiVersion: v2
+      appVersion: 1.16.0
       created: "2026-08-20T15:39:57Z"
       description: A Helm chart to install ODF on Openshift
       digest: 3534a8ef9840200550a56f3f86683ac1e02f7acdb08344611d800b0e1c7b36a9
@@ -4924,4 +4939,4 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/ztwim-0.1.1.tgz
       version: 0.1.1
-generated: "2026-09-01T12:50:46.67797588Z"
+generated: "2026-09-01T16:12:58.242263639Z"
