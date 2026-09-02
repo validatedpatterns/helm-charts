@@ -801,6 +801,17 @@ entries:
       version: 0.0.1
   cluster-pipelines:
     - apiVersion: v2
+      created: "2026-09-02T17:12:21Z"
+      description: A Helm chart that deploys cluster provisioning pipelines
+      digest: f541ec1434e994195307109cba07037d31220fa32c7e3d305bb947d61bf852b9
+      keywords:
+        - pattern
+        - pipelines
+      name: cluster-pipelines
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/cluster-pipelines-0.0.6.tgz
+      version: 0.0.6
+    - apiVersion: v2
       created: "2026-04-22T20:23:46Z"
       description: A Helm chart that deploys cluster provisioning pipelines
       digest: 431e9b1d64ffe93d51292910497cf51151d2f547fe36f6b3a7455ff6d85a7019
@@ -4939,4 +4950,4 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/ztwim-0.1.1.tgz
       version: 0.1.1
-generated: "2026-09-01T16:12:58.242263639Z"
+generated: "2026-09-02T17:15:29.016384291Z"
