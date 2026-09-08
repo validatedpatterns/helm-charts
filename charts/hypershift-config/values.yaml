@@ -71,3 +71,6 @@ mce:
       enabled: "false"
     - name: cluster-api-provider-azure-preview
       enabled: "false"
+    - name: cluster-permission
+    - name: maestro-preview
+      enabled: "false"

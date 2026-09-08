@@ -2834,6 +2834,16 @@ entries:
       version: 0.0.1
   hypershift-config:
     - apiVersion: v2
+      created: "2026-09-08T10:19:50Z"
+      description: Helm Chart to configure the hypershift feature
+      digest: b40297ee3e3bc56c938aa88dfded0f7ebf78c1781da50ca3f45ae6f4fbeccbde
+      keywords:
+        - pattern
+      name: hypershift-config
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/hypershift-config-0.0.3.tgz
+      version: 0.0.3
+    - apiVersion: v2
       created: "2026-06-01T13:32:45Z"
       description: Helm Chart to configure the hypershift feature
       digest: c8f7086ac46466b0b0869a615a5ac66bf34d391c38b579e15b2ce1c1a85cce73
@@ -4838,18 +4848,6 @@ entries:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/vp-sscsi-spc-0.1.8.tgz
       version: 0.1.8
     - apiVersion: v2
-      created: "2026-05-07T20:43:57Z"
-      description: Library chart for app-level Vault SecretProviderClass rendering with hub, spoke, and external Vault support. Cluster CA material is managed by a separate cluster-wide chart.
-      digest: b19bb889c199f33b01156f9b9fa6231c9ccd336adba48adc2d23f851ab2d7d63
-      keywords:
-        - openshift
-        - secrets-store-csi-driver
-        - vault
-      name: vp-sscsi-spc
-      urls:
-        - https://github.com/validatedpatterns/helm-charts/releases/download/main/vp-sscsi-spc-0.1.7.tgz
-      version: 0.1.7
-    - apiVersion: v2
       created: "2026-05-07T13:24:47Z"
       description: Library chart for app-level Vault SecretProviderClass rendering with hub, spoke, and external Vault support. Cluster CA material is managed by a separate cluster-wide chart.
       digest: 179fe023f9ce341e6448754f84f7c27fca5f9833e90c20e7b62044b0a9d9e6e8
@@ -4950,4 +4948,4 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/ztwim-0.1.1.tgz
       version: 0.1.1
-generated: "2026-09-02T17:15:29.016384291Z"
+generated: "2026-09-08T10:21:41.575245589Z"
