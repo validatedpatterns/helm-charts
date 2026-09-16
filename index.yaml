@@ -801,6 +801,17 @@ entries:
       version: 0.0.1
   cluster-pipelines:
     - apiVersion: v2
+      created: "2026-09-16T13:19:02Z"
+      description: A Helm chart that deploys cluster provisioning pipelines
+      digest: bbac6909eea4565d0507150cb09597993332039aa12d33da96e76d48dbd0fa32
+      keywords:
+        - pattern
+        - pipelines
+      name: cluster-pipelines
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/cluster-pipelines-0.0.7.tgz
+      version: 0.0.7
+    - apiVersion: v2
       created: "2026-09-02T17:12:21Z"
       description: A Helm chart that deploys cluster provisioning pipelines
       digest: f541ec1434e994195307109cba07037d31220fa32c7e3d305bb947d61bf852b9
@@ -3439,18 +3450,6 @@ entries:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/openshift-sscsi-vault-0.0.11.tgz
       version: 0.0.11
     - apiVersion: v2
-      created: "2026-04-30T18:02:09Z"
-      description: 'Helm chart (library-style) for Vault Secrets Store CSI on OpenShift: hub Vault URL, Kubernetes auth mount/role parity with openshift-external-secrets-chart patterns, and workload RBAC. Consuming charts should render named templates via include (see README); optional bundled manifests are off by default.'
-      digest: 02a20a11214b634e30339c13c90da682e8c42330b73ad9bae8c6e83651555a0e
-      keywords:
-        - openshift
-        - secrets-store-csi-driver
-        - vault
-      name: openshift-sscsi-vault
-      urls:
-        - https://github.com/validatedpatterns/helm-charts/releases/download/main/openshift-sscsi-vault-0.0.10.tgz
-      version: 0.0.10
-    - apiVersion: v2
       created: "2026-04-30T17:25:53Z"
       description: 'Helm chart (library-style) for Vault Secrets Store CSI on OpenShift: hub Vault URL, Kubernetes auth mount/role parity with openshift-external-secrets-chart patterns, and workload RBAC. Consuming charts should render named templates via include (see README); optional bundled manifests are off by default.'
       digest: 3023199786e18c59b447eb0c506d8c38a9ac42ab4662eed8d4f70c3d7e46f1d7
@@ -4848,6 +4847,18 @@ entries:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/vp-sscsi-spc-0.1.8.tgz
       version: 0.1.8
     - apiVersion: v2
+      created: "2026-05-07T20:43:57Z"
+      description: Library chart for app-level Vault SecretProviderClass rendering with hub, spoke, and external Vault support. Cluster CA material is managed by a separate cluster-wide chart.
+      digest: b19bb889c199f33b01156f9b9fa6231c9ccd336adba48adc2d23f851ab2d7d63
+      keywords:
+        - openshift
+        - secrets-store-csi-driver
+        - vault
+      name: vp-sscsi-spc
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/vp-sscsi-spc-0.1.7.tgz
+      version: 0.1.7
+    - apiVersion: v2
       created: "2026-05-07T13:24:47Z"
       description: Library chart for app-level Vault SecretProviderClass rendering with hub, spoke, and external Vault support. Cluster CA material is managed by a separate cluster-wide chart.
       digest: 179fe023f9ce341e6448754f84f7c27fca5f9833e90c20e7b62044b0a9d9e6e8
@@ -4948,4 +4959,4 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/ztwim-0.1.1.tgz
       version: 0.1.1
-generated: "2026-09-08T10:21:41.575245589Z"
+generated: "2026-09-16T13:21:30.965447412Z"

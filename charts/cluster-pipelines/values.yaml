@@ -120,6 +120,44 @@ qeCIPipelines:
         - aeg-aap-manifest-file # oc create secret generic aeg-aap-manifest-file -n vp-qe-ci --from-file=aap_manifest.zip=/home/aeros/Downloads/manifest_vp-aeros_20260709T084257Z.zip
         - aeg-aap-ssh-file # oc create secret generic aeg-aap-ssh-file -n vp-qe-ci --from-file=id_rsa=aeg-qe-ssh --from-file=id_rsa.pub=aeg-qe-ssh.pub
 
+    ramen:
+      repo: https://github.com/validatedpatterns/ramendr-starter-kit.git
+      revision: main
+      ocp_versions:
+        - "4.20"
+        - "4.22"
+      platforms:
+        aws:
+          # Per-cluster region overrides for the multi-dr flavor.
+          # Hub uses the default region (us-east-1).
+          # Spokes must be in different regions for meaningful DR.
+          spokePrimaryRegion: us-west-1
+          spokeSecondaryRegion: us-east-2
+      # Per-cluster networking CIDRs for the multi-dr flavor.
+      # Each role must use non-overlapping ranges for Submariner and ODF replication.
+      # Falls back to qeCIPipelines.defaults.networking.multiDr if unset.
+      networking:
+        hub:
+          clusterNetworkCidr: 10.128.0.0/14
+          clusterHostPrefix: 23
+          machineNetworkCidr: 10.0.0.0/16
+          serviceNetworkCidr: 172.30.0.0/16
+        spokePrimary:
+          clusterNetworkCidr: 10.132.0.0/14
+          clusterHostPrefix: 23
+          machineNetworkCidr: 10.1.0.0/16
+          serviceNetworkCidr: 172.31.0.0/16
+        spokeSecondary:
+          clusterNetworkCidr: 10.136.0.0/14
+          clusterHostPrefix: 23
+          machineNetworkCidr: 10.2.0.0/16
+          serviceNetworkCidr: 172.32.0.0/16
+      flavors:
+        multi-dr:
+          clusterGroup: odf
+      secrets:
+        - ramendr-secret-values-file
+
     # industrial-edge:
     #   repo: https://github.com/validatedpatterns/industrial-edge.git
     #   flavors:

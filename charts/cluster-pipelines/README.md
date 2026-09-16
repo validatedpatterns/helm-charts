@@ -1,6 +1,6 @@
 # cluster-pipelines
 
-![Version: 0.0.6](https://img.shields.io/badge/Version-0.0.6-informational?style=flat-square)
+![Version: 0.0.7](https://img.shields.io/badge/Version-0.0.7-informational?style=flat-square)
 
 A Helm chart that deploys cluster provisioning pipelines
 
@@ -75,6 +75,26 @@ This chart is used to serve as the template for Validated Patterns Charts
 | qeCIPipelines.patterns.mcg.flavors.multi | string | `nil` |  |
 | qeCIPipelines.patterns.mcg.flavors.single.clusterGroup | string | `"standalone"` |  |
 | qeCIPipelines.patterns.mcg.repo | string | `"https://github.com/validatedpatterns/multicloud-gitops.git"` |  |
+| qeCIPipelines.patterns.ramen.flavors.multi-dr.clusterGroup | string | `"odf"` |  |
+| qeCIPipelines.patterns.ramen.networking.hub.clusterHostPrefix | int | `23` |  |
+| qeCIPipelines.patterns.ramen.networking.hub.clusterNetworkCidr | string | `"10.128.0.0/14"` |  |
+| qeCIPipelines.patterns.ramen.networking.hub.machineNetworkCidr | string | `"10.0.0.0/16"` |  |
+| qeCIPipelines.patterns.ramen.networking.hub.serviceNetworkCidr | string | `"172.30.0.0/16"` |  |
+| qeCIPipelines.patterns.ramen.networking.spokePrimary.clusterHostPrefix | int | `23` |  |
+| qeCIPipelines.patterns.ramen.networking.spokePrimary.clusterNetworkCidr | string | `"10.132.0.0/14"` |  |
+| qeCIPipelines.patterns.ramen.networking.spokePrimary.machineNetworkCidr | string | `"10.1.0.0/16"` |  |
+| qeCIPipelines.patterns.ramen.networking.spokePrimary.serviceNetworkCidr | string | `"172.31.0.0/16"` |  |
+| qeCIPipelines.patterns.ramen.networking.spokeSecondary.clusterHostPrefix | int | `23` |  |
+| qeCIPipelines.patterns.ramen.networking.spokeSecondary.clusterNetworkCidr | string | `"10.136.0.0/14"` |  |
+| qeCIPipelines.patterns.ramen.networking.spokeSecondary.machineNetworkCidr | string | `"10.2.0.0/16"` |  |
+| qeCIPipelines.patterns.ramen.networking.spokeSecondary.serviceNetworkCidr | string | `"172.32.0.0/16"` |  |
+| qeCIPipelines.patterns.ramen.ocp_versions[0] | string | `"4.20"` |  |
+| qeCIPipelines.patterns.ramen.ocp_versions[1] | string | `"4.22"` |  |
+| qeCIPipelines.patterns.ramen.platforms.aws.spokePrimaryRegion | string | `"us-west-1"` |  |
+| qeCIPipelines.patterns.ramen.platforms.aws.spokeSecondaryRegion | string | `"us-east-2"` |  |
+| qeCIPipelines.patterns.ramen.repo | string | `"https://github.com/validatedpatterns/ramendr-starter-kit.git"` |  |
+| qeCIPipelines.patterns.ramen.revision | string | `"main"` |  |
+| qeCIPipelines.patterns.ramen.secrets[0] | string | `"ramendr-secret-values-file"` |  |
 | qeCIPipelines.scheduleDefaults.concurrencyPolicy | string | `"Forbid"` |  |
 | qeCIPipelines.scheduleDefaults.failedJobsHistoryLimit | int | `3` |  |
 | qeCIPipelines.scheduleDefaults.finallyTimeout | string | `"30m"` |  |
