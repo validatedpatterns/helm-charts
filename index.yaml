@@ -3450,6 +3450,18 @@ entries:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/openshift-sscsi-vault-0.0.11.tgz
       version: 0.0.11
     - apiVersion: v2
+      created: "2026-04-30T18:02:09Z"
+      description: 'Helm chart (library-style) for Vault Secrets Store CSI on OpenShift: hub Vault URL, Kubernetes auth mount/role parity with openshift-external-secrets-chart patterns, and workload RBAC. Consuming charts should render named templates via include (see README); optional bundled manifests are off by default.'
+      digest: 02a20a11214b634e30339c13c90da682e8c42330b73ad9bae8c6e83651555a0e
+      keywords:
+        - openshift
+        - secrets-store-csi-driver
+        - vault
+      name: openshift-sscsi-vault
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/openshift-sscsi-vault-0.0.10.tgz
+      version: 0.0.10
+    - apiVersion: v2
       created: "2026-04-30T17:25:53Z"
       description: 'Helm chart (library-style) for Vault Secrets Store CSI on OpenShift: hub Vault URL, Kubernetes auth mount/role parity with openshift-external-secrets-chart patterns, and workload RBAC. Consuming charts should render named templates via include (see README); optional bundled manifests are off by default.'
       digest: 3023199786e18c59b447eb0c506d8c38a9ac42ab4662eed8d4f70c3d7e46f1d7
@@ -4613,6 +4625,22 @@ entries:
       version: 0.1.0
   vp-manage-proxy-cluster-ca:
     - apiVersion: v2
+      created: "2026-09-25T15:45:06Z"
+      description: OpenShift chart for cluster-wide Proxy trusted CA bundles. Each cluster exports CAs via ESO PushSecret to Vault; ExternalSecret and trust-manager Bundle merge labeled Secrets into openshift-config. Hub CronJob writes hub-export material and patches Proxy/cluster. No ACM or ManifestWork required.
+      digest: 29b39cb61342ed5c195be03a27b2f0dfc2e1deab6c3ebb650ea5b35fc67a7eb8
+      keywords:
+        - openshift
+        - proxy
+        - tls
+        - validated-patterns
+        - external-secrets
+        - trust-manager
+      name: vp-manage-proxy-cluster-ca
+      type: application
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/vp-manage-proxy-cluster-ca-0.2.3.tgz
+      version: 0.2.3
+    - apiVersion: v2
       created: "2026-08-05T18:56:08Z"
       description: OpenShift chart for cluster-wide Proxy trusted CA bundles. Each cluster exports CAs via ESO PushSecret to Vault; ExternalSecret and trust-manager Bundle merge labeled Secrets into openshift-config. Hub CronJob writes hub-export material and patches Proxy/cluster. No ACM or ManifestWork required.
       digest: b3ae2090a7ba91cfbbc1b39214ed72d2f88b7da1306b07f1446a6c32f7c30530
@@ -4959,4 +4987,4 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/ztwim-0.1.1.tgz
       version: 0.1.1
-generated: "2026-09-16T13:21:30.965447412Z"
+generated: "2026-09-25T15:47:10.512289465Z"

@@ -130,9 +130,12 @@ syncJob:
   enabled: true
   argoCDSyncWave: 12
   # -- ose-cli avoids setgroups errors from root-based imperative-container on restricted SCC.
+  # ...but it stopped publishing a latest tag so we shift to a new stream
+  # The image doesn't need to match OpenShift version exactly, but we should keep an eye on this
+  # during the 5.0 transition
   image:
-    repository: registry.redhat.io/openshift4/ose-cli
-    tag: latest
+    repository: registry.redhat.io/openshift4/ose-cli-rhel9
+    tag: v4.22
     pullPolicy: IfNotPresent
   # -- Optional pod/container securityContext overrides (omit for SCC-assigned UID with ose-cli).
   # podSecurityContext: {}
@@ -154,10 +157,10 @@ eso:
   export:
     # -- When true, render export namespace, CronJob, sync Job, and PushSecret on this cluster.
     enabled: true
-    # -- Image for export Jobs (ose-cli avoids setgroups errors from root-based imperative-container).
+    # -- Image for export Jobs (ose-cli-rhel9 avoids setgroups errors from root-based imperative-container).
     image:
-      repository: registry.redhat.io/openshift4/ose-cli
-      tag: latest
+      repository: registry.redhat.io/openshift4/ose-cli-rhel9
+      tag: v4.22
       pullPolicy: IfNotPresent
     # -- Argo CD sync-wave for export namespace/RBAC/CronJob (before export sync Job).
     argoCDSyncWave: 8
@@ -232,9 +235,9 @@ trustTest:
   # -- When false, unreachable remote endpoints log a warning instead of failing the job.
   requireRemoteReachable: false
   image:
-    # -- ose-cli includes oc and curl; avoids setgroups errors from root-based imperative-container.
-    repository: registry.redhat.io/openshift4/ose-cli
-    tag: latest
+    # -- ose-cli-rhel9 includes oc and curl; avoids setgroups errors from root-based imperative-container.
+    repository: registry.redhat.io/openshift4/ose-cli-rhel9
+    tag: v4.22
     pullPolicy: IfNotPresent
   caBundle:
     # -- Empty: configMapName (by-namespace-name / Proxy bundle). Set to the by-label Bundle name to use labeled distribution.
