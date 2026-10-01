@@ -2276,6 +2276,15 @@ entries:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/external-dns-operator-0.1.2.tgz
       version: 0.1.2
     - apiVersion: v2
+      created: "2025-08-05T18:47:17Z"
+      description: External DNS Operator chart
+      digest: 798ee5cc042a6e43ff5af7593a84ba057f562f5cc5b577bca808a0281f4c0b8d
+      name: external-dns-operator
+      type: application
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/external-dns-operator-0.1.1.tgz
+      version: 0.1.1
+    - apiVersion: v2
       created: "2025-03-20T18:47:41Z"
       description: External DNS Operator chart
       digest: 3bf4ae1ac23aeeaafae729a3c193906fe69a7783ef004c9f362f5fdf5bf41d7a
@@ -3337,6 +3346,43 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/openshift-external-secrets-0.0.1.tgz
       version: 0.0.1
+  openshift-observability:
+    - apiVersion: v2
+      created: "2026-10-01T16:49:40Z"
+      description: Publish OpenShift console dashboards, Prometheus rules, and scrape configs from values
+      digest: 5fc66b387272923deebc23f54300b3b5d371a8d3901056d8daf486f77fd2e03f
+      home: https://github.com/validatedpatterns/openshift-observability-chart
+      keywords:
+        - openshift
+        - observability
+        - monitoring
+        - dashboard
+        - disaster-recovery
+      name: openshift-observability
+      sources:
+        - https://github.com/validatedpatterns/openshift-observability-chart
+      type: application
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/openshift-observability-0.1.1.tgz
+      version: 0.1.1
+    - apiVersion: v2
+      created: "2026-10-01T16:48:25Z"
+      description: Publish OpenShift console dashboards, Prometheus rules, and scrape configs from values
+      digest: 831f89a5168785f5344c46ac624653a12ffc63802e6379251318305ead84a88c
+      home: https://github.com/mhjacks/openshift-observability-chart
+      keywords:
+        - openshift
+        - observability
+        - monitoring
+        - dashboard
+        - disaster-recovery
+      name: openshift-observability
+      sources:
+        - https://github.com/mhjacks/openshift-observability-chart
+      type: application
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/openshift-observability-0.1.0.tgz
+      version: 0.1.0
   openshift-sscsi-vault:
     - apiVersion: v2
       created: "2026-05-07T15:35:32Z"
@@ -4999,4 +5045,4 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/ztwim-0.1.1.tgz
       version: 0.1.1
-generated: "2026-09-30T20:09:45.371407096Z"
+generated: "2026-10-01T16:51:30.860715094Z"
