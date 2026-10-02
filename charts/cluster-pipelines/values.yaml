@@ -50,7 +50,7 @@ qeCIPipelines:
     namespace: vp-qe-ci
     platforms:
       aws:
-        region: us-east-1
+        region: us-east-2
         baseDomain: aws.validatedpatterns.io
         controlPlaneIAMRole: vp-ocp-ControlPlane-Role
         computeNodeIAMRole: vp-ocp-Worker-Role
@@ -93,7 +93,7 @@ qeCIPipelines:
     mustGatherImg: quay.io/validatedpatterns/must-gather
     utilityContainerImg: quay.io/validatedpatterns/utility-container
     # Tekton per-task timeout for provision-* pipeline tasks (oc wait on clusterdeployment/hostedcluster).
-    provisionTaskTimeout: 2h
+    provisionTaskTimeout: 2h0m0s
     hcpARN: arn:aws:iam::296267305927:role/hypershift_cli_role
     ciBucket: vp-qe-ci-badges
     mustGatherBucket: vp-qe-ci-must-gathers
@@ -108,7 +108,7 @@ qeCIPipelines:
         hosted:
           clusterGroup: standalone
     ansible-edge:
-      repo: https://github.com/darkdoc/ansible-edge-gitops.git
+      repo: https://github.com/validatedpatterns/ansible-edge-gitops.git
       platforms: #if empty, or unset it will be the defaults.platforms
         aws:
       flavors:
@@ -176,7 +176,7 @@ qeCIPipelines:
       revision: pipeline_test
       flavors:
         single:
-          clusterGroup: ci
+      extraHelmOpts: "--set global.extraValueFiles[0]=/overrides/values-ci.yaml"
 
     # travelops:
     #   repo: https://github.com/validatedpatterns/travelops.git

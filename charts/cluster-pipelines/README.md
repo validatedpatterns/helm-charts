@@ -1,6 +1,6 @@
 # cluster-pipelines
 
-![Version: 0.0.8](https://img.shields.io/badge/Version-0.0.8-informational?style=flat-square)
+![Version: 0.0.9](https://img.shields.io/badge/Version-0.0.9-informational?style=flat-square)
 
 A Helm chart that deploys cluster provisioning pipelines
 
@@ -51,7 +51,7 @@ This chart is used to serve as the template for Validated Patterns Charts
 | qeCIPipelines.defaults.platforms.aws.computeNodeIAMRole | string | `"vp-ocp-Worker-Role"` |  |
 | qeCIPipelines.defaults.platforms.aws.controlPlaneIAMRole | string | `"vp-ocp-ControlPlane-Role"` |  |
 | qeCIPipelines.defaults.platforms.aws.credentialName | string | `"qe-ci-aws-creds"` |  |
-| qeCIPipelines.defaults.platforms.aws.region | string | `"us-east-1"` |  |
+| qeCIPipelines.defaults.platforms.aws.region | string | `"us-east-2"` |  |
 | qeCIPipelines.defaults.platforms.azure.baseDomain | string | `"azure.validatedpatterns.io"` |  |
 | qeCIPipelines.defaults.platforms.azure.baseDomainResourceGroup | string | `"os4-common"` |  |
 | qeCIPipelines.defaults.platforms.azure.credentialName | string | `"qe-ci-azure-creds"` |  |
@@ -60,15 +60,16 @@ This chart is used to serve as the template for Validated Patterns Charts
 | qeCIPipelines.defaults.platforms.gcp.credentialName | string | `"qe-ci-gcp-creds"` |  |
 | qeCIPipelines.defaults.platforms.gcp.projectId | string | `"rh-patterns"` |  |
 | qeCIPipelines.defaults.platforms.gcp.region | string | `"us-central1"` |  |
-| qeCIPipelines.defaults.provisionTaskTimeout | string | `"2h"` |  |
+| qeCIPipelines.defaults.provisionTaskTimeout | string | `"2h0m0s"` |  |
 | qeCIPipelines.defaults.utilityContainerImg | string | `"quay.io/validatedpatterns/utility-container"` |  |
 | qeCIPipelines.patterns.ansible-edge.flavors.single | string | `nil` |  |
 | qeCIPipelines.patterns.ansible-edge.platforms.aws | string | `nil` |  |
-| qeCIPipelines.patterns.ansible-edge.repo | string | `"https://github.com/darkdoc/ansible-edge-gitops.git"` |  |
+| qeCIPipelines.patterns.ansible-edge.repo | string | `"https://github.com/validatedpatterns/ansible-edge-gitops.git"` |  |
 | qeCIPipelines.patterns.ansible-edge.secrets[0] | string | `"aeg-secret-values-file"` |  |
 | qeCIPipelines.patterns.ansible-edge.secrets[1] | string | `"aeg-aap-manifest-file"` |  |
 | qeCIPipelines.patterns.ansible-edge.secrets[2] | string | `"aeg-aap-ssh-file"` |  |
-| qeCIPipelines.patterns.layered-zero.flavors.single.clusterGroup | string | `"ci"` |  |
+| qeCIPipelines.patterns.layered-zero.extraHelmOpts | string | `"--set global.extraValueFiles[0]=/overrides/values-ci.yaml"` |  |
+| qeCIPipelines.patterns.layered-zero.flavors.single | string | `nil` |  |
 | qeCIPipelines.patterns.layered-zero.repo | string | `"https://github.com/darkdoc/layered-zero-trust.git"` |  |
 | qeCIPipelines.patterns.layered-zero.revision | string | `"pipeline_test"` |  |
 | qeCIPipelines.patterns.mcg.flavors.hosted.clusterGroup | string | `"standalone"` |  |
