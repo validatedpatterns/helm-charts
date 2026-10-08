@@ -104,15 +104,15 @@ qeCIPipelines:
       flavors:
         single:
           clusterGroup: standalone
-        multi:
+        multi: {}
         hosted:
           clusterGroup: standalone
     ansible-edge:
       repo: https://github.com/validatedpatterns/ansible-edge-gitops.git
       platforms: #if empty, or unset it will be the defaults.platforms
-        aws:
+        aws: {}
       flavors:
-        single:
+        single: {}
       # Pre-created Secrets in qeCIPipelines.defaults.namespace;
       # workspace name matches secret name (underscores become hyphens). Bind each at PipelineRun / in UI.
       secrets:
@@ -158,24 +158,12 @@ qeCIPipelines:
       secrets:
         - ramendr-secret-values-file
 
-    # industrial-edge:
-    #   repo: https://github.com/validatedpatterns/industrial-edge.git
-    #   flavors:
-    #     - multi
-    #   secrets:
-    #     - industrial-edge-secret-values-file
-
-    # medical-diag:
-    #   repo: https://github.com/validatedpatterns/medical-diagnosis.git
-    #   flavors:
-    #     - single
-
     # These are the tested tier
     layered-zero:
       repo: https://github.com/darkdoc/layered-zero-trust.git
       revision: pipeline_test
       flavors:
-        single:
+        single: {}
       extraHelmOpts: "--set global.extraValueFiles[0]=/overrides/values-ci.yaml"
 
     # travelops:
@@ -192,8 +180,8 @@ qeCIPipelines:
     ragllm:
       repo: https://github.com/validatedpatterns/rag-llm-gitops.git
       platforms:
-        aws:
-        azure:
+        aws: {}
+        azure: {}
       flavors:
         single:
           clusterGroup: ci

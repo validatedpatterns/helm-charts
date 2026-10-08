@@ -1,6 +1,6 @@
 # cluster-pipelines
 
-![Version: 0.0.9](https://img.shields.io/badge/Version-0.0.9-informational?style=flat-square)
+![Version: 0.0.10](https://img.shields.io/badge/Version-0.0.10-informational?style=flat-square)
 
 A Helm chart that deploys cluster provisioning pipelines
 
@@ -62,23 +62,23 @@ This chart is used to serve as the template for Validated Patterns Charts
 | qeCIPipelines.defaults.platforms.gcp.region | string | `"us-central1"` |  |
 | qeCIPipelines.defaults.provisionTaskTimeout | string | `"2h0m0s"` |  |
 | qeCIPipelines.defaults.utilityContainerImg | string | `"quay.io/validatedpatterns/utility-container"` |  |
-| qeCIPipelines.patterns.ansible-edge.flavors.single | string | `nil` |  |
-| qeCIPipelines.patterns.ansible-edge.platforms.aws | string | `nil` |  |
+| qeCIPipelines.patterns.ansible-edge.flavors.single | object | `{}` |  |
+| qeCIPipelines.patterns.ansible-edge.platforms.aws | object | `{}` |  |
 | qeCIPipelines.patterns.ansible-edge.repo | string | `"https://github.com/validatedpatterns/ansible-edge-gitops.git"` |  |
 | qeCIPipelines.patterns.ansible-edge.secrets[0] | string | `"aeg-secret-values-file"` |  |
 | qeCIPipelines.patterns.ansible-edge.secrets[1] | string | `"aeg-aap-manifest-file"` |  |
 | qeCIPipelines.patterns.ansible-edge.secrets[2] | string | `"aeg-aap-ssh-file"` |  |
 | qeCIPipelines.patterns.layered-zero.extraHelmOpts | string | `"--set global.extraValueFiles[0]=/overrides/values-ci.yaml"` |  |
-| qeCIPipelines.patterns.layered-zero.flavors.single | string | `nil` |  |
+| qeCIPipelines.patterns.layered-zero.flavors.single | object | `{}` |  |
 | qeCIPipelines.patterns.layered-zero.repo | string | `"https://github.com/darkdoc/layered-zero-trust.git"` |  |
 | qeCIPipelines.patterns.layered-zero.revision | string | `"pipeline_test"` |  |
 | qeCIPipelines.patterns.mcg.flavors.hosted.clusterGroup | string | `"standalone"` |  |
-| qeCIPipelines.patterns.mcg.flavors.multi | string | `nil` |  |
+| qeCIPipelines.patterns.mcg.flavors.multi | object | `{}` |  |
 | qeCIPipelines.patterns.mcg.flavors.single.clusterGroup | string | `"standalone"` |  |
 | qeCIPipelines.patterns.mcg.repo | string | `"https://github.com/validatedpatterns/multicloud-gitops.git"` |  |
 | qeCIPipelines.patterns.ragllm.flavors.single.clusterGroup | string | `"ci"` |  |
-| qeCIPipelines.patterns.ragllm.platforms.aws | string | `nil` |  |
-| qeCIPipelines.patterns.ragllm.platforms.azure | string | `nil` |  |
+| qeCIPipelines.patterns.ragllm.platforms.aws | object | `{}` |  |
+| qeCIPipelines.patterns.ragllm.platforms.azure | object | `{}` |  |
 | qeCIPipelines.patterns.ragllm.repo | string | `"https://github.com/validatedpatterns/rag-llm-gitops.git"` |  |
 | qeCIPipelines.patterns.ramen.flavors.multi-dr.clusterGroup | string | `"odf"` |  |
 | qeCIPipelines.patterns.ramen.networking.hub.clusterHostPrefix | int | `23` |  |
