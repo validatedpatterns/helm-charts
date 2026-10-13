@@ -4752,6 +4752,34 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/vector-db-0.1.0.tgz
       version: 0.1.0
+  vp-cloudnative-pg-cluster:
+    - apiVersion: v2
+      appVersion: "16"
+      created: "2026-10-13T16:03:46Z"
+      dependencies:
+        - name: cluster
+          repository: https://cloudnative-pg.github.io/charts
+          version: 0.9.0
+      description: Validated Patterns wrapper chart for the CloudNativePG cluster Helm chart
+      digest: e2c86ce07b97004cbdaca40c9162336341563418f2722dcf36825ee7a8451d10
+      home: https://github.com/validatedpatterns/vp-cloudnative-pg-cluster-chart
+      icon: https://validatedpatterns.io/images/validated-patterns.png
+      keywords:
+        - pattern
+        - postgresql
+        - cloudnative-pg
+        - cnpg
+      maintainers:
+        - email: validatedpatterns@googlegroups.com
+          name: Validated Patterns Team
+      name: vp-cloudnative-pg-cluster
+      sources:
+        - https://github.com/validatedpatterns/vp-cloudnative-pg-cluster-chart
+        - https://github.com/cloudnative-pg/charts
+      type: application
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/vp-cloudnative-pg-cluster-0.1.0.tgz
+      version: 0.1.0
   vp-manage-proxy-cluster-ca:
     - apiVersion: v2
       created: "2026-09-25T15:45:06Z"
@@ -5116,4 +5144,4 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/ztwim-0.1.1.tgz
       version: 0.1.1
-generated: "2026-10-13T10:17:19.909304923Z"
+generated: "2026-10-13T16:05:29.920007782Z"
