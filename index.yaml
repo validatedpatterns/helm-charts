@@ -4072,6 +4072,20 @@ entries:
   quay:
     - apiVersion: v2
       appVersion: "3.9"
+      created: "2026-10-16T13:28:13Z"
+      description: Red Hat Quay Registry Resources
+      digest: f65d675a831fab8d31f28f870d674e990d37af908f4639e0c7e1dd6a87a38507
+      home: https://github.com/validatedpatterns/quay-chart
+      maintainers:
+        - email: ztvp-arch-group@redhat.com
+          name: Zero Trust Validated Patterns Team
+      name: quay
+      type: application
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/quay-0.2.1.tgz
+      version: 0.2.1
+    - apiVersion: v2
+      appVersion: "3.9"
       created: "2026-10-13T19:29:48Z"
       description: Red Hat Quay Registry Resources
       digest: d04e6b94256a25aabef138940b68c046fee8c437b5080c8b038375de35b9a587
@@ -5190,4 +5204,4 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/ztwim-0.1.1.tgz
       version: 0.1.1
-generated: "2026-10-16T11:30:38.729805587Z"
+generated: "2026-10-16T13:30:48.479037834Z"

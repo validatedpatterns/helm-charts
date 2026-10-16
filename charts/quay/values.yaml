@@ -15,6 +15,8 @@ quay:
     name: quay-init-config-bundle-secret
     # -- Secret QuayRegistry reads after the S3 job fills credentials.
     s3Name: quay-config-with-s3
+  proxyStorage:
+    enabled: true
   storage:
     postgres:
       # -- Persistent volume size for the Quay PostgreSQL database.
