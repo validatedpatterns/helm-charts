@@ -660,6 +660,25 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/ansible-automation-platform-instance-0.1.0.tgz
       version: 0.1.0
+  automation-orchestrator-instance:
+    - apiVersion: v2
+      created: "2026-10-16T17:05:53Z"
+      description: A Helm chart to install an Automation Orchestrator instance
+      digest: 2b5b388a1d09cba2cffcc6973b7247adcbe87eaca31495c1a267fe31211dec2f
+      home: https://github.com/validatedpatterns/automation-orchestrator-instance-chart
+      icon: https://validatedpatterns.io/images/validated-patterns.png
+      keywords:
+        - pattern
+      maintainers:
+        - email: validatedpatterns@googlegroups.com
+          name: Validated Patterns Team
+      name: automation-orchestrator-instance
+      sources:
+        - https://github.com/validatedpatterns/automation-orchestrator-instance-chart
+      type: application
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/automation-orchestrator-instance-0.1.0.tgz
+      version: 0.1.0
   boutique:
     - apiVersion: v2
       created: "2026-05-04T23:59:09Z"
@@ -5204,4 +5223,4 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/ztwim-0.1.1.tgz
       version: 0.1.1
-generated: "2026-10-16T13:30:48.479037834Z"
+generated: "2026-10-16T17:08:50.672542412Z"
