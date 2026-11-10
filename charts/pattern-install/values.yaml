@@ -34,6 +34,25 @@ main:
     # ArgoCD CR. Allows customizing any part of the ArgoCD spec without
     # requiring individual config keys.
     customArgoYaml: ""
+    # -- Set to "true" to have the patterns operator restore the ArgoCD
+    # Application resource health check (dropped in ArgoCD 1.8). Required for
+    # app-of-apps sync-wave ordering: without it the root Application treats
+    # child Applications as healthy and applies all waves at once. The operator
+    # defaults this to false, so it must be set explicitly.
+    applicationHealthCheckEnabled: ""
+    # -- Additional resource health checks for the ArgoCD CR, as a YAML list
+    # string. Appended to the operator's built-in checks (PVC, Subscription,
+    # and Application when applicationHealthCheckEnabled is true).
+    customHealthChecks: ""
+    # -- Namespace of the catalog source the gitops operator is installed
+    # from. Defaults to the operator's own default (openshift-marketplace).
+    sourceNamespace: ""
+    # -- Install plan approval mode for the gitops operator subscription
+    # (Automatic or Manual). Defaults to the operator's own default.
+    installApprovalPlan: ""
+    # -- Starting CSV for the gitops operator install. Defaults to the
+    # operator's own default.
+    csv: ""
 
   # -- Settings related to the in-cluster gitea installation
   gitea:

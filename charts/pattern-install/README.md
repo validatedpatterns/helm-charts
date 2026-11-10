@@ -1,6 +1,6 @@
 # pattern-install
 
-![Version: 0.0.18](https://img.shields.io/badge/Version-0.0.18-informational?style=flat-square)
+![Version: 0.0.19](https://img.shields.io/badge/Version-0.0.19-informational?style=flat-square)
 
 A Helm chart to build and deploy a Cloud Pattern via the patterns operator
 
@@ -34,10 +34,15 @@ This chart is used by the Validated Patterns installation script that can be fou
 | main.gitea.helmRepoUrl | string | `"https://charts.validatedpatterns.io/"` | Helm Repository URL for the gitea chart |
 | main.gitops | object | depends on the individual settings | Settings related to the gitops operator |
 | main.gitops.additionalArgoAdmins | string | `""` | Comma-separated list of additional ArgoCD admin groups. Only used when argoRBAC is not set. |
+| main.gitops.applicationHealthCheckEnabled | string | `""` | Set to "true" to have the patterns operator restore the ArgoCD Application resource health check (dropped in ArgoCD 1.8). Required for app-of-apps sync-wave ordering: without it the root Application treats child Applications as healthy and applies all waves at once. The operator defaults this to false, so it must be set explicitly. |
 | main.gitops.argoRBAC | string | `""` | Full ArgoCD RBAC spec as a YAML string. When set, it completely overrides the default RBAC policy and additionalArgoAdmins is ignored. |
 | main.gitops.channel | string | `"gitops-1.21"` | Default channel to install the gitops operator from |
+| main.gitops.csv | string | `""` | Starting CSV for the gitops operator install. Defaults to the operator's own default. |
 | main.gitops.customArgoYaml | string | `""` | Arbitrary ArgoCD .spec YAML to deep-merge into the operator-built ArgoCD CR. Allows customizing any part of the ArgoCD spec without requiring individual config keys. |
+| main.gitops.customHealthChecks | string | `""` | Additional resource health checks for the ArgoCD CR, as a YAML list string. Appended to the operator's built-in checks (PVC, Subscription, and Application when applicationHealthCheckEnabled is true). |
+| main.gitops.installApprovalPlan | string | `""` | Install plan approval mode for the gitops operator subscription (Automatic or Manual). Defaults to the operator's own default. |
 | main.gitops.operatorSource | string | `"redhat-operators"` | Source to be used to install the gitops operator from |
+| main.gitops.sourceNamespace | string | `""` | Namespace of the catalog source the gitops operator is installed from. Defaults to the operator's own default (openshift-marketplace). |
 | main.multiSourceConfig.clusterGroupChartVersion | string | `nil` | The clustergroup chart version to be used when deploying a pattern (defaults to 0.8.*) |
 | main.multiSourceConfig.enabled | bool | `false` | Enables a multisource configuration for the clustergroup chart |
 | main.multiSourceConfig.helmRepoUrl | string | `nil` | The URL of the VP helm charts repository (defaults to https://charts.validatedpatterns.io) |
