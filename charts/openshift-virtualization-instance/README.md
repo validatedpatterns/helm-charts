@@ -1,6 +1,6 @@
 # openshift-virtualization-instance
 
-![Version: 0.1.3](https://img.shields.io/badge/Version-0.1.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 0.1.4](https://img.shields.io/badge/Version-0.1.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
 OpenShift Virtualization
 
@@ -8,6 +8,7 @@ This chart is used to set up OpenShift Virtualization for the Validated Patterns
 
 ### Notable changes
 
+* v0.1.4: Remove withHostPassthroughCPU setting from hyperconverged. It was deprecated and ignored.
 * v0.1.3: Be more selective about the common boot import; 4.18 does not accept it
 * v0.1.2: Correct location of common boot import spec, and make debug/emulation work again
 * v0.1.1: Add toggle for common boot imports, and default it to true.
