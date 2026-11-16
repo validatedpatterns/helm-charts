@@ -21,7 +21,7 @@ main:
   # @default -- depends on the individual settings
   gitops:
     # -- Default channel to install the gitops operator from
-    channel: "gitops-1.21"
+    channel: "gitops-1.22"
     # -- Source to be used to install the gitops operator from
     operatorSource: redhat-operators
     # -- Comma-separated list of additional ArgoCD admin groups.
