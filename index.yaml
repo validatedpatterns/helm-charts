@@ -2,6 +2,21 @@ apiVersion: v1
 entries:
   aap-config:
     - apiVersion: v2
+      created: "2026-11-16T15:50:01Z"
+      dependencies:
+        - name: vp-rbac
+          repository: https://charts.validatedpatterns.io
+          version: 0.1.*
+      description: A Helm chart to build and deploy secrets using external-secrets for ansible-edge-gitops
+      digest: fadc968f4adffc8bff5693dbe5ffe7a7f5eb31bb9c8c4e95e5002c4e62fae74d
+      home: https://github.com/validatedpatterns/aap-config-chart.git
+      keywords:
+        - pattern
+      name: aap-config
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/aap-config-0.2.8.tgz
+      version: 0.2.8
+    - apiVersion: v2
       created: "2026-07-14T19:05:03Z"
       dependencies:
         - name: vp-rbac
@@ -3361,6 +3376,21 @@ entries:
   openshift-data-foundations:
     - apiVersion: v2
       appVersion: 1.16.0
+      created: "2026-11-16T15:50:46Z"
+      description: A Helm chart to install ODF on Openshift
+      digest: 3f3da9079cf847b6a8c9a6738d9309a5dfdaa4add8101d60ce9c5413c1354b22
+      home: https://github.com/validatedpatterns/openshift-data-foundations-chart
+      icon: https://validatedpatterns.io/images/validated-patterns.png
+      maintainers:
+        - email: validatedpatterns@googlegroups.com
+          name: Validated Patterns Team
+      name: openshift-data-foundations
+      type: application
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/openshift-data-foundations-0.3.4.tgz
+      version: 0.3.4
+    - apiVersion: v2
+      appVersion: 1.16.0
       created: "2026-09-01T16:11:10Z"
       description: A Helm chart to install ODF on Openshift
       digest: 81c43094890d57adcc0df32ee9ff7a988b4d009acf6bf4e5b031c68d7c7a308d
@@ -5354,4 +5384,4 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/ztwim-0.1.1.tgz
       version: 0.1.1
-generated: "2026-11-16T12:16:24.221728751Z"
+generated: "2026-11-16T15:52:28.182457155Z"
