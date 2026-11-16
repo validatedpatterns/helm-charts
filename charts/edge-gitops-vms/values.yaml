@@ -12,7 +12,10 @@ vmNamespace: gitops-vms
 
 waitForMetalNode: false
 setDefaultVirtStorageClass: true
-jobTerminationGracePeriod: 3600
+# -- Grace period before SIGKILL when a wait job pod is cancelled by a node
+# drain. Keep this short: the jobs trap SIGTERM and exit promptly, and a
+# long grace period blocks MCO drains/rollouts for its full duration.
+jobTerminationGracePeriod: 60
 
 vmDefaults:
   role: generic
@@ -100,6 +103,8 @@ externalDataSources: {}
 #     type: registry
 #     url: "docker://quay.io/eduffy/win2k22-dv:thin"
 #     size: 50G
+#     # storageClassName optional (defaults to vmDefaults.storageClassName)
+#     storageClassName: ocs-storagecluster-ceph-rbd-virtualization
 #     registryCredentialsSecret: quay-creds # You will need to create either manually or using registryCredentialExternalSecrets above
 
 # Example downloaded from url
@@ -107,6 +112,7 @@ externalDataSources: {}
 #      type: http
 #      url: https://releases.ubuntu.com/24.04.4/ubuntu-24.04.4-live-server-amd64.iso
 #      size: 10G
+#      storageClassName: gp3-csi
 
 
 # This field will disable ExternalSecrets for fetching SSH Authorized Keys and

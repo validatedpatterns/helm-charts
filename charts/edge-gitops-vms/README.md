@@ -1,6 +1,6 @@
 # edge-gitops-vms
 
-![Version: 0.5.3](https://img.shields.io/badge/Version-0.5.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 0.5.4](https://img.shields.io/badge/Version-0.5.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
 Edge GitOps VMs
 
@@ -8,6 +8,8 @@ This chart is used to set up Edge GitOps VMs in conjunction with OpenShift Virtu
 
 ### Notable changes
 
+* v0.5.4: Make wait jobs drain-cancelable: SIGTERM trap exits nonzero (a cancelled run is never marked successful), podFailurePolicy ignores DisruptionTarget drain evictions so a replacement pod resumes instead of burning backoffLimit, and jobTerminationGracePeriod defaults 3600s to 60s.
+* v0.5.4: Allow setting dataSource storageclass, defaulting to vmDefault or one set by the edv object.
 * v0.5.3: Extend set-default-virt-storageclass job to wait until VM DataSources are Ready and their CSI driver/provisioner matches vmDefaults.storageClassName (prevents CDI host-assisted clone fallback onto the wrong StorageClass)
 * v0.5.2: Add optional additionalPvcDisks with default PVC creation; set create: false to attach existing PVCs
 * v0.5.1: Add optional job to set the default KubeVirt storage class from vmDefaults.storageClassName
@@ -33,7 +35,7 @@ This chart is used to set up Edge GitOps VMs in conjunction with OpenShift Virtu
 | global.clusterDomain | string | `"example.com"` |  |
 | global.pattern | string | `"ansible-edge-gitops"` |  |
 | job.image | string | `"image-registry.openshift-image-registry.svc:5000/openshift/cli:latest"` |  |
-| jobTerminationGracePeriod | int | `3600` |  |
+| jobTerminationGracePeriod | int | `60` | Grace period before SIGKILL when a wait job pod is cancelled by a node drain. Keep this short: the jobs trap SIGTERM and exit promptly, and a long grace period blocks MCO drains/rollouts for its full duration. |
 | rbac.roleBindings[0].createBinding | bool | `true` |  |
 | rbac.roleBindings[0].name | string | `"view-machine-api"` |  |
 | rbac.roleBindings[0].roleRef.kind | string | `"ClusterRole"` |  |
