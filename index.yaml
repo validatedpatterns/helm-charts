@@ -3860,6 +3860,15 @@ entries:
       version: 0.0.2
   openshift-virtualization-instance:
     - apiVersion: v2
+      created: "2026-11-16T19:57:28Z"
+      description: OpenShift Virtualization
+      digest: ca1841d73a8840b06f1558841f5352a4f1259db39a654db9b07cda444c94c0a3
+      name: openshift-virtualization-instance
+      type: application
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/openshift-virtualization-instance-0.1.5.tgz
+      version: 0.1.5
+    - apiVersion: v2
       created: "2026-11-13T14:09:13Z"
       description: OpenShift Virtualization
       digest: fb5c0c60ff811f0863b0f10b61b00c19c1420d2ea7b1d355e9f00b82df238c56
@@ -5393,4 +5402,4 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/ztwim-0.1.1.tgz
       version: 0.1.1
-generated: "2026-11-16T15:56:30.047350898Z"
+generated: "2026-11-16T20:00:32.445842871Z"
