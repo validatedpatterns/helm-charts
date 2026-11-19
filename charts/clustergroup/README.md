@@ -1,6 +1,6 @@
 # clustergroup
 
-![Version: 0.9.59](https://img.shields.io/badge/Version-0.9.59-informational?style=flat-square)
+![Version: 0.9.60](https://img.shields.io/badge/Version-0.9.60-informational?style=flat-square)
 
 A Helm chart to create per-clustergroup ArgoCD applications and any required namespaces or subscriptions.
 
@@ -116,7 +116,7 @@ clusterGroup:
 | clusterGroup.targetCluster | string | `"in-cluster"` |  |
 | global.extraValueFiles | list | `[]` |  |
 | global.options.applicationRetryLimit | int | `20` |  |
-| global.options.clusterRoleBindingSyncWave | string | `"-1"` | Sync-wave annotation for the cluster-admin ClusterRoleBinding. Set to "-1" so it is applied before wave-0 resources that need cluster-admin privileges |
+| global.options.clusterRoleBindingSyncWave | string | `"0"` | Sync-wave annotation for the cluster-admin ClusterRoleBinding. When set to "0" (default) no sync-wave annotation is added. Set to "-1" to apply before wave-0 resources |
 | global.options.installPlanApproval | string | `"Automatic"` |  |
 | global.options.syncPolicy | string | `"Automatic"` | This defines the global syncpolicy. If set to "Manual", no syncPolicy object will be set, if set to "Automatic" syncPolicy will be set to {automated: {}, retry: { limit: global.options.applicationRetryLimit }}, if set to an object it will be passed directly to the syncPolicy field of the application. Each application can override this |
 | global.options.useCSV | bool | `true` |  |
