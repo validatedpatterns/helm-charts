@@ -1,6 +1,6 @@
 # cluster-pipelines
 
-![Version: 0.0.19](https://img.shields.io/badge/Version-0.0.19-informational?style=flat-square)
+![Version: 0.0.20](https://img.shields.io/badge/Version-0.0.20-informational?style=flat-square)
 
 A Helm chart that deploys cluster provisioning pipelines
 
