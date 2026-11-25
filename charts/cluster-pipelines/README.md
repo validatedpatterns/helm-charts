@@ -1,6 +1,6 @@
 # cluster-pipelines
 
-![Version: 0.0.17](https://img.shields.io/badge/Version-0.0.17-informational?style=flat-square)
+![Version: 0.0.18](https://img.shields.io/badge/Version-0.0.18-informational?style=flat-square)
 
 A Helm chart that deploys cluster provisioning pipelines
 
@@ -47,6 +47,7 @@ This chart is used to serve as the template for Validated Patterns Charts
 | qeCIPipelines.defaults.ocp_versions[0] | string | `"4.20"` |  |
 | qeCIPipelines.defaults.ocp_versions[1] | string | `"4.21"` |  |
 | qeCIPipelines.defaults.ocp_versions[2] | string | `"4.22"` |  |
+| qeCIPipelines.defaults.ocp_versions[3] | string | `"5.0"` |  |
 | qeCIPipelines.defaults.platforms.aws.baseDomain | string | `"aws.validatedpatterns.io"` |  |
 | qeCIPipelines.defaults.platforms.aws.computeNodeIAMRole | string | `"vp-ocp-Worker-Role"` |  |
 | qeCIPipelines.defaults.platforms.aws.controlPlaneIAMRole | string | `"vp-ocp-ControlPlane-Role"` |  |
@@ -111,10 +112,12 @@ This chart is used to serve as the template for Validated Patterns Charts
 | qeCIPipelines.patternsOperator.ocp_versions[0] | string | `"4.20"` |  |
 | qeCIPipelines.patternsOperator.ocp_versions[1] | string | `"4.21"` |  |
 | qeCIPipelines.patternsOperator.ocp_versions[2] | string | `"4.22"` |  |
+| qeCIPipelines.patternsOperator.ocp_versions[3] | string | `"5.0"` |  |
 | qeCIPipelines.patternsOperator.operatorRepo | string | `"https://github.com/validatedpatterns/patterns-operator"` |  |
 | qeCIPipelines.patternsOperator.operatorRepoRevision | string | `"main"` |  |
 | qeCIPipelines.patternsOperator.patternRepo | string | `"https://github.com/validatedpatterns/multicloud-gitops.git"` |  |
 | qeCIPipelines.patternsOperator.patternRepoRevision | string | `"main"` |  |
+| qeCIPipelines.patternsOperator.upgradeTimeout | string | `"10m"` |  |
 | qeCIPipelines.scheduleDefaults.concurrencyPolicy | string | `"Forbid"` |  |
 | qeCIPipelines.scheduleDefaults.failedJobsHistoryLimit | int | `3` |  |
 | qeCIPipelines.scheduleDefaults.finallyTimeout | string | `"30m"` |  |

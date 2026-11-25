@@ -69,6 +69,7 @@ qeCIPipelines:
       - "4.20"
       - "4.21"
       - "4.22"
+      - "5.0"
     flavors: # These are the pipeline "types"
       # List form: [single, multi] — clusterGroup defaults to hub;
       # override with map form, e.g. single: { clusterGroup: standalone }
@@ -196,10 +197,12 @@ qeCIPipelines:
     patternRepo: https://github.com/validatedpatterns/multicloud-gitops.git
     patternRepoRevision: main
     imageExpiry: 24h
+    upgradeTimeout: 10m
     ocp_versions:
       - "4.20"
       - "4.21"
       - "4.22"
+      - "5.0"
   scheduleDefaults:
     suspend: false
     concurrencyPolicy: Forbid
