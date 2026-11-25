@@ -74,17 +74,41 @@ kbs:
 
   # AMD SEV-SNP bare metal attestation configuration
   snp:
-    # Enable SNP offline attestation (VCEK certificate cache)
-    # When enabled, adds snp_verifier with OfflineStore to KBS config
-    # and mounts VCEK secrets into the KBS pod via kbsLocalCertCacheSpec.
+    # Enable SNP attestation (VCEK certificate verification)
+    # When enabled, adds snp_verifier to the KBS config with one or more
+    # vcek_sources, driven by vcekSecrets (offline) and/or vcekKdsUrl (online,
+    # on by default). For completely offline clusters, set vcekKdsUrl to "".
     enabled: false
     # VCEK secrets list — populated by `make snp-gen-overrides` in coco-pattern.
     # Each entry maps a node's hardware ID to a K8s secret containing vcek.der.
     # Collected via: make snp-collect-vcek-urls (cluster) + make snp-download-vcek (internet)
+    # When non-empty, adds an OfflineStore vcek_source to the SNP verifier config
+    # and mounts the VCEK secrets into the KBS pod via kbsLocalCertCacheSpec.
     vcekSecrets: []
     # Example:
     # - hwid: "abc123def456..."
     #   secretName: "snp-vcek-abc123def456"
+    # Online AMD Key Distribution Service (KDS) base URL for fetching VCEK
+    # certificates on connected clusters. Defaults to the reference AMD KDS
+    # URL (https://kdsintf.amd.com), matching the trustee upstream default,
+    # so bare-metal SNP attestation fetches VCEK certificates online out of
+    # the box. May be combined with vcekSecrets (OfflineStore is tried first,
+    # KDS is the fallback). Set to an empty string ("") when completely
+    # offline/air-gapped to keep the offline-only (OfflineStore) behavior.
+    vcekKdsUrl: "https://kdsintf.amd.com"
+
+  # SPIRE Delegated Identity plugin configuration
+  # Requires a KBS image built with the spire-plugin cargo feature
+  # (upstream trustee v0.23.0+, or a custom build via custom catalog source).
+  # When enabled, serves kbs+spire:// resource URIs (X.509 SVIDs fetched
+  # from the cluster's SPIRE agent) and mounts the agent's admin socket
+  # into the KBS pod.
+  spire:
+    enabled: false
+    # Path of the SPIRE agent admin socket as seen inside the KBS pod
+    adminSocketPath: "/run/spire/sockets/admin.sock"
+    # hostPath on the node where the SPIRE agent exposes its admin socket
+    socketHostPath: "/run/spire/admin/admin.sock"
 
   # Private registry CA certificate injection
   # Enable to inject private registry CA cert into imperative namespace for

@@ -4854,6 +4854,19 @@ entries:
       version: 0.1.0
   trustee:
     - apiVersion: v2
+      created: "2026-11-25T04:21:23Z"
+      description: A Helm chart to provide an opinionated deployment of Trustee in a validated pattern
+      digest: d4961a9f3fc2b38dd30ac73d400c7c21dc200336ca03d83cc497809e3a12004c
+      keywords:
+        - pattern
+        - trustee
+        - confidential-computing
+        - confidential-containers
+      name: trustee
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/trustee-0.11.0.tgz
+      version: 0.11.0
+    - apiVersion: v2
       created: "2026-08-31T15:25:32Z"
       description: A Helm chart to provide an opinionated deployment of Trustee in a validated pattern
       digest: 265cc1a69f9392bbd98ea62ddba3d2e2a4194e77a829d6690f73b54379d5f658
@@ -5474,4 +5487,4 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/ztwim-0.1.1.tgz
       version: 0.1.1
-generated: "2026-11-25T02:59:35.737954805Z"
+generated: "2026-11-25T04:24:34.2920907Z"

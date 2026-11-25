@@ -1,6 +1,6 @@
 # trustee
 
-![Version: 0.10.2](https://img.shields.io/badge/Version-0.10.2-informational?style=flat-square)
+![Version: 0.11.0](https://img.shields.io/badge/Version-0.11.0-informational?style=flat-square)
 
 A Helm chart to provide an opinionated deployment of Trustee in a validated pattern
 
@@ -49,7 +49,11 @@ In order to use this chart, you will need to:
 | kbs.secretResources[1].key | string | `"secret/data/hub/passphrase"` |  |
 | kbs.secretResources[1].name | string | `"passphrase"` |  |
 | kbs.snp.enabled | bool | `false` |  |
+| kbs.snp.vcekKdsUrl | string | `"https://kdsintf.amd.com"` |  |
 | kbs.snp.vcekSecrets | list | `[]` |  |
+| kbs.spire.adminSocketPath | string | `"/run/spire/sockets/admin.sock"` |  |
+| kbs.spire.enabled | bool | `false` |  |
+| kbs.spire.socketHostPath | string | `"/run/spire/admin/admin.sock"` |  |
 | kbs.tdx.collateralFileName | string | `"platform_collaterals.json"` |  |
 | kbs.tdx.collateralMountPath | string | `"/opt/confidential-containers/attestation-service/tdx"` |  |
 | kbs.tdx.collateralService | string | `"file:///opt/confidential-containers/attestation-service/tdx/platform_collaterals.json"` |  |
