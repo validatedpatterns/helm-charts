@@ -45,6 +45,42 @@ clusterGroup:
     configManagementPlugins: []
     # resource tracking can be set to annotation, label, or annotation+label
     resourceTrackingMethod: annotation
+    resources:
+      server:
+        limits:
+          cpu: 500m
+          memory: 256Mi
+        requests:
+          cpu: 125m
+          memory: 128Mi
+      controller:
+        limits:
+          cpu: "4"
+          memory: 4Gi
+        requests:
+          cpu: 500m
+          memory: 2Gi
+      applicationSet:
+        limits:
+          cpu: "2"
+          memory: 1Gi
+        requests:
+          cpu: 250m
+          memory: 512Mi
+      repo:
+        limits:
+          cpu: "1"
+          memory: 1Gi
+        requests:
+          cpu: 250m
+          memory: 256Mi
+      dex:
+        limits:
+          cpu: 500m
+          memory: 256Mi
+        requests:
+          cpu: 250m
+          memory: 128Mi
     resourceHealthChecks:
       # Adding health checks to argocd to prevent pvc resources
       # that aren't bound state from blocking deployments

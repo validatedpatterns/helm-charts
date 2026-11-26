@@ -1102,6 +1102,25 @@ entries:
       version: 0.0.1
   clustergroup:
     - apiVersion: v2
+      created: "2026-11-26T13:44:15Z"
+      dependencies:
+        - name: vp-rbac
+          repository: https://charts.validatedpatterns.io
+          version: 0.1.*
+      description: A Helm chart to create per-clustergroup ArgoCD applications and any required namespaces or subscriptions.
+      digest: 15a9a821d29e78807fc848dbb99da924fbf80e56d9ea2717e63a37cfc7ef3a61
+      home: https://github.com/validatedpatterns/clustergroup-chart
+      icon: https://validatedpatterns.io/images/validated-patterns.png
+      keywords:
+        - pattern
+      maintainers:
+        - email: validatedpatterns@googlegroups.com
+          name: Validated Patterns Team
+      name: clustergroup
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/clustergroup-0.9.61.tgz
+      version: 0.9.61
+    - apiVersion: v2
       created: "2026-11-19T19:50:13Z"
       dependencies:
         - name: vp-rbac
@@ -5531,4 +5550,4 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/ztwim-0.1.1.tgz
       version: 0.1.1
-generated: "2026-11-25T18:34:34.733984863Z"
+generated: "2026-11-26T13:46:26.788968675Z"
