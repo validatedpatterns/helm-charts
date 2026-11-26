@@ -2949,6 +2949,25 @@ entries:
       version: 0.0.1
   hashicorp-vault:
     - apiVersion: v2
+      created: "2026-11-26T13:53:46Z"
+      dependencies:
+        - name: vault
+          repository: file://charts/vault
+          version: 0.34.1
+      description: A Helm chart to configure Hashicorp's vault.
+      digest: c53e8dbbdfa956277c866e72b5bb4e1339aaf99250eadf201f2ea5e4d204ade6
+      home: https://github.com/validatedpatterns/hashicorp-vault-chart
+      icon: https://validatedpatterns.io/images/validated-patterns.png
+      keywords:
+        - pattern
+      maintainers:
+        - email: validatedpatterns@googlegroups.com
+          name: Validated Patterns Team
+      name: hashicorp-vault
+      urls:
+        - https://github.com/validatedpatterns/helm-charts/releases/download/main/hashicorp-vault-0.1.12.tgz
+      version: 0.1.12
+    - apiVersion: v2
       created: "2026-10-20T06:48:20Z"
       dependencies:
         - name: vault
@@ -5550,4 +5569,4 @@ entries:
       urls:
         - https://github.com/validatedpatterns/helm-charts/releases/download/main/ztwim-0.1.1.tgz
       version: 0.1.1
-generated: "2026-11-26T13:46:26.788968675Z"
+generated: "2026-11-26T13:56:01.422474573Z"
